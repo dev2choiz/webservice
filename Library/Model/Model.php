@@ -55,6 +55,16 @@ abstract class Model {
     public function setScheme($scheme) {
         $this->scheme = $scheme;
     }
+
+
+    /**
+     * 
+     */
+    public function getDatabase(){
+        return $this->database;
+    }
+
+
     /**
      *  Méthode getScheme()
      *
