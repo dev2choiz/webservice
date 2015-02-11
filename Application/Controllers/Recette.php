@@ -58,7 +58,7 @@ class Recette extends \Library\Controller\Controller {
         
         
         if($modelRecette->insert($params) ) {
-            return $this->setApiResult($modelRecette->lastInsertId(););
+            return $this->setApiResult($modelRecette->getLast());
         }else{
             return $this->setApiResult(0, true, "erreur pendant l'ajout");
         }
