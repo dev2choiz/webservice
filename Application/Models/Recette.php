@@ -15,7 +15,9 @@ class Recette extends \Library\Model\Model{
 	}
 
 
-
+	public function getLast(){
+		return $this->getDatabase()->lastInsertId();
+	}
 
 
 }

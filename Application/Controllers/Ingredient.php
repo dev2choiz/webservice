@@ -45,6 +45,23 @@ class Ingredient extends \Library\Controller\Controller {
     }
 
 
+    public function insertingredients($params) {
+
+        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+
+        var_dump($params);
+        
+        $res=$modelIngredient->InsertIngredients();
+            
+        if( !empty( $res ) ) {
+            return $this->setApiResult( $res);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
+        }
+
+
+    }
+
 
 
 }
