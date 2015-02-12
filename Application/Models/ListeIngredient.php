@@ -31,8 +31,8 @@ class Ingredient extends \Library\Model\Model{
     }
 
         
-    public function insertIngredients($params){
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+    public function insertListeIngredients($params){
+        //$modelListeIngredient  = new \Application\Models\ListeIngredient('localhost');
         //var_dump($params);
         
 
@@ -40,9 +40,14 @@ class Ingredient extends \Library\Model\Model{
         $idIngreds=$params['ingredients'];
         $idRe7=$params['id_ingredient'];
         foreach ($IdIngreds as  $idIngreg) {
-            
-            
-            $this->insert();
+            $data= array(
+                "id_recette"=>'',
+                "id_ingredient"=>'',
+                "id_unite"=>'',
+                "value"=>''
+                );
+
+            $this->insert($data);
         }
 
         
