@@ -51,10 +51,10 @@ class Ingredient extends \Library\Controller\Controller {
 
         var_dump($params);
         
-        $res=$modelIngredient->InsertIngredients();
+        $res=$modelIngredient->InsertIngredients($params);
             
-        if( !empty( $res ) ) {
-            return $this->setApiResult( $res);
+        if($res ) {
+            return $this->setApiResult( true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
         }

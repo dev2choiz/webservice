@@ -31,14 +31,17 @@ class Ingredient extends \Library\Model\Model{
     }
 
         
-    public function insertIngredients(){
+    public function insertIngredients($params){
         $modelIngredient  = new \Application\Models\Ingredient('localhost');
         var_dump($params);
         
-        $res=$modelIngredient->InsertIngredients();
-            
+        foreach($params as $key=> $value){
+            //$this->insert();   <========================
+        }
+            echo $res;
+
         if( !empty( $res ) ) {
-            return $this->setApiResult( $res);
+            return $this->setApiResult( true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
         }
