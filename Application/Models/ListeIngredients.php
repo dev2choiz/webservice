@@ -4,10 +4,10 @@ namespace Application\Models;
 
 
 
-class Ingredient extends \Library\Model\Model{
+class ListeIngredients extends \Library\Model\Model{
 
-	protected $table 	= 'ingredients';
-	protected $primary 	= 'id_ingredient';
+	protected $table 	= 'liste_ingredients';
+	protected $primary 	= 'id_liste';
 
 
 	public function __construct($connexionName){
@@ -25,7 +25,7 @@ class Ingredient extends \Library\Model\Model{
      *  @return     array
      *
      */
-    public function getIngredients() {         //ajouter une recette
+    public function getListeIngredients() {         //ajouter une recette
     	return $this->fetchAll();
 
     }
@@ -39,7 +39,7 @@ class Ingredient extends \Library\Model\Model{
 
         $idIngreds=$params['ingredients'];
         $idRe7=$params['id_recette'];
-        //$unites=$params['unites'];
+        $unites=$params['unites'];
         $i=0;
         foreach ($IdIngreds as  $idIngred) {
             $data= array(
@@ -47,17 +47,18 @@ class Ingredient extends \Library\Model\Model{
                 "id_ingredient"=>$idIngred,
                 "id_unite"=>'1',
                 "value"=>'lavalue',
-                "unite"=>'lunite'  // $unites[$i]
+                "unite"=> $unites[$i]
                 );
 
             $this->insert($data);
             $i++;
+
         }
 
         
 
 
-        if( !empty( $res ) ) {
+        if( true ) {        //w=======
             return $this->setApiResult( true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
