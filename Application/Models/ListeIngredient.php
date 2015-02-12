@@ -38,16 +38,20 @@ class Ingredient extends \Library\Model\Model{
 
 
         $idIngreds=$params['ingredients'];
-        $idRe7=$params['id_ingredient'];
-        foreach ($IdIngreds as  $idIngreg) {
+        $idRe7=$params['id_recette'];
+        //$unites=$params['unites'];
+        $i=0;
+        foreach ($IdIngreds as  $idIngred) {
             $data= array(
-                "id_recette"=>'',
-                "id_ingredient"=>'',
-                "id_unite"=>'',
-                "value"=>''
+                "id_recette"=>$idRe7,
+                "id_ingredient"=>$idIngred,
+                "id_unite"=>'1',
+                "value"=>'lavalue',
+                "unite"=>'lunite'  // $unites[$i]
                 );
 
             $this->insert($data);
+            $i++;
         }
 
         

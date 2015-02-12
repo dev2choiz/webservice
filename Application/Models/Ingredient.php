@@ -31,28 +31,5 @@ class Ingredient extends \Library\Model\Model{
     }
 
         
-    public function insertIngredients($params){
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
-        //var_dump($params);
-        
-
-
-        $idIngreds=$params['ingredients'];
-        $idRe7=$params['id_ingredient'];
-        foreach ($IdIngreds as  $idIngreg) {
-            
-            
-            $this->insert();
-        }
-
-        
-
-
-        if( !empty( $res ) ) {
-            return $this->setApiResult( true);
-        }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
-        }
-    }
 
 }
