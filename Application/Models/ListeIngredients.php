@@ -40,29 +40,26 @@ class ListeIngredients extends \Library\Model\Model{
         $idIngreds=$params['ingredients'];
         $idRe7=$params['id_recette'];
         $unites=$params['unites'];
+        $quantites=$params['quantites'];
         $i=0;
-        foreach ($IdIngreds as  $idIngred) {
+        $alors=true;
+        foreach ($idIngreds as  $idIngred) {
             $data= array(
                 "id_recette"=>$idRe7,
                 "id_ingredient"=>$idIngred,
-                "id_unite"=>'1',
+                "id_unite"=>$unites[$i],
                 "value"=>'lavalue',
-                "unite"=> $unites[$i]
+                "quantite"=> $quantites[$i]
                 );
 
-            $this->insert($data);
+            $alors=$alors  && $this->insert($data);
             $i++;
 
         }
 
+        return $alors;
         
 
-
-        if( true ) {        //w=======
-            return $this->setApiResult( true);
-        }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
-        }
     }
 
 }

@@ -25,13 +25,16 @@ class ListeIngredients extends \Library\Controller\Controller {
         $modelListeIngredients  = new \Application\Models\ListeIngredients('localhost');
 
         //var_dump($params);
-        
+        $params['ingredients']=json_decode($params['ingredients']) ;
+        $params['unites']=json_decode($params['unites']) ;
+        $params['quantites']=json_decode($params['quantites']) ;
+        //return $this->setApiResult( $params );
         $res=$modelListeIngredients->InsertListeIngredients($params);
             
         if($res ) {
-            return $this->setApiResult( true );
+            return $this->setApiResult( $res );
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
+            return $this->setApiResult(false, true, "erreur pendant l'insertion des ingredients");
         }
 
 
