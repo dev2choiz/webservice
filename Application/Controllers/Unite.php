@@ -6,7 +6,7 @@ namespace Application\Controllers;
  *
  *
  */
-class Ingredient extends \Library\Controller\Controller {
+class Unite extends \Library\Controller\Controller {
     
     /**
      *  Méthode __construct()
@@ -20,25 +20,25 @@ class Ingredient extends \Library\Controller\Controller {
 
 
     /**
-     *  Méthode getingredients
+     *  Méthode getcategories
      *
-     *  retourne les ingredients
+     *  retourne les categories
      *       
      *  @return     array
      *
      */
-    public function getingredients() {
+    public function getunites() {
 
 
 
 
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
-        $res=$modelIngredient->getIngredients();
+        $modelUnite  = new \Application\Models\Unite('localhost');
+        $res=$modelUnite->getUnites();
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
+            return $this->setApiResult(false, true, "erreur pendant la recuperation des Unites");
         }
 
 

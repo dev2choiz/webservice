@@ -4,10 +4,10 @@ namespace Application\Models;
 
 
 
-class Ingredient extends \Library\Model\Model{
+class Unite extends \Library\Model\Model{
 
-	protected $table 	= 'ingredients';
-	protected $primary 	= 'id_ingredient';
+	protected $table 	= 'unite';
+	protected $primary 	= 'id_unite';
 
 
 	public function __construct($connexionName){
@@ -25,11 +25,13 @@ class Ingredient extends \Library\Model\Model{
      *  @return     array
      *
      */
-    public function getIngredients() {         //ajouter une recette
+    public function getUnites() { 
+    	
     	return $this->fetchAll();
 
     }
 
-        
+
+
 
 }

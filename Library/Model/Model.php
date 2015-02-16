@@ -238,7 +238,7 @@ abstract class Model {
      *
      */
     public function update($where, $data, $strict=true) {
-        $data = $this->checkScheme($data);
+        //$data = $this->checkScheme($data);
         if(!is_array($data)){
             return $data;
         }
@@ -353,4 +353,33 @@ abstract class Model {
         } 
         return false;
     }
+
+
+
+    /**
+     * [convEnTab converti les objets et soous objets en tableau]
+     * @param  [stdclass ou array] $tab
+     * @return [array]
+     */
+    public function convEnTab($tab){
+
+
+        if(is_object($tab ) ){
+            $tab=get_object_vars($tab);
+        }
+        if(!is_array($tab ) ){
+            return $tab;
+        }
+
+        foreach ($tab as $key => $value) {
+
+            if(is_array($value ) || is_object($value ) ){
+                $tab[$key]=$this->convEnTab($value);
+            }
+            //$tab[$key]= get_object_vars($value);
+
+        }
+        return $tab;
+    }
+
 }

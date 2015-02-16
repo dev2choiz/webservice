@@ -57,6 +57,10 @@ class RestServer {
 	 */
 	public function __construct(){
 
+
+		ob_start();
+
+
 		header("Content-type: application/json");
 
 		$this->json = new \stdClass();
@@ -65,6 +69,7 @@ class RestServer {
 		$this->json->apiErrorMessage = "";
 		$this->json->serverError = false;
 		$this->json->serverErrorMessage = "";
+		$this->json->page = "";
 
 		$this->httpMethod = strtoupper($_SERVER["REQUEST_METHOD"]);		//non merci
 		
@@ -154,6 +159,8 @@ class RestServer {
 	 *
 	 */
 	public function __destruct(){	//envoi
+		$this->json->page=ob_get_contents();
+		ob_clean();
 		echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 	}
 

@@ -1,5 +1,5 @@
 <?php
-
+ 
 namespace Application\Controllers;
 
 /**
@@ -121,9 +121,18 @@ class User extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function put($params){
+    public function updateuser($params){
+        unset($params['method']);
+
+        $idUser=$params['id_user'];
         $modelUser  = new \Application\Models\User('localhost');
-        $user       = $modelUser->updateByPrimary($params);
+        $params=$modelUser->convEnTab( json_decode($params['params'])  );
+        
+        
+ 
+        //$password=md5($params['password'].SALT_PASSWORD);
+
+        //$user       = $modelUser->update("`id_user`=$id AND `password`='$password'", $params);
 
         // l'utilisateur s'enregistre dans la base de données avec ses informations
         $mail       = (empty($params["mail"]))? null : $params["mail"];
@@ -152,12 +161,14 @@ class User extends \Library\Controller\Controller {
         //var_dump('user', $where, $user);
         if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
 
-        $result = array("id_user" => $params['id_user'], "mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
-        $user = $modelUser->updateByPrimary($result);
-        if(is_string($user)){
-            return $this->setApiResult(false, true, $user);
+        $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
+        //$user = $modelUser->updateByPrimary($result);
+        $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$passwordmd5'", $result);
+        var_dump($alors, "`id_user`='$idUser' AND `password`='$password'", $result);
+        if(!$alors){
+            return $this->setApiResult(false, true, "erreur lors de la mise a jour des donnees");
         }
-        return $this->setApiResult($user);
+        return $this->setApiResult(true);
 
     }
 
