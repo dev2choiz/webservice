@@ -238,7 +238,7 @@ abstract class Model {
      *
      */
     public function update($where, $data, $strict=true) {
-        $data = $this->checkScheme($data);
+        //$data = $this->checkScheme($data);
         if(!is_array($data)){
             return $data;
         }

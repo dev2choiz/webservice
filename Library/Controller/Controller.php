@@ -31,6 +31,7 @@ abstract class Controller {
         $this->apiResult->response           = "";
         $this->apiResult->apiError           = false;
         $this->apiResult->apiErrorMessage    = "";
+        $this->apiResult->page               = "";
     }
 
     /**
@@ -51,4 +52,7 @@ abstract class Controller {
 
         return $this->apiResult;
     }
+
+
+
 }
