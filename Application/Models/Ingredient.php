@@ -33,7 +33,7 @@ class Ingredient extends \Library\Model\Model{
         
     public function insertIngredients(){
         $modelIngredient  = new \Application\Models\Ingredient('localhost');
-        var_dump($params);
+        //var_dump($params);
         
         $res=$modelIngredient->InsertIngredients();
             

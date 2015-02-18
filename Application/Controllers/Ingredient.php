@@ -49,7 +49,7 @@ class Ingredient extends \Library\Controller\Controller {
 
         $modelIngredient  = new \Application\Models\Ingredient('localhost');
 
-        var_dump($params);
+        //var_dump($params);
         
         $res=$modelIngredient->InsertIngredients();
             
