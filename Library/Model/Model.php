@@ -186,12 +186,13 @@ abstract class Model {
      *
      */
     public function insertWithReturn($data) {
-        $data = $this->checkScheme($data);
+        //$data = $this->checkScheme($data);
         if(!is_array($data)){
             return $data;
         }
         $listFields = '`'.implode('`,`', array_keys($data)).'`';
         $listValues = ':'.implode(',:', array_keys($data));
+        echo "INSERT INTO `{$this->table}` ($listFields) VALUES ($listValues)";
         $sql = $this->database->prepare("INSERT INTO `{$this->table}` ($listFields) VALUES ($listValues)");
         $sql->execute($data);
         unset($listFields, $listValues, $data);

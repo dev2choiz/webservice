@@ -75,9 +75,15 @@ class User extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function post($params) {         //
+    public function insertuser($params) {         //
+
 
         $modelUser  = new \Application\Models\User('localhost');
+
+        $params=$modelUser->convEnTab(json_decode($params['params']));
+
+        var_dump($params);
+            
         // l'utilisateur s'enregistre dans la base de données avec ses informations
         $mail       = (empty($params["mail"]))? null : $params["mail"];
         $password   = (empty($params["password"]))? null : $params["password"];
@@ -104,8 +110,9 @@ class User extends \Library\Controller\Controller {
         $user = $modelUser->fetchAll($where);
         if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
 
-        $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
-        $user = $modelUser->insertWithReturn($result);
+        $params['password']=$passwordmd5;
+        var_dump($params);
+        $user = $modelUser->insertWithReturn($params);
         if(is_string($user)){
             return $this->setApiResult(false, true, $user);
         }
@@ -123,12 +130,21 @@ class User extends \Library\Controller\Controller {
      */
     public function updateuser($params){
         unset($params['method']);
-
+        echo "lasd";
         $idUser=$params['id_user'];
+        $currentPassword=$params['password'];
+        $currentMail=$params['mail'];
         $modelUser  = new \Application\Models\User('localhost');
-        $params=$modelUser->convEnTab( json_decode($params['params'])  );
+        $params=$modelUser->convEnTab( json_decode( $params['params']) );
         
         
+        $currentPasswordmd5=md5($currentPassword.SALT_PASSWORD);
+        $where = "`mail`='{$currentMail}' AND `password`='{$currentPasswordmd5}' ";
+        $user = $modelUser->fetchAll($where);
+        
+
+        if(empty($user)) { return $this->setApiResult(false, true, "Mot de passe invalide"); }      //0% de chance
+        echo "verification du mot de passe actuel OK";
  
         //$password=md5($params['password'].SALT_PASSWORD);
 
@@ -152,19 +168,21 @@ class User extends \Library\Controller\Controller {
             return $this->setApiResult(false, true, "Param password is required on method post"); 
         }
 
+
         // hasher le mot de passe transmis
         $passwordmd5 = md5($password.SALT_PASSWORD);
 
+
         // vérifier que la nouvelle adresse mail n'existe pas déjà pour un autre utilisateur
-        $where = "`mail`={$mail}";//" AND `id_user`!={$params['id_user']}";
+        $where = "`mail`={$mail} AND `id_user`!={$idUser}";
         $user = $modelUser->fetchAll($where);
         //var_dump('user', $where, $user);
         if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
-
+        echo "mail n'existe pas dans la base, (sauf si c'est le mail de l'user qu'on traite==>pas de modif du mail)";
         $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
-        //$user = $modelUser->updateByPrimary($result);
-        $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$passwordmd5'", $result);
-        var_dump($alors, "`id_user`='$idUser' AND `password`='$password'", $result);
+        
+        $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$currentPasswordmd5'", $result);
+        var_dump($alors, "`id_user`=$idUser AND `password`='$passwordmd5'", $result);
         if(!$alors){
             return $this->setApiResult(false, true, "erreur lors de la mise a jour des donnees");
         }
@@ -181,13 +199,32 @@ class User extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function delete($data) {
-        $modelUser      = new \Application\Models\User('localhost');
-        $deleted        = $modelUser->deleteByPrimary($data['id_user']);
+    public function deleteuser($params) {
+
+
+        unset($params['method']);
+        
+        $idUser=$params['id_user'];
+        $password=$params['password'];
+        
+        $modelUser  = new \Application\Models\User('localhost');
+        
+        //verifie si le mot de passe est bon
+        $passwordmd5=md5($password.SALT_PASSWORD);
+        $where = "`id_user`='{$idUser}' AND `password`='{$passwordmd5}' ";
+        $user = $modelUser->fetchAll($where);
+        
+        if(empty($user)) { return $this->setApiResult(false, true, "Mot de passe invalide"); }
+        
+
+        //on suppr
+
+        $deleted        = $modelUser->delete(" `id_user`={$params['id_user']} ");
+
         if(!$deleted) { 
             return $this->setApiResult(false, true, array(
                 "error" => "User of id_user {$data['id_user']} not found",
-                "data" => $data
+                "data" => $params
             ));
         }
         return $this->setApiResult($deleted);

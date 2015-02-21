@@ -159,7 +159,7 @@ class RestServer {
 	 *
 	 */
 	public function __destruct(){	//envoi
-		$this->json->page=ob_get_contents();
+		$this->json->page="<div style='backgroung-color:#FF0'><hr>".ob_get_contents()."<hr></div>";
 		ob_clean();
 		echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 	}
