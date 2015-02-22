@@ -46,6 +46,7 @@ class RestServer {
 	 */
 	private $json;
 
+
 	/**
 	 * 	Méthode __construct()
 	 *
@@ -57,7 +58,7 @@ class RestServer {
 	 */
 	public function __construct(){
 
-
+		
 		ob_start();
 
 
@@ -69,7 +70,8 @@ class RestServer {
 		$this->json->apiErrorMessage = "";
 		$this->json->serverError = false;
 		$this->json->serverErrorMessage = "";
-		$this->json->page = "";
+		$this->json->page = "";		//supprimer header dans ce string
+		$this->json->error=false;
 
 		$this->httpMethod = strtoupper($_SERVER["REQUEST_METHOD"]);		//non merci
 		
@@ -159,9 +161,30 @@ class RestServer {
 	 *
 	 */
 	public function __destruct(){	//envoi
-		$this->json->page=ob_get_contents();
+		
+		if($this->json->apiError || $this->json->serverError){
+			$this->json->error=true;
+		}else{
+			$this->json->error=false;
+		}
+
+
+		$header_size =0;		// curl_getinfo(curl_init(), CURLINFO_HEADER_SIZE);
+		$body = substr(ob_get_contents(), $header_size);
+
+		$this->json->page="<div style='backgroung-color:\"#FF0\"'><hr>@@@>>".$body."<<<@@@<hr></div>";
 		ob_clean();
+
+
 		echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 	}
+
+
+	public function convEnTab($obj){
+		$model  = new \Library\Model\Model('localhost');
+        return $model->convEnTab($obj);
+	}	
+
+
 
 }
