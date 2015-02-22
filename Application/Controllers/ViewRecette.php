@@ -33,7 +33,7 @@ class ViewRecette extends \Library\Controller\Controller {
         $modelVR     = new \Application\Models\ViewRecette('localhost');
         $viewR       = $modelVR->convEnTab($modelVR->fetchAll("`id_recette`='{$params['id_recette']}'"));
         $viewR=$viewR[0];
-        var_dump("dfjk",$viewR);
+        var_dump("getviewrecette",$viewR);
         if( empty($viewR) ){
             $this->message->addError("aucune recette !");
         }
@@ -41,7 +41,20 @@ class ViewRecette extends \Library\Controller\Controller {
         return $this->setApiResult($viewR);
     }
 
-    
+public function getallviewrecettes($params) {
+        unset($params['method']);
+        
+        $modelVR     = new \Application\Models\ViewRecette('localhost');
+        $viewR       = $modelVR->convEnTab($modelVR->fetchAll());
+
+        //$viewR=$viewR[0];
+        var_dump("getviewrecettes",$viewR);
+        if( empty($viewR) ){
+            $this->message->addError("aucune recette !");
+        }
+
+        return $this->setApiResult($viewR);
+    }    
 
 
 

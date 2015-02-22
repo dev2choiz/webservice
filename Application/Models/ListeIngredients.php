@@ -30,11 +30,11 @@ class ListeIngredients extends \Library\Model\Model{
 
     }
 
-        
+
     public function insertListeIngredients($params){
         //$modelListeIngredient  = new \Application\Models\ListeIngredient('localhost');
         //var_dump($params);
-        
+
 
 
         $idIngreds=$params['ingredients'];
@@ -48,8 +48,7 @@ class ListeIngredients extends \Library\Model\Model{
                 "id_recette"=>$idRe7,
                 "id_ingredient"=>$idIngred,
                 "id_unite"=>$unites[$i],
-                "value"=>'lavalue',
-                "quantite"=> $quantites[$i]
+                "value"=> $quantites[$i]
                 );
 
             $alors=$alors  && $this->insert($data);
