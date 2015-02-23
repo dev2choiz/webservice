@@ -30,7 +30,7 @@ class ViewRecette extends \Library\Controller\Controller {
     public function getviewrecette($params) {
         unset($params['method']);
 
-        //recupere la recette        
+        //recupere la recette
         $modelVR     = new \Application\Models\ViewRecette('localhost');
         $viewR       = $modelVR->convEnTab($modelVR->fetchAll("`id_recette`='{$params['id_recette']}'"));
         $viewR=$viewR[0];
@@ -63,15 +63,34 @@ public function getallviewrecettes($params) {
         unset($params['method']);
         
         $modelVR     = new \Application\Models\ViewRecette('localhost');
-        $viewR       = $modelVR->convEnTab($modelVR->fetchAll());
+        $viewRs       = $modelVR->convEnTab($modelVR->fetchAll());
 
-        //$viewR=$viewR[0];
-        var_dump("getviewrecettes",$viewR);
-        if( empty($viewR) ){
+        //$viewRs=$viewRs[0];
+        var_dump("getviewrecettes",$viewRs);
+        if( empty($viewRs) ){
             $this->message->addError("aucune recette !");
+        }else{
+
+
+
+            //recupere les ingredients
+            $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
+
+            foreach ($viewRs as $key => $viewR) {
+
+                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewR['id_recette'] )  );
+                $viewRs[$key]['ingredients']=$viewLI;
+
+            }   
+
+
+
+
+
+
         }
 
-        return $this->setApiResult($viewR);
+        return $this->setApiResult($viewRs);
     }    
 
 
