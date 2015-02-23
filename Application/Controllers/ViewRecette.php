@@ -58,12 +58,12 @@ class ViewRecette extends \Library\Controller\Controller {
     }
 
 
+}
 
 
 
 
-
-    /* Samyn */
+    /* Samyn 
     public function getviewrecette($params) {
         unset($params['method']);
         
@@ -93,4 +93,4 @@ class ViewRecette extends \Library\Controller\Controller {
             return $this->setApiResult($viewR);
         }    
 
-    }
+    }*/
