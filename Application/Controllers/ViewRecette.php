@@ -29,17 +29,35 @@ class ViewRecette extends \Library\Controller\Controller {
      */
     public function getviewrecette($params) {
         unset($params['method']);
-        
+
+        //recupere la recette        
         $modelVR     = new \Application\Models\ViewRecette('localhost');
         $viewR       = $modelVR->convEnTab($modelVR->fetchAll("`id_recette`='{$params['id_recette']}'"));
         $viewR=$viewR[0];
-        var_dump("getviewrecette",$viewR);
+        
+
         if( empty($viewR) ){
             $this->message->addError("aucune recette !");
         }
 
+        //recupere les ingredients
+        $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
+        $viewLI       = $modelVLI->convEnTab( $modelVLI->getviewlistingredients($viewR['id_recette'])  );
+        $viewLI=$viewLI;
+        
+
+        if( empty($viewLI) ){
+            $this->message->addError("aucun ingredient !");
+        }else{
+            //colle les ingredients à la recette
+            $viewR['ingredients']=$viewLI;
+        }
+
         return $this->setApiResult($viewR);
     }
+
+
+
 
 public function getallviewrecettes($params) {
         unset($params['method']);

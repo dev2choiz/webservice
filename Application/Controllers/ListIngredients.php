@@ -6,7 +6,7 @@ namespace Application\Controllers;
  *
  *
  */
-class ListeIngredients extends \Library\Controller\Controller {
+class ListIngredients extends \Library\Controller\Controller {
     
     /**
      *  Méthode __construct()
@@ -19,17 +19,17 @@ class ListeIngredients extends \Library\Controller\Controller {
     }
 
 
-    public function insertlisteingredients($params) {
+    public function insertlistingredients($params) {
 
         unset($params['method']);
-        $modelListeIngredients  = new \Application\Models\ListeIngredients('localhost');
+        $modelLI  = new \Application\Models\ListIngredients('localhost');
 
         //var_dump($params);
         $params['ingredients']=json_decode($params['ingredients']) ;
         $params['unites']=json_decode($params['unites']) ;
         $params['quantites']=json_decode($params['quantites']) ;
-        //return $this->setApiResult( $params );
-        $res=$modelListeIngredients->InsertListeIngredients($params);
+        
+        $res=$modelLI->insertListIngredients($params);
             
         if($res ) {
             return $this->setApiResult( $res );
@@ -39,6 +39,7 @@ class ListeIngredients extends \Library\Controller\Controller {
 
 
     }
+
 
 
 

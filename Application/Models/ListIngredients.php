@@ -4,7 +4,7 @@ namespace Application\Models;
 
 
 
-class ListeIngredients extends \Library\Model\Model{
+class ListIngredients extends \Library\Model\Model{
 
 	protected $table 	= 'liste_ingredients';
 	protected $primary 	= 'id_liste';
@@ -17,23 +17,7 @@ class ListeIngredients extends \Library\Model\Model{
 
 
 
-    /**
-     *  Méthode post($params)
-     *
-     *  Crée une recette avec les paramètres de la requête POST       
-     *  @param      array       $params     [données de requête]
-     *  @return     array
-     *
-     */
-    public function getListeIngredients() {         //ajouter une recette
-    	return $this->fetchAll();
-
-    }
-
-
-    public function insertListeIngredients($params){
-        //$modelListeIngredient  = new \Application\Models\ListeIngredient('localhost');
-        //var_dump($params);
+    public function insertListIngredients($params){
 
 
 
@@ -51,7 +35,7 @@ class ListeIngredients extends \Library\Model\Model{
                 "value"=> $quantites[$i]
                 );
 
-            $alors=$alors  && $this->insert($data);
+            $alors=( $alors  && $this->insert($data) );
             $i++;
 
         }
