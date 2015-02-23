@@ -8,6 +8,12 @@ namespace Library\Core;
  */
 class RestServer {
 
+
+	/**
+	 * id en paramètre
+	 * @var int
+	 */
+	private $id;
 	/**
 	 * Nom du service utilisé
 	 * @var string
@@ -57,6 +63,10 @@ class RestServer {
 	 */
 	public function __construct(){
 
+
+		ob_start();
+
+
 		header("Content-type: application/json");
 
 		$this->json = new \stdClass();
@@ -65,6 +75,7 @@ class RestServer {
 		$this->json->apiErrorMessage = "";
 		$this->json->serverError = false;
 		$this->json->serverErrorMessage = "";
+		$this->json->page = "";
 
 		$this->httpMethod = strtoupper($_SERVER["REQUEST_METHOD"]);		//non merci
 		
@@ -83,8 +94,6 @@ class RestServer {
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
 
-		//var_dump("djjiz^j",$D);
-		
 		if(isset($D["service"])){	//pk
 			
 			$this->service = "\Application\Controllers\\".ucfirst(strtolower($D["service"]));
@@ -104,8 +113,15 @@ class RestServer {
 			if(!method_exists($this->service, $this->classMethod)){
 				$this->showError("Class method " . $strService . "::". $this->classMethod . " not found");
 			}
+
+			if(isset($D["id_recette"])){
+				$this->id = $D["id_recette"];
+			}
+
 			unset($D["service"]);
 			$this->requestParam = $D;
+
+			
 
 		}else{
 			$this->showError("Param service not found");
@@ -154,6 +170,8 @@ class RestServer {
 	 *
 	 */
 	public function __destruct(){	//envoi
+		$this->json->page=ob_get_contents();
+		ob_clean();
 		echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 	}
 

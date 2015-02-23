@@ -53,10 +53,9 @@ class Recette extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-
+        //var_dump();
         $modelRecette  = new \Application\Models\Recette('localhost');
-        
-        
+
         if($modelRecette->insert($params) ) {
             return $this->setApiResult($modelRecette->getLast());
         }else{

@@ -45,6 +45,7 @@ class Ingredient extends \Library\Controller\Controller {
     }
 
 
+
     public function insertingredients($params) {
 
         $modelIngredient  = new \Application\Models\Ingredient('localhost');
@@ -61,7 +62,6 @@ class Ingredient extends \Library\Controller\Controller {
 
 
     }
-
 
 
 }

@@ -27,13 +27,27 @@ class ViewRecette extends \Library\Controller\Controller {
      *  @return     array
      * 
      */
-    public function getViewRecettes() {      //  obtenir toutes les recettes
+    public function getAllViewRecettes() {      //  obtenir toutes les recettes
         
         
-        $modelViewRecette       = new \Application\Models\ViewRecette('localhost');
-        $viewRecettes           = $modelViewRecette->fetchAll();
+        $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
+        $viewAllRecettes           = $modelViewAllRecette->fetchAll();
+        if( empty($viewAllRecettes[0]) ){
+            return $this->setApiResult(false, true, "Aucune Recette");
+        }
+
+        return $this->setApiResult($viewAllRecettes);
+    }
+
+    public function getViewRecette($param) {      //  obtenir une recette par son id
+        
+        $param            = (empty($param["id_recette"]))? null : $param["id_recette"];
+
+        $modelViewRecette = new \Application\Models\ViewRecette('localhost');
+        $param            = (int) $param;
+        $viewRecettes     = $modelViewRecette->findByPrimary($param);
         if( empty($viewRecettes[0]) ){
-            $this->message->addError("aucune recette !");
+            return $this->setApiResult(false, true, "Aucune recette de cet id");
         }
 
         return $this->setApiResult($viewRecettes);
