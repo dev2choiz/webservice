@@ -12,8 +12,10 @@ class ViewRecette extends \Library\Model\Modelview{
 
 	public function __construct($connexionName){
 		parent::__construct($connexionName);
-		parent::setPrimary($this->primary);
+
 	}
-
-
 }
+
+
+
+

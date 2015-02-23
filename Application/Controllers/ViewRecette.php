@@ -20,6 +20,7 @@ class ViewRecette extends \Library\Controller\Controller {
 
     /**
      *  Méthode getrecettes($params)
+     *  Méthode getviewrecettes($params)
      *
      *  Récupèrera un nombre donnée de recettes
      *       
@@ -27,6 +28,9 @@ class ViewRecette extends \Library\Controller\Controller {
      *  @return     array
      * 
      */
+
+
+    /* Naïla */
     public function getAllViewRecettes() {      //  obtenir toutes les recettes
         
         
@@ -55,4 +59,38 @@ class ViewRecette extends \Library\Controller\Controller {
 
 
 
-}
+
+
+
+
+    /* Samyn */
+    public function getviewrecette($params) {
+        unset($params['method']);
+        
+        $modelVR     = new \Application\Models\ViewRecette('localhost');
+        $viewR       = $modelVR->convEnTab($modelVR->fetchAll("`id_recette`='{$params['id_recette']}'"));
+        $viewR=$viewR[0];
+        //var_dump("getviewrecette",$viewR);
+        if( empty($viewR) ){
+            $this->message->addError("aucune recette !");
+        }
+
+        return $this->setApiResult($viewR);
+    }
+
+    public function getallviewrecettes($params) {
+            unset($params['method']);
+            
+            $modelVR     = new \Application\Models\ViewRecette('localhost');
+            $viewR       = $modelVR->convEnTab($modelVR->fetchAll());
+
+            //$viewR=$viewR[0];
+            //var_dump("getviewrecettes",$viewR);
+            if( empty($viewR) ){
+                $this->message->addError("aucune recette !");
+            }
+
+            return $this->setApiResult($viewR);
+        }    
+
+    }
