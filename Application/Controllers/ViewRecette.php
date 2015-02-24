@@ -53,11 +53,6 @@ class ViewRecette extends \Library\Controller\Controller {
 
             }   
 
-
-
-
-
-
         }
 
 
@@ -66,43 +61,34 @@ class ViewRecette extends \Library\Controller\Controller {
 
 
 
+
     public function getViewRecette($param) {      //  obtenir une recette par son id
         unset($param['method']);
         $param            = (empty($param["id_recette"]))? null : ($param["id_recette"]+0);
 
+        //recupere la recette
         $modelViewRecette = new \Application\Models\ViewRecette('localhost');
         //$param            = (int) $param;
         $viewRecette     = $modelViewRecette->findByPrimary($param);
-        $viewRecetteI = $viewRecette[0];
+        $viewRecetteI    = $viewRecette[0];
         if( empty($viewRecette[0]) ){
-            //return $this->setApiResult(false, true, "Aucune recette pour cet id");
-            $this->message->addError("Aucune recette pour cet id !");
+            return $this->setApiResult(false, true, "Aucune recette pour cet id !");
         }
-
 
         //recupere les ingredients
         $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
         $viewLI       = $modelVLI->convEnTab( $modelVLI->getviewlistingredients($viewRecetteI->id_recette)  );
-        $viewLI=$viewLI;
+        //$viewLI = $viewLI;
         
 
         if( empty($viewLI) ){
-            $this->message->addError("aucun ingredient !");
+            return $this->setApiResult($viewRecette);
         }else{
             //colle les ingredients à la recette
-            $viewRecetteI->ingredients=$viewLI;
+            $viewRecetteI->ingredients = $viewLI;
         }
 
-        return $this->setApiResult($viewRecetteI);
-
-
-
-
-
-
-
-
-
+        //return $this->setApiResult($viewRecetteI);
 
         return $this->setApiResult($viewRecette);
     }
