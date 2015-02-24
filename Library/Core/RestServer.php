@@ -172,7 +172,7 @@ class RestServer {
 		$header_size =0;		// curl_getinfo(curl_init(), CURLINFO_HEADER_SIZE);
 		$body = substr(ob_get_contents(), $header_size);
 
-		$this->json->page="<div style='backgroung-color:\"#FF0\"'><hr>@@@>>".$body."<<<@@@<hr></div>";
+		$this->json->page="<!--div style='backgroung-color:#FF0'--><hr>@@@>>".$body."<<<@@@<hr><!--/div-->";
 		ob_clean();
 
 

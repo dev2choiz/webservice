@@ -32,7 +32,9 @@ class ViewRecette extends \Library\Controller\Controller {
 
         //recupere la recette
         $modelVR     = new \Application\Models\ViewRecette('localhost');
-        $viewR       = $modelVR->convEnTab($modelVR->fetchAll("`id_recette`='{$params['id_recette']}'"));
+        //$viewR       = $modelVR->convEnTab($modelVR->fetchAll("`id_recette`='{$params['id_recette']}'"));
+        $viewR       = $modelVR->convEnTab( $modelVR->findByPrimary($params['id_recette']+0 ) );
+        
         $viewR=$viewR[0];
         
 

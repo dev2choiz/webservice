@@ -28,6 +28,12 @@ $DB::addConnexion($host, $DB::connectDB($host, $dbase, $user, $password));
 //$router::dispatchPage($_GET['method']);
 
 
+
 // Instanciation du serveur REST
 $server = new \Library\Core\RestServer();
 $server->handle();
+
+
+
+
+
