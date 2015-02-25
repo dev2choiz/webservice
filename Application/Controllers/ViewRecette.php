@@ -82,7 +82,7 @@ class ViewRecette extends \Library\Controller\Controller {
         
 
         if( empty($viewLI) ){
-            return $this->setApiResult($viewRecette);
+            return $this->setApiResult($viewRecetteI);
         }else{
             //colle les ingredients à la recette
             $viewRecetteI->ingredients = $viewLI;
@@ -90,7 +90,7 @@ class ViewRecette extends \Library\Controller\Controller {
 
         //return $this->setApiResult($viewRecetteI);
 
-        return $this->setApiResult($viewRecette);
+        return $this->setApiResult($viewRecetteI);
     }
 }
 
