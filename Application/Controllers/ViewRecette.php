@@ -37,6 +37,8 @@ class ViewRecette extends \Library\Controller\Controller {
         
         $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
         $viewAllRecettes           = $modelViewAllRecette->fetchAll();
+        $viewAllRecettesI          = $viewAllRecettes;
+        //var_dump($viewAllRecetteI);
         if( empty($viewAllRecettes[0]) ){
              $this->message->addError("Aucune Recette");
         }else{
@@ -48,7 +50,7 @@ class ViewRecette extends \Library\Controller\Controller {
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
-                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewRecette['id_recette'] )  );
+                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewAllRecettes['id_recette'] )  );
                 $viewAllRecettes[$key]['ingredients']=$viewLI;
 
             }   
