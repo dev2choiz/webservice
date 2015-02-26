@@ -31,50 +31,25 @@ class ViewRecette extends \Library\Controller\Controller {
 
 
 
-
     /* Naïla */
     public function getAllViewRecettes() {      //  obtenir toutes les recettes
         
-        
-
+        var_dump("getAllViewRecettes");
         $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
-        $viewAllRecettes           = $modelViewAllRecette->fetchAll();
-<<<<<<< HEAD
-        $viewAllRecettesI          = $viewAllRecettes;
-        //var_dump($viewAllRecetteI);
+        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll() );
         if( empty($viewAllRecettes[0]) ){
              $this->message->addError("Aucune Recette");
         }else{
 
+            var_dump($viewAllRecettes);
 
-
-=======
-
-        //var_dump($viewAllRecettes[0]);
-        //$viewRs=$viewRs[0];
-        //var_dump("getviewrecettes",$viewRs);
-
-        
-        if( empty($viewAllRecettes) ){
-            return $this->setApiResult(false, true, "Aucune Recette");
-
-        }else{
-
-
-
->>>>>>> Dev2Choiz-master
             //recupere les ingredients
             $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
-<<<<<<< HEAD
-                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewAllRecettes['id_recette'] )  );
+                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewRecette['id_recette'] )  );
                 $viewAllRecettes[$key]['ingredients']=$viewLI;
-=======
-                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewRecette->id_recette )  );
-                $viewAllRecettes[$key]->ingredients = $viewLI;
->>>>>>> Dev2Choiz-master
 
             }   
 
@@ -84,8 +59,6 @@ class ViewRecette extends \Library\Controller\Controller {
         return $this->setApiResult($viewAllRecettes);
     }
 
-        return $this->setApiResult($viewAllRecettes);
-    }
 
 
 
@@ -102,7 +75,6 @@ class ViewRecette extends \Library\Controller\Controller {
             return $this->setApiResult(false, true, "Aucune recette pour cet id !");
         }
 
-
         //recupere les ingredients
         $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
         $viewLI       = $modelVLI->convEnTab( $modelVLI->getviewlistingredients($viewRecetteI->id_recette)  );
@@ -110,8 +82,7 @@ class ViewRecette extends \Library\Controller\Controller {
         
 
         if( empty($viewLI) ){
-<<<<<<< HEAD
-            return $this->setApiResult($viewRecette);
+            return $this->setApiResult($viewRecetteI);
         }else{
             //colle les ingredients à la recette
             $viewRecetteI->ingredients = $viewLI;
@@ -119,21 +90,7 @@ class ViewRecette extends \Library\Controller\Controller {
 
         //return $this->setApiResult($viewRecetteI);
 
-        return $this->setApiResult($viewRecette);
+        return $this->setApiResult($viewRecetteI);
     }
 }
 
-=======
-            return $this->setApiResult($viewRecetteI);
-        }else{
-            //colle les ingredients à la recette
-            $viewRecetteI->ingredients = $viewLI;
-        }
-        if( empty($viewR) ){
-             return $this->setApiResult(false, true, "aucune recette !");
-        }
-
-        return $this->setApiResult($viewR);
-    }
-}    
->>>>>>> Dev2Choiz-master
