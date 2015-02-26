@@ -42,5 +42,4 @@ class ListIngredients extends \Library\Controller\Controller {
 
 
 
-
 }
