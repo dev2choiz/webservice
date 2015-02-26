@@ -34,14 +34,14 @@ class ViewRecette extends \Library\Controller\Controller {
     /* Naïla */
     public function getAllViewRecettes() {      //  obtenir toutes les recettes
         
-        
+        var_dump("getAllViewRecettes");
         $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
-        $viewAllRecettes           = $modelViewAllRecette->fetchAll();
+        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll() );
         if( empty($viewAllRecettes[0]) ){
              $this->message->addError("Aucune Recette");
         }else{
 
-
+            var_dump($viewAllRecettes);
 
             //recupere les ingredients
             $modelVLI     = new \Application\Models\ViewListIngredients('localhost');

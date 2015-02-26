@@ -117,7 +117,7 @@ abstract class Model {
     public function findByPrimary($value_primary, $fields="*") {
         $sql = $this->database->prepare("SELECT $fields FROM `{$this->table}` WHERE `{$this->primary}`=:primary");
         $sql->execute(array('primary' =>  $value_primary));
-        return $sql->fetchAll();
+        return $sql->fetchAll();        //<==possibilité de faire renvoyer des tableaux
     }
 
     /**
@@ -241,13 +241,18 @@ abstract class Model {
     public function update($where, $data, $strict=true) {
         //$data = $this->checkScheme($data);
         if(!is_array($data)){
-            return $data;
+            return $data;       
         }
         $listFieldsValue = $this->updateListFieldsValues($data);
+        //var_dump($data);
+        //echo "UPDATE `{$this->table}` SET $listFieldsValue WHERE $where";
         $sql = $this->database->prepare("UPDATE `{$this->table}` SET $listFieldsValue WHERE $where");
         unset($listFieldsValue);
-        $sql->execute($data);
-        return $this->returnAffectedRowBoolean($sql, $strict);
+        return $sql->execute($data);
+
+
+        //return $sql->rowCount()>0;
+        //return $this->returnAffectedRowBoolean($sql, $strict);
     }
 
     /**
