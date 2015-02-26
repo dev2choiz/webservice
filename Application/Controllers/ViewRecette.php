@@ -36,7 +36,7 @@ class ViewRecette extends \Library\Controller\Controller {
         
         
         $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
-        $viewAllRecettes           = $modelViewAllRecette->fetchAll();
+        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll());
         if( empty($viewAllRecettes[0]) ){
              $this->message->addError("Aucune Recette");
         }else{

@@ -246,8 +246,8 @@ abstract class Model {
         $listFieldsValue = $this->updateListFieldsValues($data);
         $sql = $this->database->prepare("UPDATE `{$this->table}` SET $listFieldsValue WHERE $where");
         unset($listFieldsValue);
-        $sql->execute($data);
-        return $this->returnAffectedRowBoolean($sql, $strict);
+        return $sql->execute($data);
+        //return $this->returnAffectedRowBoolean($sql, $strict);
     }
 
     /**
