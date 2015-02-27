@@ -383,4 +383,11 @@ abstract class Model {
         return $tab;
     }
 
+
+
+    public function getLast(){
+        return $this->database->lastInsertId();
+    }
+
+
 }
