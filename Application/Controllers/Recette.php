@@ -65,7 +65,7 @@ class Recette extends \Library\Controller\Controller {
 
     }
     
-/**
+    /**
      *  Méthode post($params)
      *
      *  Crée une recette avec les paramètres de la requête POST
@@ -91,6 +91,45 @@ class Recette extends \Library\Controller\Controller {
 
     }
     
+
+
+    /**
+     *  Méthode post($params)
+     *
+     *  Crée une recette avec les paramètres de la requête POST
+     *       
+     *  @param      array       $params     [données de requête]
+     *  @return     array
+     *
+     */
+    public function deleterecette($params) {         //delete une recette
+
+
+        unset($params['method']);
+
+        $modelLI  = new \Application\Models\ListIngredients('localhost');
+
+
+        if($modelLI->delete(" `id_recette`='{$params['id_recette']}' ") ) {
+
+            //si la suppression des ingredients c'est bien passée on tente de sup la recette
+            $modelRecette  = new \Application\Models\Recette('localhost');
+            if($modelRecette->delete(" `id_recette`='{$params['id_recette']}' ") ){
+                return $this->setApiResult(true);
+            }else{
+                return $this->setApiResult(false, true, "erreur pendant la suppression de la recette");
+            }
+
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la suppression des ingredients");
+        }
+
+
+    }
+    
+
+
 
 
 }
