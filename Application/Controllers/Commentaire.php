@@ -54,10 +54,10 @@ class Commentaire extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelcommentaire  = new \Application\Models\Commentaire('localhost');
+        $modelCommentaire  = new \Application\Models\Commentaire('localhost');
 
-        if($modelcommentaire->insert($params) ) {
-            return $this->setApiResult($modelcommentaire->getLast());
+        if($modelCommentaire->insert($params) ) {
+            return $this->setApiResult($modelCommentaire->getLast());   //retourne l'id du comm
         }else{
             return $this->setApiResult(0, true, "erreur pendant l'ajout");
         }
@@ -79,10 +79,10 @@ class Commentaire extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        //var_dump();
-        $modelcommentaire  = new \Application\Models\commentaire('localhost');
+        
+        $modelCommentaire  = new \Application\Models\Commentaire('localhost');
 
-        if($modelcommentaire->update(" `id_commentaire`='{$params['id_commentaire']}' ", $params) ) {
+        if($modelCommentaire->update(" `id_commentaire`='{$params['id_commentaire']}' ", $params) ) {
             return $this->setApiResult(true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la mise a jour");
@@ -107,22 +107,13 @@ class Commentaire extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelLI  = new \Application\Models\ListIngredients('localhost');
+        $modelComm  = new \Application\Models\Commentaire('localhost');
 
 
         if($modelLI->delete(" `id_commentaire`='{$params['id_commentaire']}' ") ) {
-
-            //si la suppression des ingredients c'est bien passée on tente de sup la commentaire
-            $modelcommentaire  = new \Application\Models\commentaire('localhost');
-            if($modelcommentaire->delete(" `id_commentaire`='{$params['id_commentaire']}' ") ){
-                return $this->setApiResult(true);
-            }else{
-                return $this->setApiResult(false, true, "erreur pendant la suppression de la commentaire");
-            }
-
             return $this->setApiResult(true);
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la suppression des ingredients");
+            return $this->setApiResult(false, true, "erreur pendant la suppression du commentaire");
         }
 
 
