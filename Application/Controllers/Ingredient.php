@@ -20,20 +20,20 @@ class Ingredient extends \Library\Controller\Controller {
 
 
     /**
-     *  Méthode getingredients
-     *
-     *  retourne les ingredients
-     *       
-     *  @return     array
-     *
-     */
+    *  Méthode post($params)
+    *
+    *  Crée une recette avec les paramètres de la requête POST       
+    *  @param      array       $params     [données de requête]
+    *  @return     array
+    *
+    */
     public function getingredients() {
 
 
 
 
         $modelIngredient  = new \Application\Models\Ingredient('localhost');
-        $res=$modelIngredient->getIngredients();
+        $res=$modelIngredient->fetchAll();
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
@@ -48,11 +48,11 @@ class Ingredient extends \Library\Controller\Controller {
 
     public function insertingredients($params) {
 
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+        unset($params['method']);
 
-        //var_dump($params);
+        $modelIngredient  = new \Application\Models\Ingredient('localhost');
         
-        $res=$modelIngredient->InsertIngredients();
+        $res=$modelIngredient->insert($params);
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);

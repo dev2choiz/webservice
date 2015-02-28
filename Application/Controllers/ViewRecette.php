@@ -41,20 +41,27 @@ class ViewRecette extends \Library\Controller\Controller {
              $this->message->addError("Aucune Recette");
         }else{
 
-            var_dump($viewAllRecettes);
+            //var_dump($viewAllRecettes);
 
             //recupere les ingredients
             $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
-                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewRecette['id_recette'] )  );
+                $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecette['id_recette']}"));
                 $viewAllRecettes[$key]['ingredients']=$viewLI;
+            }
 
-            }   
+            //recupere les produits
+            $modelVLP     = new \Application\Models\ViewListProduits('localhost');
+
+            foreach ($viewAllRecettes as $key => $viewRecette) {
+
+                $viewLP       = $modelVLP->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecette['id_recette']}")) ;
+                $viewAllRecettes[$key]['produits']=$viewLP;
+            }
 
         }
-
 
         return $this->setApiResult($viewAllRecettes);
     }
