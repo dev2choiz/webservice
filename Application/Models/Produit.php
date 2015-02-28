@@ -4,18 +4,14 @@ namespace Application\Models;
 
 
 
-class ViewRecette extends \Library\Model\Modelview{
+class Produit extends \Library\Model\Model{
 
-	protected $table 	= 'view_recette';
-	protected $primary 	= 'id_recette';
+	protected $table 	= 'produit';
+	protected $primary 	= 'id_produit';
 
 
 	public function __construct($connexionName){
 		parent::__construct($connexionName);
-
 	}
+
 }
-
-
-
-

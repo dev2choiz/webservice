@@ -116,7 +116,7 @@ abstract class Model {
      */
     public function findByPrimary($value_primary, $fields="*") {
         $sql = $this->database->prepare("SELECT $fields FROM `{$this->table}` WHERE `{$this->primary}`=:primary");
-        $sql->execute(array("primary"=>$value_primary));
+        $sql->execute(array('primary' =>  $value_primary));
         return $sql->fetchAll();
     }
 
@@ -366,7 +366,7 @@ abstract class Model {
 
 
         if(is_object($tab ) ){
-            $tab=get_object_vars($tab);
+            $tab = get_object_vars($tab);
         }
         if(!is_array($tab ) ){
             return $tab;
@@ -377,7 +377,6 @@ abstract class Model {
             if(is_array($value ) || is_object($value ) ){
                 $tab[$key]=$this->convEnTab($value);
             }
-            //$tab[$key]= get_object_vars($value);
 
         }
         return $tab;

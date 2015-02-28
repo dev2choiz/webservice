@@ -24,10 +24,10 @@ class ViewListIngredients extends \Library\Controller\Controller {
         $modelVLI  = new \Application\Models\ViewListIngredients('localhost');
 
         
-        $idRecette=$params['id_recette'];
+        $idRecette=$params['id_recette']+0;
 
         
-        $res=$modelVLI->getViewListIngredients($idRecette);
+        $res=$modelVLI->fetchAll(" `id_recette`=$idRecette ");
         
         if(!empty($res) ) {
             return $this->setApiResult( $res );

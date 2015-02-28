@@ -128,8 +128,14 @@ class User extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function updateuser($params){
+    public function updateUser($params){
         unset($params['method']);
+
+
+        $idUser     = $params['id_user'];
+        $modelUser  = new \Application\Models\User('localhost');
+        $params     = $modelUser->convEnTab( json_decode($params['params'])  );
+
         echo "lasd";
         $idUser=$params['id_user'];
         $currentPassword=$params['password'];
@@ -177,8 +183,15 @@ class User extends \Library\Controller\Controller {
         $where = "`mail`={$mail} AND `id_user`!={$idUser}";
         $user = $modelUser->fetchAll($where);
         //var_dump('user', $where, $user);
+
+        if(!empty($user)) { 
+            return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); 
+        }
+
+
         if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
         echo "mail n'existe pas dans la base, (sauf si c'est le mail de l'user qu'on traite==>pas de modif du mail)";
+
         $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
         
         $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$currentPasswordmd5'", $result);

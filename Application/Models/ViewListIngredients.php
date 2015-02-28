@@ -4,7 +4,7 @@ namespace Application\Models;
 
 
 
-class ViewListIngredients extends \Library\Model\Model{
+class ViewListIngredients extends \Library\Model\Modelview{
 
 	protected $table 	= 'view_liste_ingredients';
 	protected $primary 	= 'id_liste';
@@ -17,10 +17,10 @@ class ViewListIngredients extends \Library\Model\Model{
 
 
 
-    public function getViewListIngredients($idRecette) {
+    /*public function getViewListIngredients($idRecette) {
     	 return $this->fetchAll(" `id_recette`=$idRecette ");
 
-    }
+    }*/
 
 
 

@@ -34,27 +34,34 @@ class ViewRecette extends \Library\Controller\Controller {
     /* Naïla */
     public function getAllViewRecettes() {      //  obtenir toutes les recettes
         
-        
+        var_dump("getAllViewRecettes");
         $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
-        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll());
+        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll() );
         if( empty($viewAllRecettes[0]) ){
              $this->message->addError("Aucune Recette");
         }else{
 
-
+            //var_dump($viewAllRecettes);
 
             //recupere les ingredients
             $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
-                $viewLI       = $modelVLI->convEnTab( $modelVLI->getViewListIngredients( $viewRecette['id_recette'] )  );
+                $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecette['id_recette']}"));
                 $viewAllRecettes[$key]['ingredients']=$viewLI;
+            }
 
-            }   
+            //recupere les produits
+            $modelVLP     = new \Application\Models\ViewListProduits('localhost');
+
+            foreach ($viewAllRecettes as $key => $viewRecette) {
+
+                $viewLP       = $modelVLP->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecette['id_recette']}")) ;
+                $viewAllRecettes[$key]['produits']=$viewLP;
+            }
 
         }
-
 
         return $this->setApiResult($viewAllRecettes);
     }

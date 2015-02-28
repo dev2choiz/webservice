@@ -8,6 +8,12 @@ namespace Library\Core;
  */
 class RestServer {
 
+
+	/**
+	 * id en paramètre
+	 * @var int
+	 */
+	private $id;
 	/**
 	 * Nom du service utilisé
 	 * @var string
@@ -90,8 +96,6 @@ class RestServer {
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
 
-		//var_dump("djjiz^j",$D);
-		
 		if(isset($D["service"])){	//pk
 			
 			$this->service = "\Application\Controllers\\".ucfirst(strtolower($D["service"]));
@@ -111,8 +115,15 @@ class RestServer {
 			if(!method_exists($this->service, $this->classMethod)){
 				$this->showError("Class method " . $strService . "::". $this->classMethod . " not found");
 			}
+
+			if(isset($D["id_recette"])){
+				$this->id = $D["id_recette"];
+			}
+
 			unset($D["service"]);
 			$this->requestParam = $D;
+
+			
 
 		}else{
 			$this->showError("Param service not found");
