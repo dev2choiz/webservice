@@ -76,28 +76,42 @@ class ViewRecette extends \Library\Controller\Controller {
         //recupere la recette
         $modelViewRecette = new \Application\Models\ViewRecette('localhost');
         //$param            = (int) $param;
-        $viewRecette     = $modelViewRecette->findByPrimary($param);
-        $viewRecetteI    = $viewRecette[0];
+        $viewRecette      = $modelViewRecette->convEnTab($modelViewRecette->findByPrimary($param));
+        $viewRecetteIP    = $viewRecette[0];
         if( empty($viewRecette[0]) ){
             return $this->setApiResult(false, true, "Aucune recette pour cet id !");
         }
 
         //recupere les ingredients
         $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
-        $viewLI       = $modelVLI->convEnTab( $modelVLI->getviewlistingredients($viewRecetteI->id_recette)  );
+        $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIP['id_recette']}"));
+        var_dump($viewLI);
+
+        if( empty($viewLI) ){
+            return $this->setApiResult($viewRecetteIP);
+        }else{
+            //colle les ingredients à la recette
+            $viewRecetteIP['ingredients'] = $viewLI;
+        }
+
+        //recupere les produits
+        $modelVLP     = new \Application\Models\ViewListIngredients('localhost');
+        $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIP['id_recette']}"));
         //$viewLI = $viewLI;
         
 
-        if( empty($viewLI) ){
+        if( empty($viewLP) ){
             return $this->setApiResult($viewRecetteI);
         }else{
-            //colle les ingredients à la recette
-            $viewRecetteI->ingredients = $viewLI;
+            //colle les produits à la recette
+            $viewRecetteIP['produits'] = $viewLP;
         }
+
+
 
         //return $this->setApiResult($viewRecetteI);
 
-        return $this->setApiResult($viewRecetteI);
+        return $this->setApiResult($viewRecetteIP);
     }
 }
 
