@@ -16,6 +16,8 @@ class Ingredient extends \Library\Controller\Controller {
      */
     public function __construct() {
         parent::__construct();
+        echo "classe trouve";
+        var_dump($_POST);
     }
 
 
@@ -47,7 +49,7 @@ class Ingredient extends \Library\Controller\Controller {
 
 
     public function insertingredients($params) {
-
+        echo "methode insert";
         unset($params['method']);
 
         $modelIngredient  = new \Application\Models\Ingredient('localhost');
@@ -57,7 +59,7 @@ class Ingredient extends \Library\Controller\Controller {
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des ingredients");
+            return $this->setApiResult(false, true, "erreur pendant l'insertion des ingredients");
         }
 
 

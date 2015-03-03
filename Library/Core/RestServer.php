@@ -96,7 +96,10 @@ class RestServer {
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
 
-		if(isset($D["service"])){	//pk
+
+
+
+		if(isset($D["service"])){
 			
 			$this->service = "\Application\Controllers\\".ucfirst(strtolower($D["service"]));
 			
