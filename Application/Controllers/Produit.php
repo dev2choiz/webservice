@@ -27,6 +27,19 @@ class Produit extends \Library\Controller\Controller {
     *  @return     array
     *
     */
+    public function getAllProduits() {
+
+        $modelProduit  = new \Application\Models\Produit('localhost');
+        $res=$modelProduit->fetchAll();
+            
+        if( !empty( $res ) ) {
+            return $this->setApiResult( $res);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
+        }
+
+    }
+
     public function getProduit($params) {
         unset($params['method']);
 
@@ -34,6 +47,7 @@ class Produit extends \Library\Controller\Controller {
 
         $modelProduit  = new \Application\Models\Produit('localhost');
         $res=$modelProduit->fetchAll(" `id_produit`='{$params['id_produit']}' ");
+        var_dump($res);
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
