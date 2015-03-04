@@ -46,5 +46,28 @@ class Categorie extends \Library\Controller\Controller {
 
 
 
+    /**
+     * [insertcategorie description]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function insertcategorie($params) {
+        
+        unset($params['method']);
+
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        
+        $res=$modelCategorie->insert($params);
+            
+        if(  $res  ) {
+            return $this->setApiResult($modelCategorie->getLast());
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant l'insertion de la catégorie");
+        }
+
+
+    }
+
+
 
 }
