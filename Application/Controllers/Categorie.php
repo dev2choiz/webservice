@@ -70,4 +70,42 @@ class Categorie extends \Library\Controller\Controller {
 
 
 
+
+    public function updatecategorie($params) {
+        
+        unset($params['method']);
+
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        
+        $res=$modelCategorie->update("`id_cat`='{$params['id_cat']}'", $params);
+            
+        if(  $res  ) {
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la modification de la catégorie");
+        }
+
+
+    }
+
+
+
+
+    public function deletecategorie($params) {
+        
+        unset($params['method']);
+
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        
+        $res=$modelCategorie->delete("`id_cat`='{$params['id_cat']}'");
+            
+        if(  $res  ) {
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la suppression de la catégorie");
+        }
+
+
+    }
+
 }
