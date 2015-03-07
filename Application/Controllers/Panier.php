@@ -22,18 +22,18 @@ class Panier extends \Library\Controller\Controller {
     /**
      *  Méthode getpaniers
      *
-     *  retourne les paniers
+     *  retourne les paniers // ça sert à rien ça, c'ets la vue qui va le faire
      *       
      *  @return     array
      *
      */
-    public function getpanier() {         //ajouter une recette
+    public function getPanier($params) {         //ajouter une recette
 
 
-
+        unset($params['method']);
 
         $modelPanier  = new \Application\Models\Panier('localhost');
-        $res=$modelPanier->fetchAll();
+        $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}'");
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
@@ -51,7 +51,7 @@ class Panier extends \Library\Controller\Controller {
      * @param  [type] $params [description]
      * @return [type]         [description]
      */
-    public function insertpanier($params) {
+    public function insertPanier($params) {
         
         unset($params['method']);
 
@@ -71,7 +71,7 @@ class Panier extends \Library\Controller\Controller {
 
 
 
-    public function updatepanier($params) {
+    public function updatePanier($params) {
         
         unset($params['method']);
 
@@ -91,13 +91,13 @@ class Panier extends \Library\Controller\Controller {
 
 
 
-    public function deletepanier($params) {
+    public function deletePanier($params) {
         
         unset($params['method']);
 
         $modelPanier  = new \Application\Models\Panier('localhost');
         
-        $res=$modelPanier->delete("`id_cat`='{$params['id_panier']}'");
+        $res=$modelPanier->delete("`id_panier`='{$params['id_panier']}'");
             
         if(  $res  ) {
             return $this->setApiResult(true);
