@@ -22,12 +22,12 @@ class Unite extends \Library\Controller\Controller {
     /**
      *  Méthode getcategories
      *
-     *  retourne les categories
+     *  retourne les unités
      *       
      *  @return     array
      *
      */
-    public function getunites() {
+    public function getunites(){
 
 
 
@@ -45,6 +45,65 @@ class Unite extends \Library\Controller\Controller {
     }
 
 
+   /**
+     * [insertunites description]
+     * @param  [type] $params [description]
+     * @return [int]         [l'id de l'unite ajouté]
+     */
+    public function insertunites($params) {
+        
+        unset($params['method']);
+
+        $modelUnite  = new \Application\Models\Unite('localhost');
+        
+        $res=$modelUnite->insert($params);
+            
+        if(  $res  ) {
+            return $this->setApiResult($modelUnite->getLast());
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant l'insertion des unites");
+        }
+
+
+    }
+
+
+
+    public function updateunite($params) {
+        
+        unset($params['method']);
+
+        $modelUnite  = new \Application\Models\Unite('localhost');
+        
+
+        $id=$params['id_unite'];
+
+        $res=$modelUnite->update(" `id_unite`={$id} ", $params);
+            
+        if(  $res  ) {
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant l'insertion des unites");
+        }
+
+
+    }
+
+
+    public function deleteunite($params) {
+        
+        unset($params['method']);
+
+        $modelUnite  = new \Application\Models\Unite('localhost');
+        
+        $res=$modelUnite->delete(" `id_unite`={$params['id_unite']} ");
+            
+        if(  $res  ) {
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la suppression de l'unite");
+        }
+    }
 
 
 }

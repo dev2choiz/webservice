@@ -69,8 +69,8 @@ class Produit extends \Library\Controller\Controller {
         
         $res=$modelProduit->insert($params);
             
-        if( !empty( $res ) ) {
-            return $this->setApiResult( $res);
+        if( $res  ) {
+            return $this->setApiResult( $modelProduit->getLast() );
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
         }
@@ -85,11 +85,12 @@ class Produit extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function updateProduit($params) {         //ajouter une recette
+    public function updateProduit($params) {
 
 
         unset($params['method']);
 
+        $params['prix']=$params['prix']+0;
         //var_dump();
         $modelProduit  = new \Application\Models\Produit('localhost');
 
@@ -124,4 +125,74 @@ class Produit extends \Library\Controller\Controller {
             return $this->setApiResult(false, true, "erreur pendant la suppression des produit");
         }
     }
+
+
+
+
+    public function recupererScriptNewProduit($params){
+
+        unset($params['method']);
+
+        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelPopUpProduit  = new \Application\Models\PopUpProduit('localhost');
+
+        $produit=$modelProduit->convEnTab($modelProduit->fetchAll(" `id_produit`={$params['id_produit']} ") );
+        $produit=$produit[0];
+
+
+        if(!empty($produit) ) {
+            $script=$modelPopUpProduit->getPopup(   $produit['id_produit'],
+                                        $produit['prix'],
+                                        $produit['ref'],
+                                        $produit['value']);
+
+
+
+            $html=" <div class='row' id='WrapperProduit".$produit['id_produit']."'>
+        <div class='col-md-8'>
+        
+            <a hr='".LINK_ROOT."vente/produit/".$produit['id_produit']."'>Produit : <span id='labelValueProduit'>".$produit['value']."</span></a>
+
+        </div>
+        <div class='col-md-4'>
+            Prix : <span id='labelPrixProduit'>".$produit['prix']."</span> €
+            Référence : <span id='labelRefProduit'>".$produit['ref']."</span>
+        </div>
+        
+
+        <div >
+            <button class='btn btn-primary btn-xs col-md-offset-3 popupProduit' id='popupProduit".$produit['id_produit']."' >Modifier ce Produit</button>
+            <div class='row'>
+                $script
+            </div>
+            <button class='btn btn-success col-md-3 col-md-offset-3'  >Acheter ce Produit</button>
+        </div>
+        
+    </div>";
+
+
+
+
+
+
+
+
+
+
+            return $this->setApiResult($html);
+        }else{
+            return $this->setApiResult(false, true, "produit n'existe pas");
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

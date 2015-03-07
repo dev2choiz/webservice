@@ -77,7 +77,7 @@ class Categorie extends \Library\Controller\Controller {
 
         $modelCategorie  = new \Application\Models\Categorie('localhost');
         
-        $res=$modelCategorie->update("`id_cat`='{$params['id_cat']}'", $params);
+        $res=$modelCategorie->update(" `id_cat`='{$params['id_cat']}'", $params);
             
         if(  $res  ) {
             return $this->setApiResult(true);
