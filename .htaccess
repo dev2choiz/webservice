@@ -1,9 +1,0 @@
-##  
-## http://localhost/Webservice/controller/action[/param1/param2/param3/.....]
-## http://localhost/Webservice/Public/css/style.css
-
-RewriteEngine On
-RewriteBase /Webservice/Public
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php?method=$1 [L]
