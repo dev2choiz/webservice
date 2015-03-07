@@ -69,8 +69,8 @@ class Produit extends \Library\Controller\Controller {
         
         $res=$modelProduit->insert($params);
             
-        if( !empty( $res ) ) {
-            return $this->setApiResult( $res);
+        if( $res  ) {
+            return $this->setApiResult( $modelProduit->getLast() );
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
         }
@@ -85,11 +85,12 @@ class Produit extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function updateProduit($params) {         //ajouter une recette
+    public function updateProduit($params) {
 
 
         unset($params['method']);
 
+        $params['prix']=$params['prix']+0;
         //var_dump();
         $modelProduit  = new \Application\Models\Produit('localhost');
 
