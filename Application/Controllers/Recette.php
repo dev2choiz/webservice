@@ -53,7 +53,7 @@ class Recette extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        //var_dump();
+        var_dump("Webservice insert",$params);
         $modelRecette  = new \Application\Models\Recette('localhost');
 
         if($modelRecette->insert($params) ) {

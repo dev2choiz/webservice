@@ -55,8 +55,9 @@ class Commentaire extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelCommentaire  = new \Application\Models\Commentaire('localhost');
-
-        if($modelCommentaire->insert($params) ) {
+        $res=$modelCommentaire->insert($params);
+        //var_dump($res);
+        if($res ) {
             return $this->setApiResult($modelCommentaire->getLast());   //retourne l'id du comm
         }else{
             return $this->setApiResult(0, true, "erreur pendant l'ajout");
