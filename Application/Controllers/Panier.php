@@ -56,20 +56,14 @@ class Panier extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelPanier  = new \Application\Models\Panier('localhost');
-        
-        $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}' AND  `id_produit`='{$params['id_produit']}'  ");
 
-        if(empty($res) ){
-            $res=$modelPanier->insert($params);
-                
-            if(  $res  ) {
-                return $this->setApiResult($modelPanier->getLast());
-            }else{
-                return $this->setApiResult(false, true, "erreur pendant l'insertion dans le panier");
-            }    
-        }else {
-            return $this->setApiResult(false, true, "le produit est deja dans le panier");
-        }
+        $res=$modelPanier->insert($params);
+            
+        if(  $res  ) {
+            return $this->setApiResult($modelPanier->getLast());
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant l'insertion dans le panier");
+        }    
     }
 
 
