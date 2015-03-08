@@ -38,7 +38,7 @@ class Panier extends \Library\Controller\Controller {
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des paniers");
+            return $this->setApiResult(null);
         }
 
 
@@ -57,15 +57,19 @@ class Panier extends \Library\Controller\Controller {
 
         $modelPanier  = new \Application\Models\Panier('localhost');
         
-        $res=$modelPanier->insert($params);
-            
-        if(  $res  ) {
-            return $this->setApiResult($modelPanier->getLast());
-        }else{
-            return $this->setApiResult(false, true, "erreur pendant l'insertion de la catégorie");
+        $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}' AND  `id_produit`='{$params['id_produit']}'  ");
+
+        if(empty($res) ){
+            $res=$modelPanier->insert($params);
+                
+            if(  $res  ) {
+                return $this->setApiResult($modelPanier->getLast());
+            }else{
+                return $this->setApiResult(false, true, "erreur pendant l'insertion dans le panier");
+            }    
+        }else {
+            return $this->setApiResult(false, true, "le produit est deja dans le panier");
         }
-
-
     }
 
 
@@ -96,16 +100,89 @@ class Panier extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelPanier  = new \Application\Models\Panier('localhost');
-        
-        $res=$modelPanier->delete("`id_panier`='{$params['id_panier']}'");
-            
+        $res=$modelPanier->delete(" `id_produit`='{$params['id_produit']}' AND `id_user`='{$params['id_user']}' ");
+        var_dump($res);
         if(  $res  ) {
             return $this->setApiResult(true);
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la suppression de la panier");
+            return $this->setApiResult(false, true, "erreur pendant la suppression dans le panier");
         }
 
 
     }
+
+
+
+
+    public function viderPanier($params) {
+        
+        unset($params['method']);
+
+        $modelPanier  = new \Application\Models\Panier('localhost');
+        
+        $res=$modelPanier->delete("`id_user`='{$params['id_user']}'");
+            
+        if(  $res  ) {
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la suppression du panier");
+        }
+
+
+    }
+
+
+
+
+
+    public function getHtmlIconPanier($params) {
+
+
+        unset($params['method']);
+
+        $modelPanier  = new \Application\Models\Panier('localhost');
+        $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}'");
+        
+        if( !empty( $res ) ) {
+            $nbrProd=count($res);
+            $html="
+                $nbrProd
+            ";
+
+            return $this->setApiResult( $html);
+        }else{
+            return $this->setApiResult("0", true, "aucun produit dans le panier");
+        }
+
+
+    }
+
+
+/**
+     * [insertpanier description]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function existeDansPanier($params) {
+        
+        unset($params['method']);
+
+        $modelPanier  = new \Application\Models\Panier('localhost');
+        
+        $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}' AND  `id_produit`='{$params['id_produit']}'  ");
+
+        if(empty($res) ){
+                
+            return $this->setApiResult(false);
+
+        }else {
+            return $this->setApiResult(true);
+        }
+    }
+
+
+
+
+
 
 }

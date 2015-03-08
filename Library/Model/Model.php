@@ -297,8 +297,8 @@ abstract class Model {
      */
     public function delete($where) {
         $sql = $this->database->prepare("DELETE FROM `{$this->table}` WHERE $where");
-        $sql->execute();
-        return $this->returnAffectedRowBoolean($sql, true); 
+        return $sql->execute();
+        //return $this->returnAffectedRowBoolean($sql, true); 
     }
 
     /**
