@@ -27,9 +27,11 @@ class User extends \Library\Controller\Controller {
      *
      */
     public function authentification($params) {      //Recu en POST
+        if (isset($params['params']))
+            $params = get_object_vars( json_decode($params['params']) );
+
         unset($params['method']);
         //get_object_vars = transforme un objet en tableau
-        $params=get_object_vars( json_decode($params['params']) );
         
         
 
@@ -42,7 +44,7 @@ class User extends \Library\Controller\Controller {
 
         // on vérifie l'existence de valeurs non nulles pour les paramètres obligatoires
         if(is_null($mail)) { 
-            return $this->setApiResult(false, true, "Param mail is required on method get"); 
+            return $this->setApiResult(false, true, "Param mail is required ".var_export($params, true)); 
         }
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) { 
             return $this->setApiResult(false, true, "Invalid mail address : expecting XXX@YYY.ZZZ pattern for mail in method get."); 
