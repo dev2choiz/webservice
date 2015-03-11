@@ -28,8 +28,8 @@ class User extends \Library\Controller\Controller {
      */
     public function authentification($params) {      //Recu en POST
         unset($params['method']);
-        //get_object_vars = transforme un objet en tableau
-        $params=get_object_vars( json_decode($params['params']) );
+        
+        //$params=get_object_vars( json_decode($params['params']) );
         
         
 
