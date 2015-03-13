@@ -27,8 +27,6 @@ class User extends \Library\Controller\Controller {
      *
      */
     public function authentification($params) {      //Recu en POST
-        if (isset($params['params']))
-            $params = get_object_vars( json_decode($params['params']) );
 
         unset($params['method']);
         //get_object_vars = transforme un objet en tableau
