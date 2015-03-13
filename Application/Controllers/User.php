@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace Application\Controllers;
 
 /**
@@ -27,13 +27,10 @@ class User extends \Library\Controller\Controller {
      *
      */
     public function authentification($params) {      //Recu en POST
-        if (isset($params['params']))
-            $params = get_object_vars( json_decode($params['params']) );
 
         unset($params['method']);
-        //get_object_vars = transforme un objet en tableau
-        
-        
+
+        //$params = get_object_vars( json_decode($params['params']) );
 
         $modelUser  = new \Application\Models\User('localhost');
         // l'utilisateur se logue avec son adresse mail et son mot de passe
@@ -244,4 +241,5 @@ class User extends \Library\Controller\Controller {
         }
         return $this->setApiResult($deleted);
     }
+    
 }
