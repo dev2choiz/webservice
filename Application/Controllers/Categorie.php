@@ -108,4 +108,25 @@ class Categorie extends \Library\Controller\Controller {
 
     }
 
+
+    public function getimagecategorie($params) {
+        
+        unset($params['method']);
+
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        
+        $res=$modelCategorie->convEnTab($modelCategorie->fetchAll("`id_cat`='{$params['id_cat']}'"));
+            var_dump("getimagecategorie",$res);
+            
+        if(  !empty($res)  ) {
+            return $this->setApiResult($res[0]['img']);
+        }else{
+            return $this->setApiResult(false, true, "categorie non trouvée");
+        }
+
+
+    }
+
+
+
 }
