@@ -77,13 +77,13 @@ class User extends \Library\Controller\Controller {
      */
     public function insertuser($params) {         //
 
-
+        unset($params['method']);
         $modelUser  = new \Application\Models\User('localhost');
 
-        $params=$modelUser->convEnTab(json_decode($params['params']));
+        //$params=$modelUser->convEnTab(json_decode($params['params']));
 
         var_dump($params);
-            
+        
         // l'utilisateur s'enregistre dans la base de données avec ses informations
         $mail       = (empty($params["mail"]))? null : $params["mail"];
         $password   = (empty($params["password"]))? null : $params["password"];
@@ -131,17 +131,11 @@ class User extends \Library\Controller\Controller {
     public function updateUser($params){
         unset($params['method']);
 
-
-        $idUser     = $params['id_user'];
+        $idUser=$params['verifid_user'];                unset($params['verifid_user']);
+        $currentPassword=$params['verifpassword'];      unset($params['verifpassword']);
+        $currentMail=$params['verifmail'];              unset($params['verifmail']);
         $modelUser  = new \Application\Models\User('localhost');
-        $params     = $modelUser->convEnTab( json_decode($params['params'])  );
-
-        echo "lasd";
-        $idUser=$params['id_user'];
-        $currentPassword=$params['password'];
-        $currentMail=$params['mail'];
-        $modelUser  = new \Application\Models\User('localhost');
-        $params=$modelUser->convEnTab( json_decode( $params['params']) );
+        //$params=$modelUser->convEnTab( json_decode( $params['params']) );
         
         
         $currentPasswordmd5=md5($currentPassword.SALT_PASSWORD);
@@ -192,10 +186,18 @@ class User extends \Library\Controller\Controller {
         if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
         echo "mail n'existe pas dans la base, (sauf si c'est le mail de l'user qu'on traite==>pas de modif du mail)";
 
+        
+        
+        $params['mail']=$mail;
+        $params['password']=$passwordmd5;
+        $params['nom']=$nom;
+        $params['prenom']=$prenom;
+        
         $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
         
-        $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$currentPasswordmd5'", $result);
-        var_dump($alors, "`id_user`=$idUser AND `password`='$passwordmd5'", $result);
+        
+        $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$currentPasswordmd5'", $params);
+        
         if(!$alors){
             return $this->setApiResult(false, true, "erreur lors de la mise a jour des donnees");
         }
