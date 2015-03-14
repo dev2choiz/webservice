@@ -243,3 +243,4 @@ class User extends \Library\Controller\Controller {
     }
     
 }
+
