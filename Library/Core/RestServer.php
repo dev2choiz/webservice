@@ -95,10 +95,12 @@ class RestServer {
 			case 'DELETE' 	: parse_str(file_get_contents("php://input"), $D); break;
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
-
-
-
-
+		/*
+		if (strpos($_SERVER['CONTENT_TYPE'], 'application/json') === 0)
+			$D = json_decode($this->convEnTab(file_get_contents("php://input")));
+		$this->showError(var_export($D, true));
+		return;
+		*/
 		if(isset($D["service"])){
 			
 			$this->service = "\Application\Controllers\\".ucfirst(strtolower($D["service"]));
