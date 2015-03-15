@@ -143,7 +143,13 @@ class Categorie extends \Library\Controller\Controller {
         //var_dump("sfiles",$_FILES);
         if ( isset($_FILES['img']) && $_FILES['img']['error'] === 0 ) {
 
-            $filename = $_FILES['img']['name'];
+
+            
+            $filename=$this->convEnTab( $modelCategorie->fetchAll( " `id_cat`='{$params['id_cat']}' " ) );
+            $filename=$this->retirerCaractereSpeciaux($filename[0]['value']).'.jpg';
+
+
+            //$filename = $_FILES['img']['name'];
             $targetpath = IMG_ROOT ."categorie/". $filename; // On stocke le chemin où enregistrer le fichier
             echo $filename;
             // On déplace le fichier depuis le répertoire temporaire vers $targetpath

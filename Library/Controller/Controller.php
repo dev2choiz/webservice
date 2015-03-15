@@ -61,4 +61,16 @@ abstract class Controller {
     }
 
 
+    public function convEnTab($tab){
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        return $modelCategorie->convEnTab($tab);
+    }
+
+    public function retirerCaractereSpeciaux($chaine){
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        return $modelCategorie->retirerCaractereSpeciaux($chaine);
+    }
+
+
+
 }
