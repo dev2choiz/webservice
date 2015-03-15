@@ -101,7 +101,7 @@ class ViewRecette extends \Library\Controller\Controller {
         
 
         if( empty($viewLP) ){
-            return $this->setApiResult($viewRecetteI);
+            return $this->setApiResult($viewRecetteIP);
         }else{
             //colle les produits à la recette
             $viewRecetteIP['produits'] = $viewLP;
