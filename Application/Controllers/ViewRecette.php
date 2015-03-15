@@ -95,13 +95,13 @@ class ViewRecette extends \Library\Controller\Controller {
         }
 
         //recupere les produits
-        $modelVLP     = new \Application\Models\ViewListIngredients('localhost');
+        $modelVLP     = new \Application\Models\ViewListProduits('localhost');
         $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIP['id_recette']}"));
         //$viewLI = $viewLI;
         
 
         if( empty($viewLP) ){
-            return $this->setApiResult($viewRecetteI);
+            return $this->setApiResult($viewRecetteIP);
         }else{
             //colle les produits à la recette
             $viewRecetteIP['produits'] = $viewLP;
