@@ -75,5 +75,8 @@ class Settings {
         define('LIB_ROOT', str_replace('Public/index.php', 'Library/', $_SERVER["SCRIPT_FILENAME"]));
         
         define('SALT_PASSWORD', 'X_ ##8[+VN7hWcmeOhHzbhaP$_I|C{-7=8Oy$W^VH(?}bRGndcM{%2r]}d?NH]6N');
+
+        define('IMG_ROOT', $_SERVER["DOCUMENT_ROOT"].'img/');
+        
     }
 }

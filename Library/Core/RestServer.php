@@ -52,6 +52,7 @@ class RestServer {
 	 */
 	private $json;
 
+	private $sendMode;
 
 	/**
 	 * 	Méthode __construct()
@@ -78,9 +79,11 @@ class RestServer {
 		$this->json->serverErrorMessage = "";
 		$this->json->page = "";		//supprimer header dans ce string
 		$this->json->error=false;
+		$this->sendMode='json';
 
 		$this->httpMethod = strtoupper($_SERVER["REQUEST_METHOD"]);		//non merci
 		
+
 
 		//$this->clientUserAgent = $_SERVER['HTTP_USER_AGENT'];
 		//$this->clientHttpAccept = $_SERVER["HTTP_ACCEPT"];
@@ -162,6 +165,7 @@ class RestServer {
 		$this->json->response 			= $result->response;
 		$this->json->apiError 			= $result->apiError;
 		$this->json->apiErrorMessage 	= $result->apiErrorMessage;
+		$this->sendMode					= $result->sendMode;
 		//exit;
 	}
 
@@ -186,11 +190,17 @@ class RestServer {
 		$header_size =0;		// curl_getinfo(curl_init(), CURLINFO_HEADER_SIZE);
 		$body = substr(ob_get_contents(), $header_size);
 
-		$this->json->page="<!--div style='backgroung-color:#FF0'--><hr>@@@>>".$body."<<<@@@<hr><!--/div-->";
+		//$this->json->page="<!--div style='backgroung-color:#FF0'--><hr>@@@>>".$body."<<<@@@<hr><!--/div-->";
+		$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
 		ob_clean();
 
 
-		echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
+		if($this->sendMode==='json'){
+			echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
+		}elseif ($this->sendMode==='brut') {
+			header("Content-type: text/html");
+			echo $body;
+		}
 	}
 
 

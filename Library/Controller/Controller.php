@@ -32,6 +32,7 @@ abstract class Controller {
         $this->apiResult->apiError           = false;
         $this->apiResult->apiErrorMessage    = "";
         $this->apiResult->page               = "";
+        $this->apiResult->sendMode           = 'json';
     }
 
     /**
@@ -53,6 +54,11 @@ abstract class Controller {
         return $this->apiResult;
     }
 
+
+    protected function setMode($bool) {
+        $this->apiResult->sendMode=$bool;
+        
+    }
 
 
 }
