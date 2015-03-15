@@ -149,40 +149,102 @@ class Produit extends \Library\Controller\Controller {
 
 
             $html=" <div class='row' id='WrapperProduit".$produit['id_produit']."'>
-        <div class='col-md-8'>
-        
-            <a hr='".LINK_ROOT."vente/produit/".$produit['id_produit']."'>Produit : <span id='labelValueProduit'>".$produit['value']."</span></a>
+                        <div class='col-md-8'>
+                        
+                            <a hr='".LINK_ROOT."vente/produit/".$produit['id_produit']."'>Produit : <span id='labelValueProduit'>".$produit['value']."</span></a>
 
-        </div>
-        <div class='col-md-4'>
-            Prix : <span id='labelPrixProduit'>".$produit['prix']."</span> €
-            Référence : <span id='labelRefProduit'>".$produit['ref']."</span>
-        </div>
-        
+                        </div>
+                        <div class='col-md-4'>
+                            Prix : <span id='labelPrixProduit'>".$produit['prix']."</span> €
+                            Référence : <span id='labelRefProduit'>".$produit['ref']."</span>
+                        </div>
+                        
 
-        <div >
-            <button class='btn btn-primary btn-xs col-md-offset-3 popupProduit' id='popupProduit".$produit['id_produit']."' >Modifier ce Produit</button>
-            <div class='row'>
-                $script
-            </div>
-            <button class='btn btn-success col-md-3 col-md-offset-3'  >Acheter ce Produit</button>
-        </div>
-        
-    </div>";
-
-
-
-
-
-
-
-
-
+                        <div >
+                            <button class='btn btn-primary btn-xs col-md-offset-3 popupProduit' id='popupProduit".$produit['id_produit']."' >Modifier ce Produit</button>
+                            <div class='row'>
+                                $script
+                            </div>
+                            <button class='btn btn-success col-md-3 col-md-offset-3'  >Acheter ce Produit</button>
+                        </div>
+                        
+                    </div>";
 
             return $this->setApiResult($html);
         }else{
-            return $this->setApiResult(false, true, "produit n'existe pas");
+            return $this->setApiResult(false, true, "Le produit n'existe pas");
         }
+    }
+
+    public function getImageProduit($params) {
+        
+        unset($params['method']);
+
+        $modelProduit  = new \Application\Models\Produit('localhost');
+        
+        $res=$modelProduit->convEnTab($modelProduit->fetchAll("`id_produit`='{$params['id_produit']}'"));
+            var_dump("getimageproduit",$res);
+            
+        if(  !empty($res)  ) {
+            return $this->setApiResult($res[0]['img']);
+        }else{
+            return $this->setApiResult(false, true, "produit non trouvée");
+        }
+
+
+    }
+
+
+
+    public function envoiImageProduit($params) {
+        
+        $this->setMode("brut");
+
+        unset($params['method']);
+
+        $modelProduit  = new \Application\Models\Produit('localhost');
+        
+        $targetpath='';
+        $error    = NULL;
+        $filename = NULL;
+        //var_dump("sfiles",$_FILES);
+        if ( isset($_FILES['img']) && $_FILES['img']['error'] === 0 ) {
+
+            $filename = $_FILES['img']['name'];
+            $targetpath = IMG_ROOT ."produit/". $filename; // On stocke le chemin où enregistrer le fichier
+            echo $filename;
+            // On déplace le fichier depuis le répertoire temporaire vers $targetpath
+            if (@move_uploaded_file($_FILES['img']['tmp_name'], $targetpath)) { // Si ça fonctionne
+                $error = 'non';
+            } else { // Si ça ne fonctionne pas
+                $error = "Échec de l'enregistrement !";
+            }
+        } else {
+            $error = 'Aucun fichier réceptionné !';
+        }
+
+        // Et pour finir, on écrit l'appel vers la fonction uploadEnd : 
+        ?>
+        <script type="text/javascript">
+            window.top.window.finUpload("<?php echo $error; ?>", "<?php echo $filename; ?>");
+        </script>
+        <?php
+
+
+
+        
+        $idProd = $params['id_produit'];
+        unset($params['id_produit']);
+        $params['img']="/img/produit/".$filename;
+        //echo '{{'.$params['img'];
+        $res = $modelProduit->update(" `id_produit`=$idProd ", $params);
+
+        if(  $res  ) {
+            return $this->setApiResult(true);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant l'ajout de l'image au produit");
+        }
+
     }
 
 
