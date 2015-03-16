@@ -136,8 +136,8 @@ class Recette extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelRecette  = new \Application\Models\Recette('localhost');
-        
-        $res=$modelRecette->convEnTab($modelRecette->fetchAll("`id_recettre`='{$params['id_recette']}'"));
+        echo "`id_recettre`='{$params['id_recette']}'";
+        $res=$modelRecette->convEnTab($modelRecette->fetchAll("`id_recette`={$params['id_recette']}"));
             var_dump("getimagerecette",$res);
             
         if(  !empty($res)  ) {
