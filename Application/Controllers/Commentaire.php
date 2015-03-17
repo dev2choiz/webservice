@@ -27,7 +27,7 @@ class Commentaire extends \Library\Controller\Controller {
      *  @return     array
      * 
      */
-    public function getcommentaires($params) {      //  obtenir tout les commentaires
+    public function getCommentaires($params) {      //  obtenir tout les commentaires
         
         
         $modelCommentaire   = new \Application\Models\Commentaire('localhost');
@@ -49,7 +49,7 @@ class Commentaire extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function insertcommentaire($params) {         //ajouter un commentaire
+    public function insertCommentaire($params) {         //ajouter un commentaire
 
 
         unset($params['method']);
@@ -75,7 +75,7 @@ class Commentaire extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function updatecommentaire($params) {         //ajouter un commentaire
+    public function updateCommentaire($params) {         //ajouter un commentaire
 
 
         unset($params['method']);
@@ -103,7 +103,7 @@ class Commentaire extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function deletecommentaire($params) {         //delete une commentaire
+    public function deleteCommentaire($params) {         //delete une commentaire
 
 
         unset($params['method']);

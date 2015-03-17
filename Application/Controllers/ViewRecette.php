@@ -61,6 +61,15 @@ class ViewRecette extends \Library\Controller\Controller {
                 $viewAllRecettes[$key]['produits']=$viewLP;
             }
 
+            //recupere les produits
+            $modelVC     = new \Application\Models\ViewCommentaire('localhost');
+
+            foreach ($viewAllRecettes as $key => $viewRecette) {
+
+                $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecette['id_recette']}")) ;
+                $viewAllRecettes[$key]['commentaires'] = $viewC;
+            }
+
         }
 
         return $this->setApiResult($viewAllRecettes);
@@ -75,43 +84,51 @@ class ViewRecette extends \Library\Controller\Controller {
 
         //recupere la recette
         $modelViewRecette = new \Application\Models\ViewRecette('localhost');
-        //$param            = (int) $param;
         $viewRecette      = $modelViewRecette->convEnTab($modelViewRecette->findByPrimary($param));
-        $viewRecetteIP    = $viewRecette[0];
+        $viewRecetteIPC    = $viewRecette[0];
         if( empty($viewRecette[0]) ){
             return $this->setApiResult(false, true, "Aucune recette pour cet id !");
         }
 
         //recupere les ingredients
         $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
-        $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIP['id_recette']}"));
-        var_dump($viewLI);
+        $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
 
         if( empty($viewLI) ){
-            return $this->setApiResult($viewRecetteIP);
+            return $this->setApiResult($viewRecetteIPC);
         }else{
             //colle les ingredients à la recette
-            $viewRecetteIP['ingredients'] = $viewLI;
+            $viewRecetteIPC['ingredients'] = $viewLI;
         }
 
         //recupere les produits
         $modelVLP     = new \Application\Models\ViewListProduits('localhost');
-        $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIP['id_recette']}"));
-        //$viewLI = $viewLI;
-        
+        $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
 
         if( empty($viewLP) ){
-            return $this->setApiResult($viewRecetteIP);
+            return $this->setApiResult($viewRecetteIPC);
         }else{
             //colle les produits à la recette
-            $viewRecetteIP['produits'] = $viewLP;
+            $viewRecetteIPC['produits'] = $viewLP;
+        }
+
+        //recupere les commentairess
+        $modelVC    = new \Application\Models\ViewCommentaire('localhost');
+        $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
+        
+
+        if( empty($viewC) ){
+            return $this->setApiResult($viewRecetteIPC);
+        }else{
+            //colle les produits à la recette
+            $viewRecetteIPC['commentaires'] = $viewC;
         }
 
 
 
         //return $this->setApiResult($viewRecetteI);
 
-        return $this->setApiResult($viewRecetteIP);
+        return $this->setApiResult($viewRecetteIPC);
     }
 }
 
