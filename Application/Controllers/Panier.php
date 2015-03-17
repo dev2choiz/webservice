@@ -94,9 +94,9 @@ class Panier extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelPanier  = new \Application\Models\Panier('localhost');
-        echo " `id_produit`='{$params['id_produit']}' AND `id_user`='{$params['id_user']}' ";
-        $res=$modelPanier->delete(" `id_produit`='{$params['id_produit']}' AND `id_user`='{$params['id_user']}' ");
-        var_dump($res);
+        //echo " `id_produit`='{$params['id_produit']}' AND `id_user`='{$params['id_user']}' ";
+        $res = $modelPanier->delete(" `id_panier`='{$params['id_panier']}' AND `id_user`='{$params['id_user']}' ");
+        //var_dump($res);
         if(  $res  ) {
             return $this->setApiResult(true);
         }else{
