@@ -131,5 +131,25 @@ class Recette extends \Library\Controller\Controller {
 
 
 
+    public function getimagerecette($params) {
+
+        unset($params['method']);
+
+        $modelRecette  = new \Application\Models\Recette('localhost');
+        echo "`id_recettre`='{$params['id_recette']}'";
+        $res=$modelRecette->convEnTab($modelRecette->fetchAll("`id_recette`={$params['id_recette']}"));
+            var_dump("getimagerecette",$res);
+            
+        if(  !empty($res)  ) {
+            return $this->setApiResult($res[0]['img']);
+        }else{
+            return $this->setApiResult(false, true, "recette non trouvée");
+        }
+
+
+    }
+
+
+
 
 }
