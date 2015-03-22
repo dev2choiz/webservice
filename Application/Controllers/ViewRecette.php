@@ -74,7 +74,7 @@ class ViewRecette extends \Library\Controller\Controller {
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
                 $viewLP       = $modelVLP->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecette['id_recette']}")) ;
-                $viewAllRecettes[$key]['produits']=$viewLP;
+                $viewAllRecettes[$key]['produits'] = $viewLP;
             }
 
             //recupere les produits
@@ -111,7 +111,8 @@ class ViewRecette extends \Library\Controller\Controller {
         $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
 
         if( empty($viewLI) ){
-            return $this->setApiResult($viewRecetteIPC);
+            $viewRecetteIPC['ingredients'] = '';
+            //return $this->setApiResult($viewRecetteIPC);
         }else{
             //colle les ingredients à la recette
             $viewRecetteIPC['ingredients'] = $viewLI;
@@ -122,7 +123,8 @@ class ViewRecette extends \Library\Controller\Controller {
         $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
 
         if( empty($viewLP) ){
-            return $this->setApiResult($viewRecetteIPC);
+            $viewRecetteIPC['produits'] = '';
+            //return $this->setApiResult($viewRecetteIPC);
         }else{
             //colle les produits à la recette
             $viewRecetteIPC['produits'] = $viewLP;
@@ -134,7 +136,8 @@ class ViewRecette extends \Library\Controller\Controller {
         
 
         if( empty($viewC) ){
-            return $this->setApiResult($viewRecetteIPC);
+            $viewRecetteIPC['commentaires'] = '';
+            //return $this->setApiResult($viewRecetteIPC);
         }else{
             //colle les produits à la recette
             $viewRecetteIPC['commentaires'] = $viewC;
