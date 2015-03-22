@@ -31,12 +31,28 @@ class ViewRecette extends \Library\Controller\Controller {
 
 
 
-    /* Naïla */
-    public function getAllViewRecettes() {      //  obtenir toutes les recettes
+    /**
+     * [getAllViewRecettes description]
+     * @param  [array] $param [si param contient un index id_cat,
+     *                        la method ne renvera que les recettes de cette categorie]
+     * @return [json]        [json de recettes]
+     */
+    public function getAllViewRecettes($param) {    //  obtenir toutes les recettes
         
+        //si on cherche a recevoir qu'un les recettes d'une categorie...
+       $where=" 1 ";
+        if(isset($param['id_cat']) && !empty($param['id_cat']) ){
+            $where=" `id_cat`={$param['id_cat']} ";
+            echo "tri selon la categorie";
+        }
+        unset($param['method'], $param['id_cat']);
+
+
+
         var_dump("getAllViewRecettes");
         $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
-        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll() );
+        $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll($where) );
+
         if( empty($viewAllRecettes[0]) ){
              $this->message->addError("Aucune Recette");
         }else{
