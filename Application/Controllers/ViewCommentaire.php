@@ -30,7 +30,7 @@ class ViewCommentaire extends \Library\Controller\Controller {
     public function getViewCommentaire($params) {
 
         unset($params['method']);
-        $param            = (empty($params["id_com"]))? null : ($params["id_cat"]+0);
+        $param            = (empty($params["id_com"]))? null : ($params["id_com"]+0);
         
 
         $modelCommentaire  = new \Application\Models\ViewCommentaire('localhost');
