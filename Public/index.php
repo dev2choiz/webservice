@@ -34,6 +34,3 @@ $server = new \Library\Core\RestServer();
 $server->handle();
 
 
-
-
-
