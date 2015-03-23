@@ -40,6 +40,34 @@ class Commentaire extends \Library\Controller\Controller {
         return $this->setApiResult($commentaires);
     }
 
+
+    /**
+     * [getCommentaire obtenir un commentaire]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function getCommentaire($params) {
+        
+        
+        $modelCommentaire   = new \Application\Models\Commentaire('localhost');
+        $commentaire       = $modelCommentaire->convEnTab( $modelCommentaire->fetchAll(" `id_com`='{$params['id_com']}' " ) );
+
+        if( empty($commentaire) ){
+            return $this->setApiResult(false, true, "Erreur ou aucun commentaire pour cette recette");
+        }
+
+        return $this->setApiResult($commentaire);
+    }
+
+
+
+
+
+
+
+
+
+
     /**
      *  Méthode post($params)
      *
