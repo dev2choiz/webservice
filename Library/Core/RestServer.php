@@ -92,10 +92,10 @@ class RestServer {
 		$D = array();
 
 		switch ($this->httpMethod) {
-			case 'GET'		: $D = $_GET; break;
+			case 'GET'		: $D = $_GET; break;	//pas utilisé
 			case 'POST'		: $D = $_POST; break;
-			case 'PUT'		: parse_str(file_get_contents("php://input"), $D); break;
-			case 'DELETE' 	: parse_str(file_get_contents("php://input"), $D); break;
+			case 'PUT'		: parse_str(file_get_contents("php://input"), $D); break;	//pas necessaire
+			case 'DELETE' 	: parse_str(file_get_contents("php://input"), $D); break;	//non plus
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
 

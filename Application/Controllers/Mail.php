@@ -1,9 +1,12 @@
 <?php
 
+
 namespace Application\Controllers;
 
+require_once(APP_ROOT."/Models/PhpMailer/_lib/class.smtp.php");
+require_once(APP_ROOT."/Models/PhpMailer/_lib/class.phpmailer.php");
+
 /**
- *
  * Mail
  */
 class Mail extends \Library\Controller\Controller {
@@ -16,34 +19,89 @@ class Mail extends \Library\Controller\Controller {
      */
     public function __construct() {
         parent::__construct();
+
+        //echo ini_set("SMTP","smtp.free.fr" )."<br>";    //a la baraque
+        //echo ini_set("SMTP","smtp.gmail.com" )."<br>";    //au taff
+        //echo ini_set("SMTP","gmail-smtp-in.l.google.com" )."<br>";    //au taff
+        /*echo ini_set("SMTP", "smtp.mail.yahoo.fr" )."<br>";    //marche toupar
+        echo ini_set('smtp_port',587)."<br>";
+        echo ini_set('auth_username','fourneaux@yahoo.fr')."<br>";
+        echo ini_set('auth_password','acnologia')."<br>";
+        echo ini_set("sendmail_from","fourneaux@yahoo.fr" )."<br>";*/
+
     }
 
+    public function testMail($params){
+        $mailExped="fourneaux@yahoo.fr";
+        $mailDest="dev2choiz@gmail.com";
+        $body="94 tu peux pas test!!!";
+        $subject="DD";
+        return $this->envoyerMail($mailExped, $mailDest, $body, $subject, "default");
+    }
 
-    public function envoyerMail($params){
-        
+    /**
+     * [envoyerMail qui envoit des mails : ne doit pas etre appellé par le client]
+     * @param  [type] $mailExped [description]
+     * @param  [type] $mailDest  [description]
+     * @param  [type] $body      [description]
+     * @param  [type] $subject   [description]
+     * @param  [type] $template  [description]
+     * @return [type]            [description]
+     */
+    public function envoyerMail($mailExped, $mailDest, $body, $subject, $template){
         $this->setMode('brut');
         
-        
-        echo ini_set("SMTP","smtp.free.fr" )."<br>";
-        echo ini_set('smtp_port',25)."<br>";
 
-        echo ini_set("sendmail_from","dev2choiz@gmail.com" )."<br>";
-        
-        $to      = 'dev2choiz@gmail.com';
-        $subject = 'le sujet';
-        $message = 'wesh BacchusSam !';
-        $headers = 'From: sddam@example.com' . "\r\n" .
-        'Reply-To: webmaster@example.com' . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-        
+        $mail = new \PhpMailer\phpmailer();
+        $mail->IsSMTP();
+        $mail->IsHTML(true);
+        //$mail->SMTPDebug = 2; 
 
-        if(mail($to, $subject, $message, $headers)){
-            echo "dans if";
-            return $this->setApiResult( true);
+        $mail->SMTPAuth = true;
+
+        $mail->Host = "ssl://188.125.69.59:465"; // SMTP server
+        //$mail->Host = "smtp.mail.yahoo.fr"; // SMTP server
+        
+        $mail->Username = "fourneaux@yahoo.fr";
+        $mail->Password = "acnologia"; 
+
+        $mail->From=$mailExped;
+        $mail->Subject = $subject;
+
+        
+        $tpl=APP_ROOT."/Models/ViewMail/".$template.".phtml";
+        echo $tpl;
+
+        if(file_exists($tpl)){
+            echo "ici  sjkqhj";
+            ob_start(); //lance au cas ou ca ne le serait pas
+            $save=ob_get_clean();
+            ob_start();
+            $content_mail = $body;
+            include($tpl);
+             $tmp=ob_get_contents();
+            $mail->Body = ob_get_clean();  //contient le contenu du mail a l'interieur du template
+
+            echo $save."#".$mail->Body.$tmp;;     //remet le contenu du buffer qui n'a pas eté arreté
         }else{
-            echo "dans else";
-            return $this->setApiResult(false, true, "Le n'as pas pu être envoyé");
+            $mail->Body = $body;
         }
+        
+
+        $mail->AddAddress($mailDest);
+        //$mail->AddReplyTo($mailDest);
+        
+        if( @(!$mail->Send() ) ){
+            echo "message non envoyé";
+            $mail->SmtpClose();
+            return $this->setApiResult( false, true, "Le mail n'a pas pu être envoyé ".$mail->ErrorInfo);
+        }else{
+            echo "message envoyé";
+            $mail->SmtpClose();
+            return $this->setApiResult(true);
+        }
+
+
     }
 
 
@@ -65,13 +123,16 @@ class Mail extends \Library\Controller\Controller {
         $res=$modelUser->update(array("password", $newPwdMd5)," `id_user`=".$params['id_user'] );
         
         if(  $res  ) {
+
             return $this->setApiResult( $res);
+
         }else{
             return $this->setApiResult(false, true, "Le mot de passe n'a pas pu etre changé");
         }
-
-
     }
+
+
+
 
 
 

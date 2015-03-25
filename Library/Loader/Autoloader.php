@@ -56,13 +56,17 @@ class Autoloader {
      *
      */
     protected static function autoload($class){
-        
+        //echo __CLASS__.$class;
+        if ( !preg_match("/phpmailer/",strtolower($class)) ) {
+       
         if(is_null(self::$basePath)){
-            throw new \Exception("basePath in " . __CLASS__ . " is Null");          
-        }
-
-        $pathFile = self::$basePath . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";
-        //var_dump($pathFile);
+            throw new \Exception("basePath in" . __CLASS__ . " is Null");
+        }else{
+         $pathFile = self::$basePath . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";
         require_once($pathFile);
+            }
+        }
+        /*$pathFile = self::$basePath . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";
+        require_once($pathFile);*/
     }
 }
