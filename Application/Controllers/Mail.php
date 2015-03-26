@@ -32,6 +32,8 @@ class Mail extends \Library\Controller\Controller {
     }
 
     public function testMail($params){
+        
+        $this->setMode('brut');
         $mailExped="fourneaux@yahoo.fr";
         $mailDest="dev2choiz@gmail.com";
         $body="94 tu peux pas test!!!";
@@ -39,74 +41,9 @@ class Mail extends \Library\Controller\Controller {
         return $this->envoyerMail($mailExped, $mailDest, $body, $subject, "default");
     }
 
-    /**
-     * [envoyerMail qui envoit des mails : ne doit pas etre appellé par le client]
-     * @param  [type] $mailExped [description]
-     * @param  [type] $mailDest  [description]
-     * @param  [type] $body      [description]
-     * @param  [type] $subject   [description]
-     * @param  [type] $template  [description]
-     * @return [type]            [description]
-     */
-    public function envoyerMail($mailExped, $mailDest, $body, $subject, $template){
-        $this->setMode('brut');
-        
-
-        $mail = new \PhpMailer\phpmailer();
-        $mail->IsSMTP();
-        $mail->IsHTML(true);
-        //$mail->SMTPDebug = 2; 
-
-        $mail->SMTPAuth = true;
-
-        $mail->Host = "ssl://188.125.69.59:465"; // SMTP server
-        //$mail->Host = "smtp.mail.yahoo.fr"; // SMTP server
-        
-        $mail->Username = "fourneaux@yahoo.fr";
-        $mail->Password = "acnologia"; 
-
-        $mail->From=$mailExped;
-        $mail->Subject = $subject;
-
-        
-        $tpl=APP_ROOT."/Models/ViewMail/".$template.".phtml";
-        echo $tpl;
-
-        if(file_exists($tpl)){
-            echo "ici  sjkqhj";
-            ob_start(); //lance au cas ou ca ne le serait pas
-            $save=ob_get_clean();
-            ob_start();
-            $content_mail = $body;
-            include($tpl);
-             $tmp=ob_get_contents();
-            $mail->Body = ob_get_clean();  //contient le contenu du mail a l'interieur du template
-
-            echo $save."#".$mail->Body.$tmp;;     //remet le contenu du buffer qui n'a pas eté arreté
-        }else{
-            $mail->Body = $body;
-        }
-        
-
-        $mail->AddAddress($mailDest);
-        //$mail->AddReplyTo($mailDest);
-        
-        if( @(!$mail->Send() ) ){
-            echo "message non envoyé";
-            $mail->SmtpClose();
-            return $this->setApiResult( false, true, "Le mail n'a pas pu être envoyé ".$mail->ErrorInfo);
-        }else{
-            echo "message envoyé";
-            $mail->SmtpClose();
-            return $this->setApiResult(true);
-        }
 
 
-    }
-
-
-
-    public function redefinirPassword($params) {
+public function redefinirPassword($params) {
         unset($params['method']);
 
         $modelUser  = new \Application\Models\User('localhost');
@@ -130,8 +67,6 @@ class Mail extends \Library\Controller\Controller {
             return $this->setApiResult(false, true, "Le mot de passe n'a pas pu etre changé");
         }
     }
-
-
 
 
 
