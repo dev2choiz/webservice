@@ -34,7 +34,7 @@ class ViewPanier extends \Library\Controller\Controller {
         
         var_dump($param);
 
-        $modelPanier  = new \Application\Models\ViewPanier('localhost');
+        $modelPanier  = new \Application\Models\ViewPanier('mysql.hostinger.fr');
         $res = $modelPanier->findByPrimary($param);
         var_dump($res);
             

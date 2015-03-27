@@ -2,6 +2,9 @@
 
 namespace Library\Mail;
 
+require_once(LIB_ROOT."/Mail/PhpMailer/_lib/class.smtp.php");
+require_once(LIB_ROOT."/Mail/PhpMailer/_lib/class.phpmailer.php");
+
 
 abstract class Mail {
 
@@ -23,7 +26,7 @@ abstract class Mail {
         
         
 
-        $mail = new \PhpMailer\phpmailer();
+        $mail = new \PhpMailer\PhpMailer();
         $mail->IsSMTP();
         $mail->IsHTML(true);
         //$mail->SMTPDebug = 2; 

@@ -30,7 +30,7 @@ class Recette extends \Library\Controller\Controller {
     public function getrecettes() {      //  obtenir toutes les recettes
         
         
-        $modelRecette   = new \Application\Models\Recette('localhost');
+        $modelRecette   = new \Application\Models\Recette('mysql.hostinger.fr');
         $recettes       = $modelRecette->fetchAll();
         if( empty($recettes[0]) ){
             $this->message->addError("aucune recette !");
@@ -54,7 +54,7 @@ class Recette extends \Library\Controller\Controller {
         unset($params['method']);
 
         var_dump("Webservice insert",$params);
-        $modelRecette  = new \Application\Models\Recette('localhost');
+        $modelRecette  = new \Application\Models\Recette('mysql.hostinger.fr');
 
         if($modelRecette->insert($params) ) {
             return $this->setApiResult($modelRecette->getLast());
@@ -80,7 +80,7 @@ class Recette extends \Library\Controller\Controller {
         unset($params['method']);
 
         //var_dump();
-        $modelRecette  = new \Application\Models\Recette('localhost');
+        $modelRecette  = new \Application\Models\Recette('mysql.hostinger.fr');
 
         if($modelRecette->update(" `id_recette`='{$params['id_recette']}' ", $params) ) {
             return $this->setApiResult(true);
@@ -107,13 +107,13 @@ class Recette extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelLI  = new \Application\Models\ListIngredients('localhost');
+        $modelLI  = new \Application\Models\ListIngredients('mysql.hostinger.fr');
 
 
         if($modelLI->delete(" `id_recette`='{$params['id_recette']}' ") ) {
 
             //si la suppression des ingredients c'est bien passée on tente de sup la recette
-            $modelRecette  = new \Application\Models\Recette('localhost');
+            $modelRecette  = new \Application\Models\Recette('mysql.hostinger.fr');
             if($modelRecette->delete(" `id_recette`='{$params['id_recette']}' ") ){
                 return $this->setApiResult(true);
             }else{
@@ -135,7 +135,7 @@ class Recette extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelRecette  = new \Application\Models\Recette('localhost');
+        $modelRecette  = new \Application\Models\Recette('mysql.hostinger.fr');
         echo "`id_recettre`='{$params['id_recette']}'";
         $res=$modelRecette->convEnTab($modelRecette->fetchAll("`id_recette`={$params['id_recette']}"));
             var_dump("getimagerecette",$res);

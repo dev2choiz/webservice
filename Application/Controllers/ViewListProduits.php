@@ -32,7 +32,7 @@ class ViewListProduits extends \Library\Controller\Controller {
 
 
 
-        $modelViewListProduit  = new \Application\Models\ViewListProduits('localhost');
+        $modelViewListProduit  = new \Application\Models\ViewListProduits('mysql.hostinger.fr');
         $res=$modelViewListProduit->fetchAll(" `id_recette`={$params['id_recette']} ");
             
         if( !empty( $res ) ) {

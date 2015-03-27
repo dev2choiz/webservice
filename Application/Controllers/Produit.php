@@ -29,7 +29,7 @@ class Produit extends \Library\Controller\Controller {
     */
     public function getAllProduits() {
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
         $res=$modelProduit->fetchAll();
             
         if( !empty( $res ) ) {
@@ -45,7 +45,7 @@ class Produit extends \Library\Controller\Controller {
 
 
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
         $res=$modelProduit->fetchAll(" `id_produit`='{$params['id_produit']}' ");
         var_dump($res);
             
@@ -65,7 +65,7 @@ class Produit extends \Library\Controller\Controller {
         unset($params['method']);
         //var_dump($params);
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
         $this->setMode("brut");     //pour pouvoir lancer une fonction js du webservice   
 
 
@@ -142,7 +142,7 @@ class Produit extends \Library\Controller\Controller {
 
         $params['prix']=$params['prix']+0;
         //var_dump();
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
 
         if($modelProduit->update(" `id_produit`='{$params['id_produit']}' ", $params) ) {
             return $this->setApiResult(true);
@@ -165,7 +165,7 @@ class Produit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
 
 
         if($modelProduit->delete(" `id_produit`='{$params['id_produit']}' ") ) {
@@ -183,8 +183,8 @@ class Produit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
-        $modelPopUpProduit  = new \Application\Models\PopUpProduit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
+        $modelPopUpProduit  = new \Application\Models\PopUpProduit('mysql.hostinger.fr');
 
         $produit=$modelProduit->convEnTab($modelProduit->fetchAll(" `id_produit`={$params['id_produit']} ") );
         $produit=$produit[0];
@@ -239,7 +239,7 @@ class Produit extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
         
         $res=$modelProduit->convEnTab($modelProduit->fetchAll("`id_produit`='{$params['id_produit']}'"));
             var_dump("getimageproduit",$res);
@@ -261,7 +261,7 @@ class Produit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelProduit  = new \Application\Models\Produit('localhost');
+        $modelProduit  = new \Application\Models\Produit('mysql.hostinger.fr');
         
         $targetpath='';
         $error    = NULL;

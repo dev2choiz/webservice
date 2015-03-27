@@ -33,7 +33,7 @@ class ViewCommentaire extends \Library\Controller\Controller {
         $param            = (empty($params["id_com"]))? null : ($params["id_com"]+0);
         
 
-        $modelCommentaire  = new \Application\Models\ViewCommentaire('localhost');
+        $modelCommentaire  = new \Application\Models\ViewCommentaire('mysql.hostinger.fr');
         $res = $modelCommentaire->findByPrimary($param);
         var_dump($res);
             

@@ -25,20 +25,55 @@ class Mail extends \Library\Controller\Controller {
         //echo ini_set("SMTP","gmail-smtp-in.l.google.com" )."<br>";    //au taff
         /*echo ini_set("SMTP", "smtp.mail.yahoo.fr" )."<br>";    //marche toupar
         echo ini_set('smtp_port',587)."<br>";
-        echo ini_set('auth_username','fourneaux@yahoo.fr')."<br>";
-        echo ini_set('auth_password','acnologia')."<br>";
         echo ini_set("sendmail_from","fourneaux@yahoo.fr" )."<br>";*/
 
     }
 
+    public function envoyerMail($params){
+        
+        //$this->setMode('brut');
+
+        unset($params['method']);
+        $modelMailer  = new \Application\Models\Mailer('mysql.hostinger.fr');
+
+        $mailExped      = $params['expediteur'];
+        $mailDest       = $params['destinataires'];
+        $body           = $params['body'];
+        $subject        = $params['subject'];
+        $template       = $params['template'];
+
+        /*$mailExped="fourneaux@yahoo.fr";
+        $mailDest="dev2choiz@gmail.com";
+        $body="94 tu peux pas test!!!";
+        $subject="DD";
+        $template="default";*/
+
+        
+        if( $modelMailer->envoyerMail( $mailExped, $mailDest, $body, $subject, $template) ){
+            return $this->setApiResult( true);
+        }else{
+            return $this->setApiResult(false, true, "mail non envoyé");
+        }
+        
+    }
+
     public function testMail($params){
+
+        $modelMailer  = new \Application\Models\Mailer('mysql.hostinger.fr');
         
         $this->setMode('brut');
         $mailExped="fourneaux@yahoo.fr";
         $mailDest="dev2choiz@gmail.com";
         $body="94 tu peux pas test!!!";
         $subject="DD";
-        return $this->envoyerMail($mailExped, $mailDest, $body, $subject, "default");
+        
+
+        if( $modelMailer->envoyerMail($mailExped, $mailDest, $body, $subject, "default") ){
+            return $this->setApiResult( true);
+        }else{
+            return $this->setApiResult(false, true, "mail non envoyé");
+        }
+
     }
 
 
@@ -46,7 +81,7 @@ class Mail extends \Library\Controller\Controller {
 public function redefinirPassword($params) {
         unset($params['method']);
 
-        $modelUser  = new \Application\Models\User('localhost');
+        $modelUser  = new \Application\Models\User('mysql.hostinger.fr');
 
         $user=$modelUser->fetchAll("`id_user`=".$params['id_user']);
         $user=$user[0];

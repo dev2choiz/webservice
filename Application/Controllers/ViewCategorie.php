@@ -34,7 +34,7 @@ class ViewCategorie extends \Library\Controller\Controller {
         
         //var_dump($param);
 
-        $modelCategorie  = new \Application\Models\ViewCategorie('localhost');
+        $modelCategorie  = new \Application\Models\ViewCategorie('mysql.hostinger.fr');
         $res = $modelCategorie->findByPrimary($param);
         var_dump($res);
             

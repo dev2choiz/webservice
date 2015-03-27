@@ -32,7 +32,7 @@ class Unite extends \Library\Controller\Controller {
 
 
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite('mysql.hostinger.fr');
         $res=$modelUnite->getUnites();
             
         if( !empty( $res ) ) {
@@ -54,7 +54,7 @@ class Unite extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite('mysql.hostinger.fr');
         
         $res=$modelUnite->insert($params);
             
@@ -73,7 +73,7 @@ class Unite extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite('mysql.hostinger.fr');
         
 
         $id=$params['id_unite'];
@@ -94,7 +94,7 @@ class Unite extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite('mysql.hostinger.fr');
         
         $res=$modelUnite->delete(" `id_unite`={$params['id_unite']} ");
             

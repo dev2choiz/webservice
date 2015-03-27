@@ -32,7 +32,7 @@ class Panier extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
         $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}'");
             
         if( !empty( $res ) ) {
@@ -55,7 +55,7 @@ class Panier extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
 
         $res=$modelPanier->insert($params);
             
@@ -73,7 +73,7 @@ class Panier extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
         
         $res=$modelPanier->update(" `id_panier`='{$params['id_panier']}'", $params);
             
@@ -93,7 +93,7 @@ class Panier extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
         //echo " `id_produit`='{$params['id_produit']}' AND `id_user`='{$params['id_user']}' ";
         $res = $modelPanier->delete(" `id_panier`='{$params['id_panier']}' AND `id_user`='{$params['id_user']}' ");
         //var_dump($res);
@@ -113,7 +113,7 @@ class Panier extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
         
         $res=$modelPanier->delete("`id_user`='{$params['id_user']}'");
             
@@ -135,7 +135,7 @@ class Panier extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
         $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}'");
         
         if( !empty( $res ) ) {
@@ -162,7 +162,7 @@ class Panier extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelPanier  = new \Application\Models\Panier('localhost');
+        $modelPanier  = new \Application\Models\Panier('mysql.hostinger.fr');
         
         $res=$modelPanier->fetchAll(" `id_user`='{$params['id_user']}' AND  `id_produit`='{$params['id_produit']}'  ");
 

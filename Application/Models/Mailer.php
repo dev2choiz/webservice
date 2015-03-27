@@ -4,7 +4,7 @@ namespace Application\Models;
 
 
 
-class Mail extends \Library\Mail\Mail{
+class Mailer extends \Library\Mail\Mail{
 
 
 	public function __construct(){

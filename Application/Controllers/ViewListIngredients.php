@@ -21,7 +21,7 @@ class ViewListIngredients extends \Library\Controller\Controller {
     public function getviewlistingredients($params) {
 
         unset($params['method']);
-        $modelVLI  = new \Application\Models\ViewListIngredients('localhost');
+        $modelVLI  = new \Application\Models\ViewListIngredients('mysql.hostinger.fr');
 
         
         $idRecette=$params['id_recette']+0;

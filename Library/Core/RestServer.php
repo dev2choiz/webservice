@@ -205,7 +205,7 @@ class RestServer {
 
 
 	public function convEnTab($obj){
-		$model  = new \Library\Model\Model('localhost');
+		$model  = new \Library\Model\Model('mysql.hostinger.fr');
         return $model->convEnTab($obj);
 	}	
 

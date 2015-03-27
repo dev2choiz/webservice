@@ -33,7 +33,7 @@ class ViewProduit extends \Library\Controller\Controller {
 
     public function getAllViewProduits() {
         
-        $modelViewProduit       = new \Application\Models\ViewProduit('localhost');
+        $modelViewProduit       = new \Application\Models\ViewProduit('mysql.hostinger.fr');
         $viewAllProduits           = $modelViewProduit->convEnTab($modelViewProduit->fetchAll() );
         if( empty($viewAllProduits[0]) ){
              return $this->setApiResult(false, true, "aucun produit");
@@ -53,7 +53,7 @@ class ViewProduit extends \Library\Controller\Controller {
         $param            = (empty($param["id_produit"]))? null : ($param["id_produit"]+0);
 
         //recupere le produit
-        $modelViewProduit = new \Application\Models\ViewProduit('localhost');
+        $modelViewProduit = new \Application\Models\ViewProduit('mysql.hostinger.fr');
         //$param            = (int) $param;
         $viewProduit      = $modelViewProduit->convEnTab($modelViewProduit->findByPrimary($param));
         

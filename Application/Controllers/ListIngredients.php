@@ -22,7 +22,7 @@ class ListIngredients extends \Library\Controller\Controller {
     public function insertlistingredients($params) {
 
         unset($params['method']);
-        $modelLI  = new \Application\Models\ListIngredients('localhost');
+        $modelLI  = new \Application\Models\ListIngredients('mysql.hostinger.fr');
 
         //var_dump($params);
         $params['ingredients']=json_decode($params['ingredients']) ;
@@ -45,7 +45,7 @@ class ListIngredients extends \Library\Controller\Controller {
     public function updatelistingredients($params) {
 
         unset($params['method']);
-        $modelLI  = new \Application\Models\ListIngredients('localhost');
+        $modelLI  = new \Application\Models\ListIngredients('mysql.hostinger.fr');
 
 
         //supression de tout les ingredients de la recette
