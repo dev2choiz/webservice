@@ -31,8 +31,8 @@ class User extends \Library\Controller\Controller {
         
         //$params=get_object_vars( json_decode($params['params']) );
         
-        
-
+                
+                var_dump($params);
         $modelUser  = new \Application\Models\User();
         // l'utilisateur se logue avec son adresse mail et son mot de passe
         $mail       = (empty($params["mail"]))? null : $params["mail"];
@@ -58,89 +58,13 @@ class User extends \Library\Controller\Controller {
 
         //var_dump ($user);
         //$user=get_object_vars($user[0]);
-        var_dump ($user);
+        //var_dump ($user);
         //die();
         if(!(count($user)==1 && !empty($user[0]))) { return $this->setApiResult(false, true, "Invalid mail or password"); }
 
         unset($user['password']);
-
         return $this->setApiResult($user);
     }
-
-
-
-
-
-
-    public function getUser($params) {
-        unset($params['method']);
-        
-        
-        
-
-        $modelUser  = new \Application\Models\User();
-
-        // récupérer l'utilisateur 
-        $where  = " `mail`='{$params['mail']}' ";
-        $user   = $this->convEnTab( $modelUser->fetchAll($where) );
-        
-        var_dump ($user);
-        //die();
-        if(!(count($user)==1 && !empty($user[0]))) { return $this->setApiResult(false, true, "Invalid mail or password"); }
-
-        unset($user['password']);
-
-        return $this->setApiResult($user);
-    }
-
-
-
-
-    public function redefinirPassword($params) {
-        unset($params['method']);
-        //$this->setMode('brut');
-
-        $modelUser  = new \Application\Models\User();
-        $modelMailer  = new \Application\Models\Mailer();
-        $req=" `mail`='".$params['mail'] . "' AND `reponsesecrete`='".$params['reponsesecrete'] . "'  ";
-        echo $req;
-        $user=$this->convEnTab($modelUser->fetchAll($req)[0]);
-        //var_dump("user",$user);
-        //$user=$user[0];
-        
-        
-        if( empty($user) || ($user['reponsesecrete']!==$params['reponsesecrete'])  ){
-            return $this->setApiResult(false, true, "la reponse secrete ne correspond pas a ce que nous avons en base");
-        }
-
-        $newPwd = "password";       // new password a definir aleatoirement et envoyer par mail
-
-        echo " `mail`=".$params['mail']."<br>";
-        $newPwdMd5 = md5($newPwd.SALT_PASSWORD);
-        
-        $res=$modelUser->update(" `mail`='".$params['mail']."'" , array("password"=> $newPwdMd5) );
-
-        var_dump($res);
-        if(  $res  ) {
-            
-            $mailExped="fourneaux@yahoo.fr";
-            $mailDest=$params['mail'];
-            $subject="94 tu peux pas test!!!";
-            $body="mot de passe : ".$newPwd;
-            $template="default";
-            //envoi du mail
-            echo "envoi du mail : ".$modelMailer->envoyerMail( $mailExped, $mailDest, $body, $subject, $template );
-
-
-            return $this->setApiResult( $res);
-        }else{
-            return $this->setApiResult(false, true, "Le mot de passe n'a pas pu etre changé");
-        }
-    }
-
-
-
-
 
     /**
      *  Méthode post($params)

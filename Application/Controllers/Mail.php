@@ -3,8 +3,8 @@
 
 namespace Application\Controllers;
 
-require_once(APP_ROOT."/Models/PhpMailer/_lib/class.smtp.php");
-require_once(APP_ROOT."/Models/PhpMailer/_lib/class.phpmailer.php");
+//require_once(LIB_ROOT."Models/PhpMailer/_lib/class.smtp.php");
+//require_once(LIB_ROOT."Models/PhpMailer/_lib/class.phpmailer.php");
 
 /**
  * Mail
@@ -27,14 +27,29 @@ class Mail extends \Library\Controller\Controller {
         echo ini_set('smtp_port',587)."<br>";
         echo ini_set("sendmail_from","fourneaux@yahoo.fr" )."<br>";*/
 
+        //echo ini_set("sendmail_from","fourneaux@yahoo.fr" )."<br>";
+        //phpinfo();
+
+        if (!extension_loaded('openssl')) {
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                dl('php_openssl.dll');
+            } else {
+                dl('openssl.so');
+            }
+        }
+
+
     }
 
     public function envoyerMail($params){
         
-        //$this->setMode('brut');
+
+        
+
+        $this->setMode('brut');
 
         unset($params['method']);
-        $modelMailer  = new \Application\Models\Mailer('mysql.hostinger.fr');
+        $modelMailer  = new \Application\Models\Mailer();
 
         $mailExped      = $params['expediteur'];
         $mailDest       = $params['destinataires'];
@@ -59,7 +74,7 @@ class Mail extends \Library\Controller\Controller {
 
     public function testMail($params){
 
-        $modelMailer  = new \Application\Models\Mailer('mysql.hostinger.fr');
+        $modelMailer  = new \Application\Models\Mailer();
         
         $this->setMode('brut');
         $mailExped="fourneaux@yahoo.fr";
@@ -81,7 +96,7 @@ class Mail extends \Library\Controller\Controller {
 public function redefinirPassword($params) {
         unset($params['method']);
 
-        $modelUser  = new \Application\Models\User('mysql.hostinger.fr');
+        $modelUser  = new \Application\Models\User();
 
         $user=$modelUser->fetchAll("`id_user`=".$params['id_user']);
         $user=$user[0];

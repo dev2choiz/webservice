@@ -39,7 +39,7 @@ class ViewRecette extends \Library\Controller\Controller {
      */
     public function getAllViewRecettes($param) {    //  obtenir toutes les recettes
         
-        //si on cherche a recevoir qu'un les recettes d'une categorie...
+        //si on cherche a recevoir queles recettes d'une categorie...
        $where=" 1 ";
         if(isset($param['id_cat']) && !empty($param['id_cat']) ){
             $where=" `id_cat`={$param['id_cat']} ";
@@ -47,14 +47,17 @@ class ViewRecette extends \Library\Controller\Controller {
         }
         unset($param['method'], $param['id_cat']);
 
+        echo $where."<br>";
 
-
-        var_dump("getAllViewRecettes");
+        
         $modelViewAllRecette       = new \Application\Models\ViewRecette();
+        var_dump("modelviewallrecette",$modelViewAllRecette);
         $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll($where) );
+        var_dump("viewallrecette",$viewAllRecettes);
 
         if( empty($viewAllRecettes[0]) ){
-             $this->message->addError("Aucune Recette");
+            
+             return $this->setApiResult(false, true , "aucune recette");
         }else{
 
             //var_dump($viewAllRecettes);

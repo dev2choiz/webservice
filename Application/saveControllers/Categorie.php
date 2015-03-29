@@ -1,5 +1,5 @@
 <?php
-
+  
 namespace Application\Controllers;
 
 /**
@@ -32,7 +32,7 @@ class Categorie extends \Library\Controller\Controller {
 
 
 
-        $modelCategorie  = new \Application\Models\Categorie();
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
         $res=$modelCategorie->getCategories();
             
         if( !empty( $res ) ) {
@@ -55,7 +55,7 @@ class Categorie extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie();
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
         
         $res=$modelCategorie->insert($params);
             
@@ -75,7 +75,7 @@ class Categorie extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie();
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
         
         $res=$modelCategorie->update(" `id_cat`='{$params['id_cat']}'", $params);
             
@@ -95,7 +95,7 @@ class Categorie extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie();
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
         
         $res=$modelCategorie->delete("`id_cat`='{$params['id_cat']}'");
             
@@ -113,7 +113,7 @@ class Categorie extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie();
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
         
         $res=$modelCategorie->convEnTab($modelCategorie->fetchAll("`id_cat`='{$params['id_cat']}'"));
             var_dump("getimagecategorie",$res);
@@ -135,7 +135,7 @@ class Categorie extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie();
+        $modelCategorie  = new \Application\Models\Categorie('localhost');
         
         $targetpath='';
         $error    = NULL;

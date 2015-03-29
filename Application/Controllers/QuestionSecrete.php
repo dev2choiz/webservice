@@ -27,12 +27,12 @@ class QuestionSecrete extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function getquestionsecretes() {
+    public function getQuestionSecretes() {
 
 
 
 
-        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete('mysql.hostinger.fr');
+        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         $res=$modelQuestionSecrete->fetchAll();
             
         if( !empty( $res ) ) {
@@ -46,12 +46,12 @@ class QuestionSecrete extends \Library\Controller\Controller {
 
 
 
-   public function getquestionsecrete($params) {         //ajouter une recette
+   public function getQuestionSecrete($params) {         //ajouter une recette
 
         unset($params['method']);
 
 
-        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete('mysql.hostinger.fr');
+        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         $res=$modelQuestionSecrete->fetchAll(" `id_questionsecrete`={$params['id_questionsecrete']} ");
             
         if( !empty( $res ) ) {
@@ -71,11 +71,11 @@ class QuestionSecrete extends \Library\Controller\Controller {
      * @param  [type] $params [description]
      * @return [type]         [description]
      */
-    public function insertquestionsecrete($params) {
+    public function insertQuestionSecrete($params) {
         
         unset($params['method']);
 
-        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete('mysql.hostinger.fr');
+        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         
         $res=$modelQuestionSecrete->insert($params);
             
@@ -91,11 +91,11 @@ class QuestionSecrete extends \Library\Controller\Controller {
 
 
 
-    public function updatequestionsecrete($params) {
+    public function updateQuestionSecrete($params) {
         
         unset($params['method']);
 
-        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete('mysql.hostinger.fr');
+        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         
         $res=$modelQuestionSecrete->update(" `id_cat`='{$params['id_cat']}'", $params);
             
@@ -111,11 +111,11 @@ class QuestionSecrete extends \Library\Controller\Controller {
 
 
 
-    public function deletequestionsecrete($params) {
+    public function deleteQuestionSecrete($params) {
         
         unset($params['method']);
 
-        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete('mysql.hostinger.fr');
+        $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         
         $res=$modelQuestionSecrete->delete("`id_cat`='{$params['id_cat']}'");
             

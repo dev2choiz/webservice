@@ -22,7 +22,7 @@ class ListIngredients extends \Library\Controller\Controller {
     public function insertListIngredients($params) {
 
         unset($params['method']);
-        $modelLI  = new \Application\Models\ListIngredients();
+        $modelLI  = new \Application\Models\ListIngredients('localhost');
 
         //var_dump($params);
         $params['ingredients']=json_decode($params['ingredients']) ;
@@ -45,7 +45,7 @@ class ListIngredients extends \Library\Controller\Controller {
     public function updateListIngredients($params) {
 
         unset($params['method']);
-        $modelLI  = new \Application\Models\ListIngredients();
+        $modelLI  = new \Application\Models\ListIngredients('localhost');
 
 
         //supression de tout les ingredients de la recette

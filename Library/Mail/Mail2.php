@@ -54,15 +54,10 @@ abstract class Mail {
         
 
 
-
-
-
-
-        //gmail
+        //hostinger
         $mail->SMTPAuth = true;
-        //$mail->SMTPSecure = 'ssl';
-        //$mail->Host = "smtp.gmail.com"; 
-        $mail->Host = "ssl://smtp.gmail.com"; 
+        //$mail->Host = "mx1.hostinger.fr"; 
+        $mail->Host = "ssl://smtp.google.com:465"; 
         $mail->Username = "chefdesfourneaux@gmail.com";
         $mail->Password = "Fourneaux1234"; 
         $mail->Port=465;
@@ -85,7 +80,6 @@ abstract class Mail {
             include($tpl);
             //$tmp=ob_get_contents();
             $mail->Body = ob_get_clean();  //contient le contenu du mail a l'interieur du template
-            $body
             echo $save;     //remet le contenu du buffer qui n'a pas eté arreté
         }else{
             $mail->Body = $body;
@@ -94,12 +88,9 @@ abstract class Mail {
 
         $mail->AddAddress($mailDest);
         //$mail->AddReplyTo($mailDest);
-        $res=mail($mailDest, $subject, $body);
         
-
-        if( ($res ) ){
-            //echo "msg 2erreur :";
-            echo "envoi du mail : ".$res;
+        if( (!$mail->Send() ) ){
+            echo "msg 2erreur :".$mail->ErrorInfo;
             $mail->SmtpClose();
 
             return false;

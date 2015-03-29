@@ -68,12 +68,12 @@ abstract class Controller {
 
 
     public function convEnTab($tab){
-        $modelCategorie  = new \Application\Models\Categorie('mysql.hostinger.fr');
+        $modelCategorie  = new \Application\Models\Categorie();
         return $modelCategorie->convEnTab($tab);
     }
 
     public function retirerCaractereSpeciaux($chaine){
-        $modelCategorie  = new \Application\Models\Categorie('mysql.hostinger.fr');
+        $modelCategorie  = new \Application\Models\Categorie();
         return $modelCategorie->retirerCaractereSpeciaux($chaine);
     }
 

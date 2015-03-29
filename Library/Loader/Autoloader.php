@@ -62,8 +62,10 @@ class Autoloader {
         if(is_null(self::$basePath)){
             throw new \Exception("basePath in" . __CLASS__ . " is Null");
         }else{
-         $pathFile = self::$basePath . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";
+         $pathFile = self::$basePath . str_replace('\\',DIRECTORY_SEPARATOR , $class) . ".php";
+         //echo"<BR>pathfile:". $pathFile."<BR>basepath:".self::$basePath ."<br>";
         require_once($pathFile);
+        
             }
         }
         /*$pathFile = self::$basePath . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";

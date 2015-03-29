@@ -14,8 +14,8 @@
     "confirm_sync": true,
     "confirm_overwrite_newer": false,
     
-    "host": "ftp.chefdesfourneaux.16mb.com",
-    "user": "u163892338",
+    "host": "ftp.chefdesfourneaux-api.16mb.com",
+    "user": "u344336885",
     "password": "Fourneaux1234",
     "port": "21",
     

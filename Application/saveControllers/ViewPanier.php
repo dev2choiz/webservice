@@ -4,9 +4,9 @@ namespace Application\Controllers;
 
 /**
  *
- * Commentaire
+ * Panier
  */
-class ViewCommentaire extends \Library\Controller\Controller {
+class ViewPanier extends \Library\Controller\Controller {
     
     /**
      *  Méthode __construct()
@@ -20,27 +20,28 @@ class ViewCommentaire extends \Library\Controller\Controller {
 
 
     /**
-     *  Méthode getcommentaires
+     *  Méthode getpaniers
      *
-     *  retourne les commentaires
+     *  retourne les paniers
      *       
      *  @return     array
      *
      */
-    public function getViewCommentaire($params) {
+    public function getViewPanier($params) {         //ajouter une recette
 
         unset($params['method']);
-        $param            = (empty($params["id_com"]))? null : ($params["id_com"]+0);
+        $param            = (empty($params["id_user"]))? null : ($params["id_user"]+0);
         
+        var_dump($param);
 
-        $modelCommentaire  = new \Application\Models\ViewCommentaire();
-        $res = $modelCommentaire->findByPrimary($param);
+        $modelPanier  = new \Application\Models\ViewPanier('localhost');
+        $res = $modelPanier->findByPrimary($param);
         var_dump($res);
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
         }else{
-            return $this->setApiResult(false, true, "erreur pendant la recuperation des commentaires");
+            return $this->setApiResult(false, true, "erreur pendant la recuperation des paniers");
         }
 
 

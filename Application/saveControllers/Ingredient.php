@@ -32,7 +32,7 @@ class Ingredient extends \Library\Controller\Controller {
 
 
 
-        $modelIngredient  = new \Application\Models\Ingredient();
+        $modelIngredient  = new \Application\Models\Ingredient('localhost');
         $res=$modelIngredient->fetchAll();
             
         if( !empty( $res ) ) {
@@ -54,7 +54,7 @@ class Ingredient extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelIngredient  = new \Application\Models\Ingredient();
+        $modelIngredient  = new \Application\Models\Ingredient('localhost');
         
         $res=$modelIngredient->insert($params);
             var_dump($res);
@@ -73,7 +73,7 @@ class Ingredient extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelIngredient  = new \Application\Models\Ingredient();
+        $modelIngredient  = new \Application\Models\Ingredient('localhost');
 
         
         $id=$params['id_ingredient'];
@@ -94,7 +94,7 @@ class Ingredient extends \Library\Controller\Controller {
         
         unset($params['method']);
 
-        $modelIngredient  = new \Application\Models\Ingredient();
+        $modelIngredient  = new \Application\Models\Ingredient('localhost');
         
         $res=$modelIngredient->delete(" `id_ingredient`={$params['id_ingredient']} ");
             

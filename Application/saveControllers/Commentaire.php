@@ -30,7 +30,7 @@ class Commentaire extends \Library\Controller\Controller {
     public function getCommentaires($params) {      //  obtenir tout les commentaires
         
         
-        $modelCommentaire   = new \Application\Models\Commentaire();
+        $modelCommentaire   = new \Application\Models\Commentaire('localhost');
         $commentaires       = $modelCommentaire->convEnTab( $modelCommentaire->fetchAll(" `id_recette`='{$params['id_recette']}' " ) );
 
         if( empty($commentaires) ){
@@ -49,7 +49,7 @@ class Commentaire extends \Library\Controller\Controller {
     public function getCommentaire($params) {
         
         
-        $modelCommentaire   = new \Application\Models\Commentaire();
+        $modelCommentaire   = new \Application\Models\Commentaire('localhost');
         $commentaire       = $modelCommentaire->convEnTab( $modelCommentaire->fetchAll(" `id_com`='{$params['id_com']}' " ) );
 
         if( empty($commentaire) ){
@@ -82,7 +82,7 @@ class Commentaire extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelCommentaire  = new \Application\Models\Commentaire();
+        $modelCommentaire  = new \Application\Models\Commentaire('localhost');
         $res=$modelCommentaire->insert($params);
         //var_dump($res);
         if($res ) {
@@ -109,7 +109,7 @@ class Commentaire extends \Library\Controller\Controller {
         unset($params['method']);
 
         
-        $modelCommentaire  = new \Application\Models\Commentaire();
+        $modelCommentaire  = new \Application\Models\Commentaire('localhost');
 
         if($modelCommentaire->update(" `id_commentaire`='{$params['id_commentaire']}' ", $params) ) {
             return $this->setApiResult(true);
@@ -136,7 +136,7 @@ class Commentaire extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelComm  = new \Application\Models\Commentaire();
+        $modelComm  = new \Application\Models\Commentaire('localhost');
 
 
         if($modelLI->delete(" `id_commentaire`='{$params['id_commentaire']}' ") ) {
