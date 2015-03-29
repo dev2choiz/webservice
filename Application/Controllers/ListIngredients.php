@@ -19,10 +19,10 @@ class ListIngredients extends \Library\Controller\Controller {
     }
 
 
-    public function insertlistingredients($params) {
+    public function insertListIngredients($params) {
 
         unset($params['method']);
-        $modelLI  = new \Application\Models\ListIngredients('localhost');
+        $modelLI  = new \Application\Models\ListIngredients();
 
         //var_dump($params);
         $params['ingredients']=json_decode($params['ingredients']) ;
@@ -42,10 +42,10 @@ class ListIngredients extends \Library\Controller\Controller {
 
 
 
-    public function updatelistingredients($params) {
+    public function updateListIngredients($params) {
 
         unset($params['method']);
-        $modelLI  = new \Application\Models\ListIngredients('localhost');
+        $modelLI  = new \Application\Models\ListIngredients();
 
 
         //supression de tout les ingredients de la recette

@@ -50,7 +50,7 @@ class ViewRecette extends \Library\Controller\Controller {
 
 
         var_dump("getAllViewRecettes");
-        $modelViewAllRecette       = new \Application\Models\ViewRecette('localhost');
+        $modelViewAllRecette       = new \Application\Models\ViewRecette();
         $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll($where) );
 
         if( empty($viewAllRecettes[0]) ){
@@ -60,7 +60,7 @@ class ViewRecette extends \Library\Controller\Controller {
             //var_dump($viewAllRecettes);
 
             //recupere les ingredients
-            $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
+            $modelVLI     = new \Application\Models\ViewListIngredients();
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
@@ -69,7 +69,7 @@ class ViewRecette extends \Library\Controller\Controller {
             }
 
             //recupere les produits
-            $modelVLP     = new \Application\Models\ViewListProduits('localhost');
+            $modelVLP     = new \Application\Models\ViewListProduits();
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
@@ -78,7 +78,7 @@ class ViewRecette extends \Library\Controller\Controller {
             }
 
             //recupere les produits
-            $modelVC     = new \Application\Models\ViewCommentaire('localhost');
+            $modelVC     = new \Application\Models\ViewCommentaire();
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
@@ -99,7 +99,7 @@ class ViewRecette extends \Library\Controller\Controller {
         $param            = (empty($param["id_recette"]))? null : ($param["id_recette"]+0);
 
         //recupere la recette
-        $modelViewRecette = new \Application\Models\ViewRecette('localhost');
+        $modelViewRecette = new \Application\Models\ViewRecette();
         $viewRecette      = $modelViewRecette->convEnTab($modelViewRecette->findByPrimary($param));
         $viewRecetteIPC    = $viewRecette[0];
         if( empty($viewRecette[0]) ){
@@ -107,7 +107,7 @@ class ViewRecette extends \Library\Controller\Controller {
         }
 
         //recupere les ingredients
-        $modelVLI     = new \Application\Models\ViewListIngredients('localhost');
+        $modelVLI     = new \Application\Models\ViewListIngredients();
         $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
 
         if( empty($viewLI) ){
@@ -119,7 +119,7 @@ class ViewRecette extends \Library\Controller\Controller {
         }
 
         //recupere les produits
-        $modelVLP     = new \Application\Models\ViewListProduits('localhost');
+        $modelVLP     = new \Application\Models\ViewListProduits();
         $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
 
         if( empty($viewLP) ){
@@ -131,7 +131,7 @@ class ViewRecette extends \Library\Controller\Controller {
         }
 
         //recupere les commentairess
-        $modelVC    = new \Application\Models\ViewCommentaire('localhost');
+        $modelVC    = new \Application\Models\ViewCommentaire();
         $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
         
 

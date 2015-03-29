@@ -1,12 +1,21 @@
 <?php
 
 // Configuration
-$basePath 	= "c:/wamp/www/webservice/";
+/*$basePath 	= "/home/u344336885/public_html/webservice/";
+$baseUrl 	= "http://chefdesfourneaux-api.16mb.com/";
+$host 		= "mysql.hostinger.fr";
+$dbase 		= "u344336885_chef";
+$user 		= "u344336885_namyn";
+$password 	= "Fourneaux1234";
+*/
+
+$basePath 	= "C:\wamp\www\webservice\\";
 $baseUrl 	= "http://localhost";
 $host 		= "localhost";
 $dbase 		= "fourneaux";
 $user 		= "root";
 $password 	= "";
+
 
 // Chargement de l'autoloader
 require_once('../Library/Loader/Autoloader.php');
@@ -32,5 +41,9 @@ $DB::addConnexion($host, $DB::connectDB($host, $dbase, $user, $password));
 // Instanciation du serveur REST
 $server = new \Library\Core\RestServer();
 $server->handle();
+
+
+/*var_dump($_SERVER["SCRIPT_FILENAME"]);
+var_dump($_SERVER);*/
 
 

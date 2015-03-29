@@ -102,12 +102,31 @@ class RestServer {
 
 
 
+
 		if(isset($D["service"])){
 			
-			$this->service = "\Application\Controllers\\".ucfirst(strtolower($D["service"]));
 			
-			if(file_exists(APP_ROOT."\Controllers\\".ucfirst(strtolower($D["service"])).".php")) {
+			//$str= ucfirst(strtolower($D["service"]));
+			$str= $D["service"];
+			
+			$this->service = "/Application/Controllers/".$str;
+			
+			
+			
+			
+
+			
+			$str=APP_ROOT."Controllers/".$str.".php";
+
+			
+			
+			if(file_exists($str) ) {
+
+
+				$this->service= str_replace('/', '\\', $this->service );;
+
 				$strService=$this->service;
+
 				$this->service = new $this->service();	//contient le controleur concerné. exemple :Recette
 
 			}
@@ -117,7 +136,7 @@ class RestServer {
 
 			
 			$this->classMethod = strtolower($D["method"]);	//string de la methode de la classe. exemple: getrecettes
-			
+			//echo $this->classMethod."<=====methode<br>";
 			if(!method_exists($this->service, $this->classMethod)){
 				$this->showError("Class method " . $strService . "::". $this->classMethod . " not found");
 			}
@@ -127,7 +146,7 @@ class RestServer {
 			}
 
 			unset($D["service"]);
-			$this->requestParam = $D;
+			$this->requestParam = $D; 
 
 			
 
@@ -161,6 +180,7 @@ class RestServer {
 	 *
 	 */
 	public function handle(){
+		
 		$result = call_user_func(array($this->service, $this->classMethod), $this->requestParam);
 		$this->json->response 			= $result->response;
 		$this->json->apiError 			= $result->apiError;
@@ -194,7 +214,7 @@ class RestServer {
 		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
 		ob_clean();
 
-
+                       //$this->sendMode='brut';
 		if($this->sendMode==='json'){
 			echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 		}elseif ($this->sendMode==='brut') {

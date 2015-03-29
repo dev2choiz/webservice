@@ -14,6 +14,8 @@ abstract class Controller {
      */
     private $apiResult;
 
+
+
     /**
      *  Méthode __construct()
      *
@@ -33,6 +35,7 @@ abstract class Controller {
         $this->apiResult->apiErrorMessage    = "";
         $this->apiResult->page               = "";
         $this->apiResult->sendMode           = 'json';
+
     }
 
     /**
@@ -50,24 +53,27 @@ abstract class Controller {
         $this->apiResult->response           = $response;
         $this->apiResult->apiError           = $apiError;
         $this->apiResult->apiErrorMessage    = $apiErrorMessage;
-
+        $this->apiResult->sendMode           = $this->getMode();
         return $this->apiResult;
     }
 
 
-    protected function setMode($bool) {
-        $this->apiResult->sendMode=$bool;
-        
+    protected function setMode($mode) {
+        $this->apiResult->sendMode= $mode;
+    }
+
+    protected function getMode() {
+        return $this->apiResult->sendMode;
     }
 
 
     public function convEnTab($tab){
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         return $modelCategorie->convEnTab($tab);
     }
 
     public function retirerCaractereSpeciaux($chaine){
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         return $modelCategorie->retirerCaractereSpeciaux($chaine);
     }
 

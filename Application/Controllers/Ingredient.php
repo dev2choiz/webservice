@@ -27,12 +27,12 @@ class Ingredient extends \Library\Controller\Controller {
     *  @return     array
     *
     */
-    public function getingredients() {
+    public function getIngredients() {
 
 
 
 
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+        $modelIngredient  = new \Application\Models\Ingredient();
         $res=$modelIngredient->fetchAll();
             
         if( !empty( $res ) ) {
@@ -50,11 +50,11 @@ class Ingredient extends \Library\Controller\Controller {
      * @param  [type] $params [description]
      * @return [int]         [l'id de l'ingredient ajouté]
      */
-    public function insertingredients($params) {
+    public function insertIngredients($params) {
         
         unset($params['method']);
 
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+        $modelIngredient  = new \Application\Models\Ingredient();
         
         $res=$modelIngredient->insert($params);
             var_dump($res);
@@ -69,11 +69,11 @@ class Ingredient extends \Library\Controller\Controller {
 
 
 
-    public function updateingredient($params) {
+    public function updateIngredient($params) {
         
         unset($params['method']);
 
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+        $modelIngredient  = new \Application\Models\Ingredient();
 
         
         $id=$params['id_ingredient'];
@@ -90,11 +90,11 @@ class Ingredient extends \Library\Controller\Controller {
     }
 
 
-    public function deleteingredient($params) {
+    public function deleteIngredient($params) {
         
         unset($params['method']);
 
-        $modelIngredient  = new \Application\Models\Ingredient('localhost');
+        $modelIngredient  = new \Application\Models\Ingredient();
         
         $res=$modelIngredient->delete(" `id_ingredient`={$params['id_ingredient']} ");
             

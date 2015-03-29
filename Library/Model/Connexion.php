@@ -72,7 +72,9 @@ class Connexion {
      *
      */
     public static function connectDB($host, $dbname, $user, $password, $charset="UTF8") {
-        $database = new \PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+        //echo "mysql:host=$host;dbname=$dbname <br>";
+        $database = new \PDO("mysql:host
+            =$host;dbname=$dbname", $user, $password);
         $database->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
         $database->exec("SET CHARACTER SET $charset");
         

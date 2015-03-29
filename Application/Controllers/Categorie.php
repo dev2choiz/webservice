@@ -27,12 +27,12 @@ class Categorie extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function getcategories() {         //ajouter une recette
+    public function getCategories() {         //ajouter une recette
 
 
 
 
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         $res=$modelCategorie->getCategories();
             
         if( !empty( $res ) ) {
@@ -51,11 +51,11 @@ class Categorie extends \Library\Controller\Controller {
      * @param  [type] $params [description]
      * @return [type]         [description]
      */
-    public function insertcategorie($params) {
+    public function insertCategorie($params) {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         
         $res=$modelCategorie->insert($params);
             
@@ -71,11 +71,11 @@ class Categorie extends \Library\Controller\Controller {
 
 
 
-    public function updatecategorie($params) {
+    public function updateCategorie($params) {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         
         $res=$modelCategorie->update(" `id_cat`='{$params['id_cat']}'", $params);
             
@@ -91,11 +91,11 @@ class Categorie extends \Library\Controller\Controller {
 
 
 
-    public function deletecategorie($params) {
+    public function deleteCategorie($params) {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         
         $res=$modelCategorie->delete("`id_cat`='{$params['id_cat']}'");
             
@@ -109,11 +109,11 @@ class Categorie extends \Library\Controller\Controller {
     }
 
 
-    public function getimagecategorie($params) {
+    public function getImageCategorie($params) {
         
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         
         $res=$modelCategorie->convEnTab($modelCategorie->fetchAll("`id_cat`='{$params['id_cat']}'"));
             var_dump("getimagecategorie",$res);
@@ -129,13 +129,13 @@ class Categorie extends \Library\Controller\Controller {
 
 
 
-    public function envoiimagecategorie($params) {
+    public function envoiImageCategorie($params) {
         
         $this->setMode("brut");
 
         unset($params['method']);
 
-        $modelCategorie  = new \Application\Models\Categorie('localhost');
+        $modelCategorie  = new \Application\Models\Categorie();
         
         $targetpath='';
         $error    = NULL;

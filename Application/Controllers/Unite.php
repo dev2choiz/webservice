@@ -27,12 +27,12 @@ class Unite extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function getunites(){
+    public function getUnites(){
 
 
 
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite();
         $res=$modelUnite->getUnites();
             
         if( !empty( $res ) ) {
@@ -50,11 +50,11 @@ class Unite extends \Library\Controller\Controller {
      * @param  [type] $params [description]
      * @return [int]         [l'id de l'unite ajouté]
      */
-    public function insertunites($params) {
+    public function insertUnites($params) {
         
         unset($params['method']);
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite();
         
         $res=$modelUnite->insert($params);
             
@@ -69,11 +69,11 @@ class Unite extends \Library\Controller\Controller {
 
 
 
-    public function updateunite($params) {
+    public function updateUnite($params) {
         
         unset($params['method']);
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite();
         
 
         $id=$params['id_unite'];
@@ -90,11 +90,11 @@ class Unite extends \Library\Controller\Controller {
     }
 
 
-    public function deleteunite($params) {
+    public function deleteUnite($params) {
         
         unset($params['method']);
 
-        $modelUnite  = new \Application\Models\Unite('localhost');
+        $modelUnite  = new \Application\Models\Unite();
         
         $res=$modelUnite->delete(" `id_unite`={$params['id_unite']} ");
             

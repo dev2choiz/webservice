@@ -32,7 +32,7 @@ class ListProduit extends \Library\Controller\Controller {
 
 
         
-        $modelListProduit  = new \Application\Models\ListProduit('localhost');
+        $modelListProduit  = new \Application\Models\ListProduit();
         $res=$modelListProduit->fetchAll(" `id_recette`='{$params['id_recette']}' ");
         
         if( !empty( $res ) ) {
@@ -50,7 +50,7 @@ class ListProduit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelListProduit  = new \Application\Models\ListProduit('localhost');
+        $modelListProduit  = new \Application\Models\ListProduit();
         
         echo " `id_produit`={$params['id_produit']} AND  `id_recette`={$params['id_recette']} ";
         $res1= $modelListProduit->fetchAll(" `id_produit`={$params['id_produit']} AND  `id_recette`={$params['id_recette']} ") ;
@@ -86,7 +86,7 @@ class ListProduit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelListProduit  = new \Application\Models\ListProduit('localhost');
+        $modelListProduit  = new \Application\Models\ListProduit();
 
 
         if($modelListProduit->delete(" `id_produit`='{$params['id_produit']}' AND  `id_recette`='{$params['id_recette']}' ") ) {
@@ -103,7 +103,7 @@ class ListProduit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $modelListProduit  = new \Application\Models\ListProduit('localhost');
+        $modelListProduit  = new \Application\Models\ListProduit();
 
         $res= $modelListProduit->fetchAll(" `id_recette`={$params['id_recette']} ") ;
         //var_dump($res);

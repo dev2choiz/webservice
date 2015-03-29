@@ -38,8 +38,9 @@ abstract class Model {
      *  @return     void
      *
      */
-    public function __construct($connexionName){
+    public function __construct(){
         $classConnexion = \Library\Model\Connexion::getInstance();
+        $connexionName = BDD_HOST;
         $this->database = $classConnexion::getConnexion($connexionName);
     }
 

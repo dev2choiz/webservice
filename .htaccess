@@ -3,7 +3,7 @@
 ## http://localhost/Webservice/Public/css/style.css
 
 RewriteEngine On
-RewriteBase /Webservice/Public
+RewriteBase /Public
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?method=$1 [L]

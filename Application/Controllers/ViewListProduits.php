@@ -27,13 +27,13 @@ class ViewListProduits extends \Library\Controller\Controller {
     *  @return     array
     *
     */
-    public function getAllViewListProduits($params) {
+   public function getViewListProduitsByProduit($params) {
         unset($params['method']);
 
 
 
         $modelViewListProduit  = new \Application\Models\ViewListProduits('localhost');
-        $res=$modelViewListProduit->fetchAll(" `id_recette`={$params['id_recette']} ");
+        $res = $modelViewListProduit->fetchAll(" `id_produit`={$params['id_produit']} ");
             
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
@@ -44,4 +44,29 @@ class ViewListProduits extends \Library\Controller\Controller {
 
     }
 
-}
+    /**
+    *  Méthode post($params)
+    *
+    *  Crée une recette avec les paramètres de la requête POST       
+    *  @param      array       $params     [données de requête]
+    *  @return     array
+    *
+    */
+    public function getViewListProduitsByRecette($params) {
+        unset($params['method']);
+
+
+
+        $modelViewListProduit  = new \Application\Models\ViewListProduits('localhost');
+        $res = $modelViewListProduit->fetchAll(" `id_recette`={$params['id_recette']} ");
+            
+        if( !empty( $res ) ) {
+            return $this->setApiResult( $res);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
+        }
+
+
+    }
+
+}	
