@@ -210,16 +210,21 @@ class RestServer {
 		$header_size =0;		// curl_getinfo(curl_init(), CURLINFO_HEADER_SIZE);
 		$body = substr(ob_get_contents(), $header_size);
 
-		$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
-		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
+		//$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
+		$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
 		ob_clean();
 
                        //$this->sendMode='brut';
+
 		if($this->sendMode==='json'){
 			echo json_encode($this->json, JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK);
 		}elseif ($this->sendMode==='brut') {
 			header("Content-type: text/html");
 			echo $body;
+		}elseif ($this->sendMode==='brut+') {
+			header("Content-type: text/html");
+			echo $body;
+			var_export($this->json);
 		}
 	}
 

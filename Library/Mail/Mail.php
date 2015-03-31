@@ -26,7 +26,7 @@ abstract class Mail {
         
         
 
-        $mail = new \PhpMailer\PhpMailer();
+        /*$mail = new \PhpMailer\PhpMailer();
         $mail->IsSMTP();
         $mail->IsHTML(true);
         //$mail->SMTPDebug = 2; 
@@ -34,7 +34,7 @@ abstract class Mail {
 
 
         //yahoo
-        /*$mail->SMTPAuth = true;
+        $mail->SMTPAuth = true;
         $mail->Host = "ssl://188.125.69.59:465"; // SMTP server
         $mail->Username = "fourneaux@yahoo.fr";
         $mail->Password = "acnologia"; 
@@ -50,7 +50,7 @@ abstract class Mail {
         $mail->Password = "Fourneaux1234"; 
         $mail->Port=2525;
         $mail->From=$mailExped;
-        $mail->Subject = $subject;*/
+        $mail->Subject = $subject;
         
 
 
@@ -67,7 +67,7 @@ abstract class Mail {
         $mail->Password = "Fourneaux1234"; 
         $mail->Port=465;
         $mail->From=$mailExped;
-        $mail->Subject = $subject;
+        $mail->Subject = $subject;*/
 
 
 
@@ -75,24 +75,25 @@ abstract class Mail {
         
         $tpl=APP_ROOT."/Models/ViewMail/".$template.".phtml";
         //echo $tpl;
-
-        if(file_exists($tpl)){
+        
+        if( file_exists($tpl) ){
             //echo "ici  sjkqhj";
             ob_start(); //lance au cas ou ca ne serait pas lancé
             $save=ob_get_clean();
             ob_start();
             $content_mail = $body;
             include($tpl);
-            //$tmp=ob_get_contents();
-            $mail->Body = ob_get_clean();  //contient le contenu du mail a l'interieur du template
-            $body
+            
+            $body=ob_get_clean();  //contient le contenu du mail a l'interieur du template
+            //$mail->Body = $body;
             echo $save;     //remet le contenu du buffer qui n'a pas eté arreté
         }else{
-            $mail->Body = $body;
+            //$mail->Body = $body;
+
         }
         
 
-        $mail->AddAddress($mailDest);
+        //$mail->AddAddress($mailDest);
         //$mail->AddReplyTo($mailDest);
         $res=mail($mailDest, $subject, $body);
         
@@ -100,11 +101,11 @@ abstract class Mail {
         if( ($res ) ){
             //echo "msg 2erreur :";
             echo "envoi du mail : ".$res;
-            $mail->SmtpClose();
+            //$mail->SmtpClose();
 
             return false;
         }else{
-            $mail->SmtpClose();
+            //$mail->SmtpClose();
             return true;
         }
 
