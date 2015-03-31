@@ -30,15 +30,15 @@ class User extends \Library\Model\Model {
     );
 
     /**
-     *  Méthode __construct($connexionName)
+     *  Méthode __construct()
      *
      *  Constructeur appelant le constructeur de Library\Model\Model et transmettant la connexion
      *
-     *  @param      string      $connexionName          [Nom de la connexion]
+     *  @param      string                [Nom de la connexion]
      *
      */
-    public function __construct($connexionName){
-        parent::__construct($connexionName);
+    public function __construct(){
+        parent::__construct();
         parent::setPrimary($this->primary);
     }
 }

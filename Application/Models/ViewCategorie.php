@@ -10,8 +10,8 @@ class ViewCategorie extends \Library\Model\Modelview{
 	protected $primary 	= 'id_cat';
 
 
-	public function __construct($connexionName){
-		parent::__construct($connexionName);
+	public function __construct(){
+		parent::__construct();
 	}
 
 }

@@ -224,7 +224,7 @@ class RestServer {
 		}elseif ($this->sendMode==='brut+') {
 			header("Content-type: text/html");
 			echo $body;
-			var_export($this->json);
+			//var_export($this->json);
 		}
 	}
 

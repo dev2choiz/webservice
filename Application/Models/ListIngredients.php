@@ -10,8 +10,8 @@ class ListIngredients extends \Library\Model\Model{
 	protected $primary 	= 'id_liste';
 
 
-	public function __construct($connexionName){
-		parent::__construct($connexionName);
+	public function __construct(){
+		parent::__construct();
 	}
 
 

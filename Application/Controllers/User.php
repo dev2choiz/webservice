@@ -113,7 +113,7 @@ class User extends \Library\Controller\Controller {
             return $this->setApiResult(false, true, "la reponse secrete ne correspond pas a ce que nous avons en base");
         }
 
-        $newPwd = "password";       // new password a definir aleatoirement et envoyer par mail
+        $newPwd = uniqid();       // new password a definir aleatoirement et envoyer par mail
 
         echo " `mail`=".$params['mail']."<br>";
         $newPwdMd5 = md5($newPwd.SALT_PASSWORD);
@@ -258,9 +258,6 @@ class User extends \Library\Controller\Controller {
         if(!empty($user)) { 
             return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); 
         }
-
-
-        if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
         echo "mail n'existe pas dans la base, (sauf si c'est le mail de l'user qu'on traite==>pas de modif du mail)";
 
         
@@ -270,13 +267,15 @@ class User extends \Library\Controller\Controller {
         $params['nom']=$nom;
         $params['prenom']=$prenom;
         
-        $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
+        // $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
         
-        
-        $alors = $modelUser->update("`id_user`='$idUser' AND `password`='$currentPasswordmd5'", $params);
+        echo "<br>`id_user`=$idUser AND `password`='$currentPasswordmd5'<br>";
+        unset($params['confpassword'], $params['currentpassword']);
+        var_export($params);
+        $alors = $modelUser->update(" `id_user`=$idUser AND `password`='$currentPasswordmd5' ", $params);
         
         if(!$alors){
-            return $this->setApiResult(false, true, "erreur lors de la mise a jour des donnees");
+            return $this->setApiResult(false, true, "erreur lors de la mise a jour des donnees.<br> le mot de passe est peut etre invalide");
         }
         return $this->setApiResult(true);
 

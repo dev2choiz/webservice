@@ -40,8 +40,8 @@ abstract class Model {
      */
     public function __construct(){
         $classConnexion = \Library\Model\Connexion::getInstance();
-        $connexionName = BDD_HOST;
-        $this->database = $classConnexion::getConnexion($connexionName);
+        
+        $this->database = $classConnexion::getConnexion(BDD_HOST);
     }
 
     /**
