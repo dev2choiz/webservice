@@ -10,8 +10,8 @@ class ListProduit extends \Library\Model\Model{
 	protected $primary 	= 'id_liste_produits';
 
 
-	public function __construct($connexionName){
-		parent::__construct($connexionName);
+	public function __construct(){
+		parent::__construct();
 	}
 
 }

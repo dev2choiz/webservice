@@ -10,8 +10,8 @@ class ViewCommentaire extends \Library\Model\Modelview{
 	protected $primary 	= 'id_com';
 
 
-	public function __construct($connexionName){
-		parent::__construct($connexionName);
+	public function __construct(){
+		parent::__construct();
 	}
 
 }

@@ -20,14 +20,15 @@ class Mail extends \Library\Controller\Controller {
     public function __construct() {
         parent::__construct();
 
-        //echo ini_set("SMTP","smtp.free.fr" )."<br>";    //a la baraque
-        //echo ini_set("SMTP","smtp.gmail.com" )."<br>";    //au taff
-        //echo ini_set("SMTP","gmail-smtp-in.l.google.com" )."<br>";    //au taff
-        /*echo ini_set("SMTP", "smtp.mail.yahoo.fr" )."<br>";    //marche toupar
-        echo ini_set('smtp_port',587)."<br>";
-        echo ini_set("sendmail_from","fourneaux@yahoo.fr" )."<br>";*/
 
-        //echo ini_set("sendmail_from","fourneaux@yahoo.fr" )."<br>";
+        echo ini_set("SMTP","ssl://smtp.gmail.com" )."<br>"; 
+        echo ini_set('smtp_port',"465")."<br>";
+
+        echo ini_set("sendmail_from","chefdesfourneaux@gmail.com" )."<br>";
+        echo ini_set("auth_username", "chefdesfourneaux@gmail.com");
+        echo ini_set("auth_password", "Fourneaux1234");
+        
+
         //phpinfo();
 
         if (!extension_loaded('openssl')) {
@@ -71,6 +72,9 @@ class Mail extends \Library\Controller\Controller {
         }
         
     }
+
+
+
 
     public function testMail($params){
 
