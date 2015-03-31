@@ -123,16 +123,17 @@ class User extends \Library\Controller\Controller {
         var_dump($res);
         if(  $res  ) {
             
-            $mailExped="fourneaux@yahoo.fr";
+            /*$mailExped="fourneaux@yahoo.fr";
             $mailDest=$params['mail'];
             $subject="94 tu peux pas test!!!";
             $body="mot de passe : ".$newPwd;
             $template="default";
             //envoi du mail
-            echo "envoi du mail : ".$modelMailer->envoyerMail( $mailExped, $mailDest, $body, $subject, $template );
+            echo "envoi du mail : ".$modelMailer->envoyerMail( $mailExped, $mailDest, $body, $subject, $template );*/
 
 
-            return $this->setApiResult( $res);
+            //echo "#########################";
+            return $this->setApiResult($newPwd);
         }else{
             return $this->setApiResult(false, true, "Le mot de passe n'a pas pu etre changé");
         }

@@ -77,7 +77,6 @@ abstract class Mail {
         //echo $tpl;
         
         if( file_exists($tpl) ){
-            //echo "ici  sjkqhj";
             ob_start(); //lance au cas ou ca ne serait pas lancé
             $save=ob_get_clean();
             ob_start();
@@ -86,8 +85,8 @@ abstract class Mail {
             
             $body=ob_get_clean();  //contient le contenu du mail a l'interieur du template
             //$mail->Body = $body;
-            echo $save;     //remet le contenu du buffer qui n'a pas eté arreté
-        }else{
+            echo $save;     //remet le contenu du buffer
+        //}else{
             //$mail->Body = $body;
 
         }
@@ -95,7 +94,7 @@ abstract class Mail {
 
         //$mail->AddAddress($mailDest);
         //$mail->AddReplyTo($mailDest);
-        $res=mail($mailDest, $subject, $body);
+        $res=mail($mailDest, $subject, $body);      //<<============= @
         
 
         if( ($res ) ){
