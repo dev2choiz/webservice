@@ -16,8 +16,8 @@ abstract class Modelview extends Model {
      *  @param      string      $connexionName      []
      *  @return     void
      */
-    public function __construct($connexionName){
-        parent::__construct($connexionName);
+    public function __construct(){
+        parent::__construct();
     }
 
     /**

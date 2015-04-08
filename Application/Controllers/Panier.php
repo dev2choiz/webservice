@@ -176,7 +176,34 @@ class Panier extends \Library\Controller\Controller {
     }
 
 
+    /**
+     * [getSommePanier renvoi la somme des produits presents dans le panier]
+     * @param  [type] $params [description]
+     * @return [type]         [description]
+     */
+    public function getSommePanier($params) {
 
+
+        unset($params['method']);
+
+        $modelViewPanier  = new \Application\Models\ViewPanier();
+        $Viewpanier=$modelViewPanier->fetchAll(" `id_user`='{$params['id_user']}'");
+        
+        $somme=0;
+        foreach ($Viewpanier as $key => $produit) {
+            $somme+=$produit->prix_produit;
+        }
+
+        return $this->setApiResult( $somme);
+
+        /*if( !empty( $res ) ) {
+            return $this->setApiResult( $res);
+        }else{
+            return $this->setApiResult(null);
+        }*/
+
+
+    }
 
 
 
