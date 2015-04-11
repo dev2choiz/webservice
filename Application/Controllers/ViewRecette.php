@@ -59,6 +59,24 @@ class ViewRecette extends \Library\Controller\Controller {
 
             //var_dump($viewAllRecettes);
 
+            //recupere la note
+            $modelNote  = new \Application\Models\Note();
+
+            foreach ($viewAllRecettes as $key => $viewRecette) {
+                $notes=$modelNote->convEnTab($modelNote->fetchAll(" `id_recette`={$viewRecette['id_recette']}  ") );
+                $somme=0;
+                foreach ($notes as $note) {
+                    $somme+=$note['value'];
+                }
+                $moyenne=-1;
+                if(count($notes)>0){
+                    $moyenne=$somme/count($notes);
+                }
+                $viewAllRecettes[$key]['noteMoyenne']=$moyenne;
+
+            }
+
+
             //recupere les ingredients
             $modelVLI     = new \Application\Models\ViewListIngredients();
 
@@ -77,7 +95,7 @@ class ViewRecette extends \Library\Controller\Controller {
                 $viewAllRecettes[$key]['produits'] = $viewLP;
             }
 
-            //recupere les produits
+            //recupere les commentaires
             $modelVC     = new \Application\Models\ViewCommentaire();
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
@@ -105,6 +123,22 @@ class ViewRecette extends \Library\Controller\Controller {
         if( empty($viewRecette[0]) ){
             return $this->setApiResult(false, true, "Aucune recette pour cet id !");
         }
+
+
+        //recupere la moyenne des notes
+        $modelNote = new \Application\Models\Note();
+        $notes=$modelNote->convEnTab($modelNote->fetchAll(" `id_recette`=$param  ") );
+        $somme=0;
+        foreach ($notes as $note) {
+            $somme+=$note['value'];
+        }
+        $moyenne=-1;
+        if(count($notes)>0){
+            $moyenne=$somme/count($notes);
+        }
+        $viewRecetteIPC['noteMoyenne']=$moyenne;
+
+
 
         //recupere les ingredients
         $modelVLI     = new \Application\Models\ViewListIngredients();
@@ -143,17 +177,6 @@ class ViewRecette extends \Library\Controller\Controller {
             $viewRecetteIPC['commentaires'] = $viewC;
         }
 
-        for ($i=0; $i <10000 ; $i++) { 
-            echo "x";
-        }
-
-        //echo "echo du ws<br>";
-        //var_dump("un string sur var dump<br>");
-        //var_dump(array('dfd' => "djkmd" ));
-        //var_dump($viewRecetteIPC);
-        //var_dump($viewRecetteIPC['ingredients'][1]);
-        //var_dump($viewRecetteIPC['ingredients'][2]);
-        //return $this->setApiResult($viewRecetteI);
 
         return $this->setApiResult($viewRecetteIPC);
     }
