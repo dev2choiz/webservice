@@ -206,12 +206,27 @@ class RestServer {
 			$this->json->error=false;
 		}
 
-
+		//header_remove();
 		$header_size =0;		// curl_getinfo(curl_init(), CURLINFO_HEADER_SIZE);
 		$body = substr(ob_get_contents(), $header_size);
 
+		$this->json->page="
+		<div
+			style='background-color:black;
+			color:green;
+			width:400px;
+			height:400px;
+			overflow:scroll;
+			'>
+				@@@>>><br />
+			<marquee>web service (:(|)</marquee>
+
+			".$body."<br>
+			<<<@@@<br /><br />
+			by Samyn, Naïla
+		</div>";
 		//$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
-		$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
+		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
 		ob_clean();
 
                        //$this->sendMode='brut';

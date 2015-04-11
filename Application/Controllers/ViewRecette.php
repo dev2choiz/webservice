@@ -143,8 +143,16 @@ class ViewRecette extends \Library\Controller\Controller {
             $viewRecetteIPC['commentaires'] = $viewC;
         }
 
+        for ($i=0; $i <10000 ; $i++) { 
+            echo "x";
+        }
 
-
+        //echo "echo du ws<br>";
+        //var_dump("un string sur var dump<br>");
+        //var_dump(array('dfd' => "djkmd" ));
+        //var_dump($viewRecetteIPC);
+        //var_dump($viewRecetteIPC['ingredients'][1]);
+        //var_dump($viewRecetteIPC['ingredients'][2]);
         //return $this->setApiResult($viewRecetteI);
 
         return $this->setApiResult($viewRecetteIPC);
