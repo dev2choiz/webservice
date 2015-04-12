@@ -40,7 +40,7 @@ class ViewRecette extends \Library\Controller\Controller {
     public function getAllViewRecettes($param) {    //  obtenir toutes les recettes
         
         //si on cherche a recevoir qu'un les recettes d'une categorie...
-       $where=" 1 ";
+       $where = " 1 ";
 
         if(isset($param['id_cat']) && !empty($param['id_cat']) ){
             $where=" `id_cat`={$param['id_cat']} ";
@@ -50,6 +50,10 @@ class ViewRecette extends \Library\Controller\Controller {
         else if(isset($param['top']) && !empty($param['top']) ){
             $where=" `top`='1' OR  `top`='2' OR  `top`='3' ";
             echo "tri selon le top";
+        }
+        else if(isset($param['type']) && !empty($param['type']) ){
+            $where=" `type`='{$param['type']}' ";
+            echo "tri selon le type";
         }
 
         unset($param['method'], $param['id_cat'], $param['top']);
@@ -111,14 +115,12 @@ class ViewRecette extends \Library\Controller\Controller {
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
                 $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecette['id_recette']}")) ;
-                var_dump("viewComme",$viewC);
             
                 foreach ($viewC as $key2 => $value) {
                     if (isset($param['id_user'] ) ) {  
                         echo "  `id_user`={$param['id_user']} AND  `id_recette`={$viewRecette['id_recette']} ";
                         $note = $modelNote->convEnTab($modelNote->fetchAll("  `id_user`={$param['id_user']} AND  `id_recette`={$viewRecette['id_recette']} "));
                         $note=$note[0];
-                        var_dump("note",$note);
                         if(!empty($note)){
                             $viewC[$key2]['note']=$note['value'];
                         }else{      //pas de note ou aucune 
