@@ -41,13 +41,20 @@ class ViewRecette extends \Library\Controller\Controller {
         
         //si on cherche a recevoir qu'un les recettes d'une categorie...
        $where=" 1 ";
+
         if(isset($param['id_cat']) && !empty($param['id_cat']) ){
             $where=" `id_cat`={$param['id_cat']} ";
-            echo "tri selon la categorie";
+            echo "tri selon la categorie";            
         }
-        unset($param['method'], $param['id_cat']);
 
+        else if(isset($param['top']) && !empty($param['top']) ){
+            $where=" `top`='1' OR  `top`='2' OR  `top`='3' ";
+            echo "tri selon le top";
+        }
 
+        unset($param['method'], $param['id_cat'], $param['top']);
+
+        echo "coucou : ".$where;
 
         var_dump("getAllViewRecettes");
         $modelViewAllRecette       = new \Application\Models\ViewRecette();
@@ -97,6 +104,11 @@ class ViewRecette extends \Library\Controller\Controller {
 
             //recupere les commentaires
             $modelVC     = new \Application\Models\ViewCommentaire();
+
+            //$modelNote     = new \Application\Models\Note();
+
+            //$notes=$modelNote->convEnTab($modelNote->fetchAll("  "));
+
 
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
