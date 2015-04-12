@@ -226,7 +226,7 @@ class RestServer {
 			by Samyn, Naïla
 		</div>";
 		//$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
-		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
+		$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
 		ob_clean();
 
                        //$this->sendMode='brut';

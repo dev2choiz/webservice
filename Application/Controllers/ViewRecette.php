@@ -105,15 +105,35 @@ class ViewRecette extends \Library\Controller\Controller {
             //recupere les commentaires
             $modelVC     = new \Application\Models\ViewCommentaire();
 
-            //$modelNote     = new \Application\Models\Note();
-
-            //$notes=$modelNote->convEnTab($modelNote->fetchAll("  "));
-
-
+            $modelNote     = new \Application\Models\Note();
+        
+           // $this->setMode("brut");
             foreach ($viewAllRecettes as $key => $viewRecette) {
 
                 $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecette['id_recette']}")) ;
+                var_dump("viewComme",$viewC);
+            
+                foreach ($viewC as $key2 => $value) {
+                    if (isset($param['id_user'] ) ) {  
+                        echo "  `id_user`={$param['id_user']} AND  `id_recette`={$viewRecette['id_recette']} ";
+                        $note = $modelNote->convEnTab($modelNote->fetchAll("  `id_user`={$param['id_user']} AND  `id_recette`={$viewRecette['id_recette']} "));
+                        $note=$note[0];
+                        var_dump("note",$note);
+                        if(!empty($note)){
+                            $viewC[$key2]['note']=$note['value'];
+                        }else{      //pas de note ou aucune 
+                            $viewC[$key2]['note']="rien";
+                        }
+                    }else{
+                        $viewC[$key2]['note']="rien";        //rien demandé
+                    }
+
+                }
                 $viewAllRecettes[$key]['commentaires'] = $viewC;
+
+                //ajoute la note
+                
+                //$viewAllRecettes[$key][''] = $viewLP;
             }
 
         }
