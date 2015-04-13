@@ -138,6 +138,16 @@ abstract class Model {
         return $sql->fetchAll();
     }
     
+    public function fetchAllLike($recherche, $champ, $conf ="1", $fields="*") {
+        $req="SELECT $fields FROM `{$this->table}` WHERE ($champ LIKE :recherche) $conf ";
+        echo $req;
+        $sql = $this->database->prepare($req);
+
+        $sql->execute(array('recherche' => '%'.$recherche.'%'));
+        return $sql->fetchAll();
+    }
+
+
     /**
      *  Méthode fetchLasObject()
      *
