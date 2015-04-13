@@ -56,7 +56,7 @@ class Recherche extends \Library\Controller\Controller {
         $modelViewRecette  = new \Application\Models\ViewRecette();
 
         
-        $res=$modelViewRecette->fetchAll(" `$ou`='$mot' ");
+        $res=$modelViewRecette->fetchAllLike($mot, $ou, " ORDER BY $ou ");
         
 
         if( !empty( $res ) ) {
