@@ -18,7 +18,7 @@ class ViewListIngredients extends \Library\Controller\Controller {
         parent::__construct();
     }
 
-    public function getviewlistingredients($params) {
+    public function getViewListIngredients($params) {
 
         unset($params['method']);
         $modelVLI  = new \Application\Models\ViewListIngredients();
