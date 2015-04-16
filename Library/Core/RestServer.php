@@ -63,7 +63,7 @@ class RestServer {
 	 */
 	private $tabCorrespondance;
 
-
+	private $modeStrict;
 
 	/**
 	 * 	Méthode __construct()
@@ -92,10 +92,11 @@ class RestServer {
 		$this->json->error=false;
 		$this->sendMode='json';
 
-		$this->httpMethod = strtoupper($_SERVER["REQUEST_METHOD"]);		//non merci
+		$this->httpMethod = strtoupper($_SERVER["REQUEST_METHOD"]);
+		
+		$this->modeStrict=false;
 		
 		$this->remplirCorrespondance();
-		
 
 		//$this->clientUserAgent = $_SERVER['HTTP_USER_AGENT'];
 		//$this->clientHttpAccept = $_SERVER["HTTP_ACCEPT"];
@@ -114,7 +115,7 @@ class RestServer {
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
 
-		//var_dump("D", $D);
+		var_dump("D", $D);
 
 
 
@@ -167,7 +168,7 @@ class RestServer {
 			//$strService
 			str_replace('\Application\Controllers\\', '', $strService);
 			
-			if( $this->getCorrespondance(str_replace('\Application\Controllers\\', '', $strService), $this->classMethod ) !== $this->httpMethod ){
+			if($this->modeStrict && $this->getCorrespondance(str_replace('\Application\Controllers\\', '', $strService), $this->classMethod ) !== $this->httpMethod ){
 				$this->showError("Class method " . $strService . "::". $this->classMethod . " requiert un ".$this->getCorrespondance(str_replace('\Application\Controllers\\', '', $strService), $this->classMethod ) );
 			}
 
@@ -249,7 +250,7 @@ class RestServer {
 			color:green;
 			width:400px;
 			height:400px;
-			overflow:scroll;
+			overflow:auto;
 			'>
 				@@@>>><br />
 			<marquee>web service (:(|)</marquee>
@@ -259,7 +260,7 @@ class RestServer {
 			by Samyn, Naïla
 		</div>";
 		//$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
-		$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
+		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
 		ob_clean();
 
 
@@ -345,15 +346,85 @@ class RestServer {
 			'deleteRecette' 	=> 'DELETE',
 		);
 
-		$tab['Recette'] = array(
-			'getRecettes' 	=> 'GET',
-			'insertRecette' 	=> 'POST',
-			'updateRecette' 	=> 'PUT',
-			'deleteRecette' 	=> 'DELETE',
-			'getImageRecette'	=> 'GET'
+		$tab['QuestionSecrete'] = array(
+			'getQuestionSecretes' 		=> 'GET',
+			'getQuestionSecrete' 		=> 'POST',
+			'insertQuestionSecrete' 	=> 'POST',
+			'updateQuestionSecrete' 	=> 'PUT',
+			'deleteQuestionSecrete'		=> 'DELETE'
+		);
+		$tab['Produit'] = array(
+			'getAllProduits' 	=> 'GET',
+			'getProduit' 	=> 'GET',
+			'insertProduit' 	=> 'POST',
+			'updateProduit' 	=> 'PUT',
+			'deleteProduit'	=> 'DELETE',
+			'recupererScriptNewProduit'	=> 'GET',
+			'getImageProduit'	=> 'GET',
+			'envoiImageProduit'	=> 'GET'
+		);
+		$tab['Panier'] = array(
+			'getPanier' 	=> 'GET',
+			'insertPanier' 	=> 'POST',
+			'updatePanier' 	=> 'PUT',
+			'deletePanier' 	=> 'DELETE',
+			'viderPanier'	=> 'DELETE',
+			'getHtmlIconPanier'	=> 'GET',
+			'existeDansPanier'	=> 'GET',
+			'getSommePanier'	=> 'GET'
 		);
 
-		//................
+
+
+		$tab['Note'] = array(
+			'updateNote' 	=> 'PUT',
+			'getNote' 	=> 'GET',
+			'getMoyenneNote' 	=> 'GET'
+		);
+
+
+
+		$tab['Mail'] = array(
+			'envoyerMail' 	=> 'GET',
+			'testMail' 	=> 'GET',
+			'redefinirPassword' 	=> 'PUT'
+		);
+
+
+
+		$tab['ListIngredients'] = array(
+			'insertListIngredients' 	=> 'POST',
+			'updateListIngredients' 	=> 'PUT'
+		);
+
+
+
+		$tab['Ingredient'] = array(
+			'getIngredients' 	=> 'GET',
+			'insertIngredients' 	=> 'POST',
+			'updateIngredient' 	=> 'PUT',
+			'deleteIngredient' 	=> 'DELETE'
+		);
+
+
+		$tab['Commentaire'] = array(
+			'getCommentaires' 	=> 'GET',
+			'getCommentaire' 	=> 'GET',
+			'insertCommentaire' 	=> 'POST',
+			'updateCommentaire' 	=> 'PUT',
+			'deleteCommentaire' 	=> 'DELETE'
+		);
+
+
+		$tab['Categorie'] = array(
+			'getCategories' 	=> 'GET',
+			'insertCategorie' 	=> 'POST',
+			'updateCategorie' 	=> 'PUT',
+			'deleteCategorie' 	=> 'DELETE',
+			'getImageCategorie' 	=> 'GET',
+			'envoiImageCategorie' 	=> 'PUT'
+		);
+
 
 
 		//var_dump($tab);
