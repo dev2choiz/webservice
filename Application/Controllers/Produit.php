@@ -55,10 +55,21 @@ class Produit extends \Library\Controller\Controller {
             return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
         }
 
-
     }
 
+    public function getTopProduits($params) {
+        unset($params['method']);
 
+        $modelProduit  = new \Application\Models\Produit();
+        $res = $modelProduit->fetchAll(" `top`='1' OR  `top`='2' OR  `top`='3' ");
+           
+        if( !empty( $res ) ) {
+            return $this->setApiResult($res);
+        }else{
+            return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
+        }
+
+    }
 
     public function insertProduit($params) {
 
