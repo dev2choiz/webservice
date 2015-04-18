@@ -40,19 +40,18 @@ class ViewRecette extends \Library\Controller\Controller {
     public function getAllViewRecettes($param) {    //  obtenir toutes les recettes
         
         //si on cherche a recevoir qu'un les recettes d'une categorie...
-       $where = " 1 ";
+       $where = " 1 ORDER BY `titre` ";
 
         if(isset($param['id_cat']) && !empty($param['id_cat']) ){
-            $where=" `id_cat`={$param['id_cat']} ";
+            $where = " `id_cat`={$param['id_cat']} ORDER BY `titre` ";
             echo "tri selon la categorie";            
         }
-
         else if(isset($param['top']) && !empty($param['top']) ){
-            $where=" `top`='1' OR  `top`='2' OR  `top`='3' ";
+            $where=" `top`='1' OR  `top`='2' OR  `top`='3'  ORDER BY `top` ";
             echo "tri selon le top";
         }
         else if(isset($param['type']) && !empty($param['type']) ){
-            $where=" `type`='{$param['type']}' ";
+            $where = " `type`='{$param['type']}' ORDER BY `titre` ";
             echo "tri selon le type";
         }
 
@@ -79,7 +78,7 @@ class ViewRecette extends \Library\Controller\Controller {
                 foreach ($notes as $note) {
                     $somme+=$note['value'];
                 }
-                $moyenne=-1;
+                $moyenne = -1;
                 if(count($notes)>0){
                     $moyenne=$somme/count($notes);
                 }
@@ -166,7 +165,7 @@ class ViewRecette extends \Library\Controller\Controller {
         foreach ($notes as $note) {
             $somme+=$note['value'];
         }
-        $moyenne=-1;
+        $moyenne = -1;
         if(count($notes)>0){
             $moyenne=$somme/count($notes);
         }
