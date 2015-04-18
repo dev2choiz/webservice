@@ -214,5 +214,7 @@ class ViewRecette extends \Library\Controller\Controller {
 
         return $this->setApiResult($viewRecetteIPC);
     }
+
+    
 }
 

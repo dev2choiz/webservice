@@ -421,6 +421,11 @@ abstract class Model {
     }
 
 
+    public function echapper($chaine){
+        if (is_string($chaine)) return $this->database->quote($chaine);
+        return $chaine;
+    }
+
 
 
 }

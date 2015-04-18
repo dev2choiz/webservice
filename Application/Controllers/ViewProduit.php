@@ -36,6 +36,7 @@ class ViewProduit extends \Library\Controller\Controller {
         
         $modelViewProduit       = new \Application\Models\ViewProduit();
         $viewAllProduits           = $modelViewProduit->convEnTab($modelViewProduit->fetchAll() );
+        var_dump($viewAllProduits);
         if( empty($viewAllProduits[0]) ){
              return $this->setApiResult(false, true, "aucun produit");
         }else{

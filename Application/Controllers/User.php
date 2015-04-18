@@ -42,10 +42,10 @@ class User extends \Library\Controller\Controller {
 
         // on vérifie l'existence de valeurs non nulles pour les paramètres obligatoires
         if(is_null($mail)) { 
-            return $this->setApiResult(false, true, "Param mail is required on method get"); 
+            return $this->setApiResult(false, true, "Param mail attendu"); 
         }
         if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) { 
-            return $this->setApiResult(false, true, "Invalid mail address : expecting XXX@YYY.ZZZ pattern for mail in method get."); 
+            return $this->setApiResult(false, true, "Mail invalide, nous attendons : XXX@YYY.ZZZ"); 
         }
 
         // hasher le mot de passe transmis
@@ -86,7 +86,7 @@ class User extends \Library\Controller\Controller {
         
         var_dump ($user);
         //die();
-        if(!(count($user)==1 && !empty($user[0]))) { return $this->setApiResult(false, true, "Invalid mail or password"); }
+        if(!(count($user)==1 && !empty($user[0]))) { return $this->setApiResult(false, true, "Mail non trouvé"); }
 
         unset($user['password']);
 
@@ -166,6 +166,7 @@ class User extends \Library\Controller\Controller {
         $password   = (empty($params["password"]))? null : $params["password"];
         $nom        = (empty($params["nom"]))? null : $params["nom"];
         $prenom     = (empty($params["prenom"]))? null : $params["prenom"];
+        $pseudo     = (empty($params["pseudo"]))? null : $params["pseudo"];
 
 
         // on vérifie l'existence de valeurs non nulles pour les paramètres obligatoires
@@ -185,9 +186,11 @@ class User extends \Library\Controller\Controller {
         // vérifier unicité de l'adresse mail
         $where = "`mail`='{$mail}'";
         $user = $modelUser->fetchAll($where);
-        if(!empty($user)) { return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); }
+        if(!empty($user)) { return $this->setApiResult(false, true, "L'adresse mail :  {$mail} existe déjà en base. Vous devez en choisir une autre!"); }
 
-        $params['password']=$passwordmd5;
+        $params['password'] = $passwordmd5;
+        $params['pseudo'] = $pseudo;
+        $params['role'] = 'membre';
         var_dump($params);
         $user = $modelUser->insertWithReturn($params);
         if(is_string($user)){
@@ -207,74 +210,80 @@ class User extends \Library\Controller\Controller {
      */
     public function updateUser($params){
         unset($params['method']);
-
-        $idUser=$params['verifid_user'];                unset($params['verifid_user']);
-        $currentPassword=$params['verifpassword'];      unset($params['verifpassword']);
-        $currentMail=$params['verifmail'];              unset($params['verifmail']);
+        var_dump($params);
+        $verifPassword = $params['verifpassword'];      unset($params['verifpassword']);
+        $verifMail = $params['verifmail'];              unset($params['verifmail']);
         $modelUser  = new \Application\Models\User();
         //$params=$modelUser->convEnTab( json_decode( $params['params']) );
         
         
-        $currentPasswordmd5=md5($currentPassword.SALT_PASSWORD);
-        $where = "`mail`='{$currentMail}' AND `password`='{$currentPasswordmd5}' ";
+        $verifPasswordmd5=md5($verifPassword.SALT_PASSWORD);
+        $where = "`mail`='{$verifMail}' AND `password`='{$verifPasswordmd5}' ";
         $user = $modelUser->fetchAll($where);
         
 
         if(empty($user)) { return $this->setApiResult(false, true, "Mot de passe invalide"); }      //0% de chance
         echo "verification du mot de passe actuel OK";
- 
-        //$password=md5($params['password'].SALT_PASSWORD);
 
-        //$user       = $modelUser->update("`id_user`=$id AND `password`='$password'", $params);
+        // verifie si l'utilisateur a rentré un mail vide
+         
+        //Si on essaie de modifier le mail
+        if(!empty($params["mail"]) ){
 
-        // l'utilisateur s'enregistre dans la base de données avec ses informations
-        $mail       = (empty($params["mail"]))? null : $params["mail"];
-        $password   = (empty($params["password"]))? null : $params["password"];
-        $nom        = (empty($params["nom"]))? null : $params["nom"];
-        $prenom     = (empty($params["prenom"]))? null : $params["prenom"];
+            if ($params["mail"]===$verifMail) {
+                //si 
+                unset($params["mail"]);
+            }  else {
 
+                $mail       = $params["mail"];
 
-        // on vérifie l'existence de valeurs non nulles pour les paramètres obligatoires
-        if(is_null($mail)) { 
-            return $this->setApiResult(false, true, "Param mail is required on method post"); 
-        }
-        if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) { 
-            return $this->setApiResult(false, true, "expecting XXX@YYY.ZZZ pattern for mail on method post."); 
-        }
-        if(is_null($password)) { 
-            return $this->setApiResult(false, true, "Param password is required on method post"); 
+                // on vérifie l'existence de valeurs non nulles pour les paramètres obligatoires
+                if(!filter_var($mail, FILTER_VALIDATE_EMAIL)) { 
+                    return $this->setApiResult(false, true, "le format du mail doit correspondre à : XXX@YYY.ZZZ"); 
+                }
+
+                // vérifier que la nouvelle adresse mail n'existe pas déjà pour un autre utilisateur
+                $where = "`mail`='{$mail}' AND `mail` != '{$verifMail}'";
+                $user = $modelUser->fetchAll($where);
+                //var_dump('user', $where, $user);
+
+                if(!empty($user)) { 
+                    return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); 
+                }
+                echo "Le mail n'existe pas dans la base, (sauf si c'est le mail de l'user actuel, dans ce cas, il n'y a pas de modification du mail)";
+
+            }
+        }else{
+            return $this->setApiResult(false, true, "le mail ne peut pas être vide"); 
         }
 
 
         // hasher le mot de passe transmis
-        $passwordmd5 = md5($password.SALT_PASSWORD);
+        
+        if(!empty($params["password"])){
+            if (strlen($params["password"])<5) {
+                return $this->setApiResult(false, true, "le mot de passe doit contenir au moins 5 caractères"); 
+            }
+            if(!empty($params['confpassword']) && $params['confpassword'] !== $params['password']){
+                return $this->setApiResult(false, true, "la confirmation du mot de passe n'est pas identique au mot de passe"); 
+            }
 
 
-        // vérifier que la nouvelle adresse mail n'existe pas déjà pour un autre utilisateur
-        $where = "`mail`={$mail} AND `id_user`!={$idUser}";
-        $user = $modelUser->fetchAll($where);
-        //var_dump('user', $where, $user);
+            $params['password'] = md5($params["password"].SALT_PASSWORD);
 
-        if(!empty($user)) { 
-            return $this->setApiResult(false, true, "Mail address {$mail} already exists in database. Please choose another mail address!"); 
         }
-        echo "mail n'existe pas dans la base, (sauf si c'est le mail de l'user qu'on traite==>pas de modif du mail)";
+        
+        /*if(!empty($params["date_naissance"])){
+        }*/
 
-        
-        
-        $params['mail']=$mail;
-        $params['password']=$passwordmd5;
-        $params['nom']=$nom;
-        $params['prenom']=$prenom;
-        
-        // $result = array("mail" => $mail, "password" => $passwordmd5, "nom" => $nom, "prenom" => $prenom);
-        
-        echo "<br>`id_user`=$idUser AND `password`='$currentPasswordmd5'<br>";
+
+
         unset($params['confpassword'], $params['currentpassword']);
-        var_export($params);
-        $alors = $modelUser->update(" `id_user`=$idUser AND `password`='$currentPasswordmd5' ", $params);
+        var_dump($params);
+        $result = $modelUser->update(" `mail`='$verifMail' AND `password`='$verifPasswordmd5' ", $params);
+        echo "`mail`=$verifMail AND `password`='$verifPasswordmd5'";
         
-        if(!$alors){
+        if(!$result){
             return $this->setApiResult(false, true, "erreur lors de la mise a jour des donnees.<br> le mot de passe est peut etre invalide");
         }
         return $this->setApiResult(true);
@@ -292,7 +301,7 @@ class User extends \Library\Controller\Controller {
      */
     public function deleteUser($params) {
 
-
+        var_dump($params);
         unset($params['method']);
         
         $idUser=$params['id_user'];
@@ -300,12 +309,17 @@ class User extends \Library\Controller\Controller {
         
         $modelUser  = new \Application\Models\User();
         
+
+        $where = "`id_user`={$idUser} ";
+        $user = $modelUser->fetchAll($where);
+        if(empty($user)) { return $this->setApiResult(false, true, "L'utilisateur n'existe pas"); }
+
         //verifie si le mot de passe est bon
         $passwordmd5=md5($password.SALT_PASSWORD);
-        $where = "`id_user`='{$idUser}' AND `password`='{$passwordmd5}' ";
+        $where = "`id_user`={$idUser} AND `password`='{$passwordmd5}' ";
         $user = $modelUser->fetchAll($where);
-        
-        if(empty($user)) { return $this->setApiResult(false, true, "Mot de passe invalide"); }
+        echo "`id_user`='{$idUser}' AND `password`='{$passwordmd5}' ";
+        if(empty($user)) { return $this->setApiResult(false, true, "Mot de passe ne correspond pas à l'utilisateur renseigné"); }
         
 
         //on suppr

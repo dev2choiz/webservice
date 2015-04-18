@@ -257,7 +257,7 @@ class RestServer {
 
 			".$body."<br>
 			<<<@@@<br /><br />
-			by Samyn, Naïla
+			by Samyn, Na&iuml;la
 		</div>";
 		//$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
 		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";

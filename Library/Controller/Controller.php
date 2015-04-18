@@ -78,5 +78,9 @@ abstract class Controller {
     }
 
 
+    public function echapper($chaine){
+        $modelCategorie  = new \Application\Models\Categorie();
+        return $modelCategorie->echapper($chaine);
+    }
 
 }
