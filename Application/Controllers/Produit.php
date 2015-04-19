@@ -151,7 +151,9 @@ class Produit extends \Library\Controller\Controller {
 
         unset($params['method']);
 
-        $params['prix']=$params['prix']+0;
+        if(!empty($params['prix'])){
+            $params['prix']=$params['prix']+0;
+        }
         //var_dump();
         $modelProduit  = new \Application\Models\Produit();
 

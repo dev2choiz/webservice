@@ -24,12 +24,17 @@ class ListIngredients extends \Library\Controller\Controller {
         unset($params['method']);
         $modelLI  = new \Application\Models\ListIngredients();
 
-        //var_dump($params);
+        if (empty($params['ingredients']) || empty($params['unites'])  || empty($params['quantites']) ) {
+            return $this->setApiResult(false, true, "les données concernant les ingrédients n'ont pas étées recu");
+        }
+
         $params['ingredients']=json_decode($params['ingredients']) ;
         $params['unites']=json_decode($params['unites']) ;
         $params['quantites']=json_decode($params['quantites']) ;
         
         $res=$modelLI->insertListIngredients($params);
+
+
             
         if($res ) {
             return $this->setApiResult( $res );
@@ -47,14 +52,18 @@ class ListIngredients extends \Library\Controller\Controller {
         unset($params['method']);
         $modelLI  = new \Application\Models\ListIngredients();
 
+        var_dump($params);
+
+        if (empty($params['ingredients']) || empty($params['unites'])  || empty($params['quantites']) ) {
+            return $this->setApiResult(false, true, "les données concernant les ingrédients n'ont pas étées recu");
+        }
 
         //supression de tout les ingredients de la recette
         $modelLI->delete(" `id_recette`={$params['id_recette']} ");
          
 
 
-
-        //var_dump($params);
+        
         $params['ingredients']=json_decode($params['ingredients']) ;
         $params['unites']=json_decode($params['unites']) ;
         $params['quantites']=json_decode($params['quantites']) ;

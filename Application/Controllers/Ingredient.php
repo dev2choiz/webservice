@@ -61,7 +61,7 @@ class Ingredient extends \Library\Controller\Controller {
         if(  $res  ) {
             return $this->setApiResult($modelIngredient->getLast());
         }else{
-            return $this->setApiResult(false, true, "erreur pendant l'insertion des ingredients");
+            return $this->setApiResult(false, true, "erreur pendant l'insertion de l'ingredient");
         }
 
 

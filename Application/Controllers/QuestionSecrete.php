@@ -97,7 +97,7 @@ class QuestionSecrete extends \Library\Controller\Controller {
 
         $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         
-        $res=$modelQuestionSecrete->update(" `id_cat`='{$params['id_cat']}'", $params);
+        $res=$modelQuestionSecrete->update(" `id_questionsecrete`='{$params['id_questionsecrete']}'", $params);
             
         if(  $res  ) {
             return $this->setApiResult(true);
@@ -117,7 +117,7 @@ class QuestionSecrete extends \Library\Controller\Controller {
 
         $modelQuestionSecrete  = new \Application\Models\QuestionSecrete();
         
-        $res=$modelQuestionSecrete->delete("`id_cat`='{$params['id_cat']}'");
+        $res=$modelQuestionSecrete->delete("`id_questionsecrete`='{$params['id_questionsecrete']}'");
             
         if(  $res  ) {
             return $this->setApiResult(true);

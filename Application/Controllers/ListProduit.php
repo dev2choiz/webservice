@@ -73,7 +73,7 @@ class ListProduit extends \Library\Controller\Controller {
 
      
     /**
-     *  Méthode post($params)
+     *  Méthode deleteListProduit($params)
      *
      *  Crée une recette avec les paramètres de la requête POST
      *       
@@ -81,7 +81,7 @@ class ListProduit extends \Library\Controller\Controller {
      *  @return     array
      *
      */
-    public function deleteListProduit($params) {         //delete une recette
+    public function deleteListProduit($params) {
 
 
         unset($params['method']);

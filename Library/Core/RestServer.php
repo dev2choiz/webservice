@@ -115,7 +115,7 @@ class RestServer {
 			default 		: $this->showError("HTTP Method `".$this->httpMethod."` not found or allowed");
 		}
 
-		var_dump("D", $D);
+		
 
 
 
@@ -152,8 +152,8 @@ class RestServer {
 
 			
 			//$this->classMethod = strtolower($D["method"]);	//string de la methode de la classe. exemple: getrecettes
-			$this->classMethod = $D["method"];	//string de la methode de la classe. exemple: getrecettes
-			echo $this->classMethod."<=====methode<br>";
+			$this->classMethod = $D["method"];	//string de la methode de la classe. exemple: getRecettes
+			
 
 
 			if(!method_exists($this->service, $this->classMethod)){

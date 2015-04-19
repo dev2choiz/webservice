@@ -94,9 +94,9 @@ class Panier extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelPanier  = new \Application\Models\Panier();
-        //echo " `id_produit`='{$params['id_produit']}' AND `id_user`='{$params['id_user']}' ";
-        $res = $modelPanier->delete(" `id_panier`='{$params['id_panier']}' AND `id_user`='{$params['id_user']}' ");
-        //var_dump($res);
+        
+        $res = $modelPanier->delete(" `id_panier`='{$params['id_panier']}' ");
+        
         if(  $res  ) {
             return $this->setApiResult(true);
         }else{
@@ -140,9 +140,7 @@ class Panier extends \Library\Controller\Controller {
         
         if( !empty( $res ) ) {
             $nbrProd=count($res);
-            $html="
-                $nbrProd
-            ";
+            $html="$nbrProd";
 
             return $this->setApiResult( $html);
         }else{
@@ -190,18 +188,11 @@ class Panier extends \Library\Controller\Controller {
         $Viewpanier=$modelViewPanier->fetchAll(" `id_user`='{$params['id_user']}'");
         
         $somme=0;
-        foreach ($Viewpanier as $key => $produit) {
+        foreach ($Viewpanier as $produit) {
             $somme+=$produit->prix_produit;
         }
 
         return $this->setApiResult( $somme);
-
-        /*if( !empty( $res ) ) {
-            return $this->setApiResult( $res);
-        }else{
-            return $this->setApiResult(null);
-        }*/
-
 
     }
 

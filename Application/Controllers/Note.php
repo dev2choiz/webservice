@@ -32,8 +32,9 @@ class Note extends \Library\Controller\Controller {
 
         $modelNote  = new \Application\Models\Note();
         $res=$modelNote->fetchAll(" `id_user`={$params['id_user']} AND  `id_recette`={$params['id_recette']}  ");
-        //var_dump($res);
-        if (empty($res) ) {     //si la note pour la recette n'existe pas 
+        
+        //si la note pour la recette n'existe pas
+        if (empty($res) ) {
             $res=$modelNote->insert($params);
             $res=($res>0)?true:false;
         } else {

@@ -111,7 +111,7 @@ class Commentaire extends \Library\Controller\Controller {
         
         $modelCommentaire  = new \Application\Models\Commentaire();
 
-        if($modelCommentaire->update(" `id_commentaire`='{$params['id_commentaire']}' ", $params) ) {
+        if($modelCommentaire->update(" `id_com`='{$params['id_com']}' ", $params) ) {
             return $this->setApiResult(true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la mise a jour");
@@ -139,7 +139,7 @@ class Commentaire extends \Library\Controller\Controller {
         $modelComm  = new \Application\Models\Commentaire();
 
 
-        if($modelLI->delete(" `id_commentaire`='{$params['id_commentaire']}' ") ) {
+        if($modelComm->delete(" `id_com`='{$params['id_com']}' ") ) {
             return $this->setApiResult(true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la suppression du commentaire");
