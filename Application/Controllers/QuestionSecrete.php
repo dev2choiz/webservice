@@ -40,8 +40,6 @@ class QuestionSecrete extends \Library\Controller\Controller {
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des questionsecretes");
         }
-
-
     }
 
 
@@ -58,6 +56,25 @@ class QuestionSecrete extends \Library\Controller\Controller {
             return $this->setApiResult( $res);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation de la questionsecrete");
+        }
+
+
+    }
+
+
+    //a tester aussi dans jmeter
+    public function getQuestionSecreteUser($params) {         //ajouter une recette
+
+        unset($params['method']);
+
+
+        $modelUser  = new \Application\Models\User();
+        $res=$this->convEnTab($modelUser->fetchAll(" `mail`='{$params['mail']}' ") );
+        
+        if( !empty( $res ) ) {
+            return $this->setApiResult( $res[0]['id_questionsecrete']);
+        }else{
+            return $this->setApiResult(0, true, "erreur pendant la recuperation de la question secrete de l'utilisateur");
         }
 
 
