@@ -248,8 +248,8 @@ class RestServer {
 		<div
 			style='background-color:black;
 			color:green;
-			width:400px;
-			height:400px;
+			width:800px;
+			height:600px;
 			overflow:auto;
 			'>
 				@@@>>><br />

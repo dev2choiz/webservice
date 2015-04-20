@@ -54,20 +54,23 @@ class Recherche extends \Library\Controller\Controller {
 
    public function getRecherche($params) {
         unset($params['method']);
-        $mot=$params['recherche'];
+        var_dump("params recu",$params);
+        $mot = $params['recherche'];
         $ou =  $params['ou'];
 
+        var_dump($mot, $ou);
         
-        /*if(!$this->verifierChaine($chaine) ){
+        if(!$this->verifierChaine($mot) ){
             //caracteres non permis 
-            return $this->setApiResult( [] );
+            //return $this->setApiResult( [] );
         }
         
-        $ou=$this->echapper($ou);*/
-
+        //$ou=$this->echapper($ou);
+        //echo "<br> ou apres echappe=".$ou."<br>";
         $modelViewRecette  = new \Application\Models\ViewRecette();
         $res=$modelViewRecette->fetchAllLike($mot, $ou, " ORDER BY $ou ");
         
+        var_dump("viewrecettes",$res);
 
         if( !empty( $res ) ) {
             return $this->setApiResult( $res);
@@ -79,9 +82,9 @@ class Recherche extends \Library\Controller\Controller {
 
 
    public function verifierChaine($chaine) {
-        /*if ($chaine==="." || $chaine===".." || $chaine==="..." ) {
+        if ($chaine==="." || $chaine===".." || $chaine==="..." ) {
             return false;
-        }*/
+        }
         return true;
     }
 
