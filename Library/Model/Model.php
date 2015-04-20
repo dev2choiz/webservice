@@ -139,7 +139,8 @@ abstract class Model {
     }
     
     public function fetchAllLike($recherche, $champ, $conf ="1", $fields="*") {
-        $req="SELECT $fields FROM `{$this->table}` WHERE ($champ LIKE :recherche) $conf ";
+        
+        $req="SELECT $fields FROM `{$this->table}` WHERE ($champ LIKE :recherche ) $conf ";
         echo $req;
         $sql = $this->database->prepare($req);
 
