@@ -108,19 +108,24 @@ class Recette extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelLI  = new \Application\Models\ListIngredients();
+        $modelLP  = new \Application\Models\ListProduit();
 
 
         if($modelLI->delete(" `id_recette`='{$params['id_recette']}' ") ) {
 
-            //si la suppression des ingredients c'est bien passée on tente de sup la recette
-            $modelRecette  = new \Application\Models\Recette();
-            if($modelRecette->delete(" `id_recette`='{$params['id_recette']}' ") ){
+
+            if($modelLP->delete(" `id_recette`='{$params['id_recette']}' ") ) {
+                //si la suppression des ingredients et des produits c'est bien passée on tente de sup la recette
+                $modelRecette  = new \Application\Models\Recette();
+                if($modelRecette->delete(" `id_recette`='{$params['id_recette']}' ") ){
+                    return $this->setApiResult(true);
+                }else{
+                    return $this->setApiResult(false, true, "erreur pendant la suppression de la recette");
+                }
                 return $this->setApiResult(true);
             }else{
-                return $this->setApiResult(false, true, "erreur pendant la suppression de la recette");
+                return $this->setApiResult(false, true, "erreur pendant la suppression des produits");
             }
-
-            return $this->setApiResult(true);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la suppression des ingredients");
         }
