@@ -85,7 +85,6 @@ class Produit extends \Library\Controller\Controller {
         $targetpath='';
         $error    = NULL;
         $filename = NULL;
-        var_dump($_FILES);
         if ( isset($_FILES['img']) && $_FILES['img']['error'] === 0 ) {
             echo 'dans le if<BR>';
             $filename = $this->retirerCaractereSpeciaux($params['value']);
@@ -95,7 +94,7 @@ class Produit extends \Library\Controller\Controller {
  
             if (@move_uploaded_file($_FILES['img']['tmp_name'], $targetpath)) { // Si ça fonctionne
                 $error = 'non';
-                $params['img']="/img/produit/". $filename.'.jpg';
+                $params['img']="produit/". $filename.'.jpg';
             }else{ // Si ça ne fonctionne pas
                 $error = "Échec de l'enregistrement !";
             }
@@ -220,7 +219,7 @@ class Produit extends \Library\Controller\Controller {
 
                             </div>
                             <div class='col-md-4'>
-                                Prix : <span id='labelPrixProduit'>{$produit['prix']}</span> €
+                                Prix : <span id='labelPrixProduit'>".number_format($produit['prix'], 2, '.', ' ')."</span> €
                                 Référence : <span id='labelRefProduit'>{$produit['ref']}</span>
                             </div>
                             
