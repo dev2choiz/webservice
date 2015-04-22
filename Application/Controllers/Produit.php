@@ -50,7 +50,7 @@ class Produit extends \Library\Controller\Controller {
         var_dump($res);
             
         if( !empty( $res ) ) {
-            return $this->setApiResult( $res);
+            return $this->setApiResult( $res[0]);
         }else{
             return $this->setApiResult(false, true, "erreur pendant la recuperation des produit");
         }
@@ -80,14 +80,30 @@ class Produit extends \Library\Controller\Controller {
         $this->setMode("brut");     //pour pouvoir lancer une fonction js du webservice   
 
 
+
+
+        //verification des champs
+        echo "prix avant = ".$params['prix'];
+        $params['top']="0";
+        $params['prix']=floatval($params['prix']);
+        if(($params['prix']+0)>2000000){
+            $error="le prix est trop elevé";
+            echo '
+            <script type="text/javascript">
+                window.top.window.finUpload("'.$error.'", 0);
+            </script>';
+            return $this->setApiResult(false, true, "le prix est trop elevé");
+        }
+
+
         //###################################################### reste a 10 pas
         
         $targetpath='';
         $error    = NULL;
         $filename = NULL;
-        var_dump($_FILES);
+        var_dump("dolfile",$_FILES);
         if ( isset($_FILES['img']) && $_FILES['img']['error'] === 0 ) {
-            echo 'dans le if<BR>';
+            //echo 'dans le if<BR>';
             $filename = $this->retirerCaractereSpeciaux($params['value']);
             $targetpath = IMG_ROOT."produit/". $filename.'.jpg'; // On stocke le chemin où enregistrer le fichier
             echo $filename."<BR>".$targetpath."<br>".$_FILES['img']['tmp_name']."<br>";
@@ -95,7 +111,7 @@ class Produit extends \Library\Controller\Controller {
  
             if (@move_uploaded_file($_FILES['img']['tmp_name'], $targetpath)) { // Si ça fonctionne
                 $error = 'non';
-                $params['img']="/img/produit/". $filename.'.jpg';
+                $params['img']="produit/". $filename.'.jpg';
             }else{ // Si ça ne fonctionne pas
                 $error = "Échec de l'enregistrement !";
             }
@@ -109,18 +125,16 @@ class Produit extends \Library\Controller\Controller {
 
 
 
-
-
+        var_dump("params",$params);
         $res=$modelProduit->insert($params);
-             //echo $res;
+        echo "DLD".$res."##";
 
 
 
 
-        if( $res  ) {
+        if( $res>0  ) {
 
             echo '
-            '.$res.'
             <script type="text/javascript">
                 window.top.window.finUpload("'.$error.'", '.$modelProduit->getLast().');
             </script>';
@@ -192,6 +206,8 @@ class Produit extends \Library\Controller\Controller {
 
 
 
+    
+    /*
     public function recupererScriptNewProduit($params){
 
         unset($params['method']);
@@ -243,7 +259,7 @@ class Produit extends \Library\Controller\Controller {
         }else{
             return $this->setApiResult(false, true, "Le produit n'existe pas");
         }
-    }
+    }*/
 
 
 
