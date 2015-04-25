@@ -19,23 +19,17 @@ class Recette extends \Library\Controller\Controller {
     }
 
     /**
-     *  Méthode getrecettes($params)
-     *
-     *  Récupèrera un nombre donnée de recettes
-     *       
-     *  @param      array       $params     [données de requête]
-     *  @return     array
-     * 
+     * Permet d'obtenir toutes les recettes
+     * @return stdClass object 
      */
-    public function getRecettes() {      //  obtenir toutes les recettes
+    public function getRecettes() {
         
         
         $modelRecette   = new \Application\Models\Recette();
         $recettes       = $modelRecette->fetchAll();
         if( empty($recettes[0]) ){
-            $this->message->addError("aucune recette !");
+            $this->setApiResult(false, true, "aucune recette !");
         }
-
         return $this->setApiResult($recettes);
     }
 
@@ -52,8 +46,6 @@ class Recette extends \Library\Controller\Controller {
 
 
         unset($params['method']);
-
-        var_dump("Webservice insert",$params);
         $modelRecette  = new \Application\Models\Recette();
 
         if($modelRecette->insert($params) ) {
@@ -61,8 +53,6 @@ class Recette extends \Library\Controller\Controller {
         }else{
             return $this->setApiResult(0, true, "erreur pendant l'ajout");
         }
-
-
     }
     
     /**
@@ -143,7 +133,6 @@ class Recette extends \Library\Controller\Controller {
         $modelRecette  = new \Application\Models\Recette();
         echo "`id_recettre`='{$params['id_recette']}'";
         $res=$modelRecette->convEnTab($modelRecette->fetchAll("`id_recette`={$params['id_recette']}"));
-            var_dump("getimagerecette",$res);
             
         if(  !empty($res)  ) {
             return $this->setApiResult($res[0]['img']);
