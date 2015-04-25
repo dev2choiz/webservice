@@ -38,33 +38,57 @@ class ViewRecette extends \Library\Controller\Controller {
      * @return [json]        [json de recettes]
      */
     public function getAllViewRecettes($param) {    //  obtenir toutes les recettes
-        
-        //si on cherche a recevoir qu'un les recettes d'une categorie...
-       $where = " 1 ORDER BY `titre` ";
 
+
+        
+
+        //$where = " 1 ORDER BY `titre` ";
+        
+        if(empty($param['droit'])  ){
+            //premium s'il n'y a pas de parametre droit
+            //en attendant que les clients integre ce param
+            $param['droit']="premium";
+
+            //return $this->setApiResult(false, true, "la valeur 'droit' n'est pas défini");
+        }
+
+
+        //on effectue le tri par rapport au type de client
+        if (  $param['droit']==='membre'  ) {
+            $where = " `droit`='1' ";
+        } else if( $param['droit']==='premium' ) {
+            $where = " (`droit`='1' OR `droit`='2') ";
+        }else{      //l'admin a acces à tout
+            $where="";
+        }
+        
+        
+
+        //si on cherche a recevoir que les recettes d'une categorie...
         if(isset($param['id_cat']) && !empty($param['id_cat']) ){
-            $where = " `id_cat`={$param['id_cat']} ORDER BY `titre` ";
-            echo "tri selon la categorie";            
+            $where .= " AND `id_cat`={$param['id_cat']} ORDER BY `titre` ";
+            echo "tri selon la categorie";
         }
         else if(isset($param['top']) && !empty($param['top']) ){
-            $where=" `top`='1' OR  `top`='2' OR  `top`='3'  ORDER BY `top` ";
+            $where .="  AND (`top`='1' OR  `top`='2' OR  `top`='3')  ORDER BY `top` ";
             echo "tri selon le top";
         }
         else if(isset($param['type']) && !empty($param['type']) ){
-            $where = " `type`='{$param['type']}' ORDER BY `titre` ";
+            $where .= " AND `type`='{$param['type']}' ORDER BY `titre` ";
             echo "tri selon le type";
+        }else{
+            $where .= " ORDER BY `titre` ";
         }
 
-        unset($param['method'], $param['id_cat'], $param['top']);
+        unset($param['method'], $param['id_cat'], $param['top'], $param['droit']);
 
-        echo "coucou : ".$where;
+        
 
-        var_dump("getAllViewRecettes");
         $modelViewAllRecette       = new \Application\Models\ViewRecette();
         $viewAllRecettes           = $modelViewAllRecette->convEnTab($modelViewAllRecette->fetchAll($where) );
 
         if( empty($viewAllRecettes[0]) ){
-             $this->message->addError("Aucune Recette");
+             return $this->setApiResult(false, true, "Aucune recette");
         }else{
 
             //var_dump($viewAllRecettes);
