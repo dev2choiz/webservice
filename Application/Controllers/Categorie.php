@@ -56,13 +56,13 @@ class Categorie extends \Library\Controller\Controller {
         unset($params['method']);
 
         $modelCategorie  = new \Application\Models\Categorie();
-        
+
         $res=$modelCategorie->insert($params);
             
         if(  $res  ) {
             return $this->setApiResult($modelCategorie->getLast());
         }else{
-            return $this->setApiResult(false, true, "erreur pendant l'insertion de la catégorie");
+            return $this->setApiResult(false, true, "erreur pendant l'insertion de la catégorie, la catégorie existe déjà en base");
         }
 
 

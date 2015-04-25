@@ -56,7 +56,7 @@ class ViewRecette extends \Library\Controller\Controller {
         } else if( $param['droit']==='premium' ) {
             $where = " (`droit`='classique' OR `droit`='premium') ";
         }else{      //l'admin a acces à tout
-            $where="";
+            $where=" (`droit`='classique' OR `droit`='premium' OR `droit`='privée') ";
         }
         
         
@@ -235,6 +235,80 @@ class ViewRecette extends \Library\Controller\Controller {
         return $this->setApiResult($viewRecetteIPC);
     }
 
+
+
+
+
+public function getViewRecetteBySlug($param) {      //  obtenir une recette par son slugTitre
+        unset($param['method']);
+        //$param            = (empty($param["slugtitre"]))? null : ($param["slugtitre"]+0);
+        
+        //recupere la recette
+        $modelViewRecette = new \Application\Models\ViewRecette();
+        $viewRecette      = $modelViewRecette->convEnTab($modelViewRecette->fetchAll(" `slugtitre`='{$param["slugtitre"]}'  ") );
+        
+        
+        $viewRecetteIPC    = $viewRecette[0];
+        if( empty($viewRecette[0]) ){
+            return $this->setApiResult(false, true, "Aucune recette pour ce slug !");
+        }
+
+
+        //recupere la moyenne des notes
+        $modelNote = new \Application\Models\Note();
+        $notes=$modelNote->convEnTab($modelNote->fetchAll(" `id_recette`={$viewRecette[0]['id_recette']}  ") );
+        $somme=0;
+        foreach ($notes as $note) {
+            $somme+=$note['value'];
+        }
+        $moyenne = -1;
+        if(count($notes)>0){
+            $moyenne=$somme/count($notes);
+        }
+        $viewRecetteIPC['noteMoyenne']=$moyenne;
+
+
+
+        //recupere les ingredients
+        $modelVLI     = new \Application\Models\ViewListIngredients();
+        $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
+
+        if( empty($viewLI) ){
+            $viewRecetteIPC['ingredients'] = '';
+            //return $this->setApiResult($viewRecetteIPC);
+        }else{
+            //colle les ingredients à la recette
+            $viewRecetteIPC['ingredients'] = $viewLI;
+        }
+
+        //recupere les produits
+        $modelVLP     = new \Application\Models\ViewListProduits();
+        $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
+
+        if( empty($viewLP) ){
+            $viewRecetteIPC['produits'] = '';
+            //return $this->setApiResult($viewRecetteIPC);
+        }else{
+            //colle les produits à la recette
+            $viewRecetteIPC['produits'] = $viewLP;
+        }
+
+        //recupere les commentairess
+        $modelVC    = new \Application\Models\ViewCommentaire();
+        $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
+        
+
+        if( empty($viewC) ){
+            $viewRecetteIPC['commentaires'] = '';
+            //return $this->setApiResult($viewRecetteIPC);
+        }else{
+            //colle les produits à la recette
+            $viewRecetteIPC['commentaires'] = $viewC;
+        }
+
+
+        return $this->setApiResult($viewRecetteIPC);
+    }
     
 }
 
