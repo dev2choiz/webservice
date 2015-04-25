@@ -27,8 +27,10 @@ abstract class Controller {
      */
     public function __construct() {
 
-        // \stdClass est une des classes prédéfinies de PHP5
-        // Elle permet de définir des méthodes ou des attributs à une variable instanciée en objet (mot-clé new)
+        /* 
+        stdClass est une des classes prédéfinies de PHP5
+        Elle permet de définir des méthodes ou des attributs à une variable instanciée en objet (mot-clé new)
+        */
         $this->apiResult                     = new \stdClass();   
         $this->apiResult->response           = "";
         $this->apiResult->apiError           = false;
