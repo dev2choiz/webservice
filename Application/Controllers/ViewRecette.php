@@ -45,19 +45,16 @@ class ViewRecette extends \Library\Controller\Controller {
         //$where = " 1 ORDER BY `titre` ";
         
         if(empty($param['droit'])  ){
-            //premium s'il n'y a pas de parametre droit
-            //en attendant que les clients integre ce param
-            $param['droit']="premium";
-
-            //return $this->setApiResult(false, true, "la valeur 'droit' n'est pas défini");
+            //classique s'il n'y a pas de parametre droit
+            $param['droit']="classique";
         }
 
 
         //on effectue le tri par rapport au type de client
         if (  $param['droit']==='membre'  ) {
-            $where = " `droit`='1' ";
+            $where = " `droit`='classique' ";
         } else if( $param['droit']==='premium' ) {
-            $where = " (`droit`='1' OR `droit`='2') ";
+            $where = " (`droit`='classique' OR `droit`='premium') ";
         }else{      //l'admin a acces à tout
             $where="";
         }
