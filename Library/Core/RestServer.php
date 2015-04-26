@@ -10,14 +10,6 @@ class RestServer {
 
 
 	/**
-	 * id en paramètre
-	 * @var int
-	 *//*
-	private $id;			//qu'est ce qu'tu fout la
-*/
-
-
-	/**
 	 * Nom du service utilisé
 	 * @var string
 	 */
@@ -123,16 +115,11 @@ class RestServer {
 			
 			
 			//$str= ucfirst(strtolower($D["service"]));
-			$str= $D["service"];
+			$str = $D["service"];
 			
 			$this->service = "/Application/Controllers/".$str;
 			
-			
-			
-			
-
-			
-			$str=APP_ROOT."Controllers/".$str.".php";
+			$str = APP_ROOT."Controllers/".$str.".php";
 
 			
 			
@@ -171,13 +158,6 @@ class RestServer {
 			if($this->modeStrict && $this->getCorrespondance(str_replace('\Application\Controllers\\', '', $strService), $this->classMethod ) !== $this->httpMethod ){
 				$this->showError("Class method " . $strService . "::". $this->classMethod . " requiert un ".$this->getCorrespondance(str_replace('\Application\Controllers\\', '', $strService), $this->classMethod ) );
 			}
-
-			//wtf
-			/*if(isset($D["id_recette"])){
-				$this->id = $D["id_recette"];
-			}*/
-
-
 
 			unset($D["service"]);
 			$this->requestParam = $D; 
@@ -253,22 +233,14 @@ class RestServer {
 			overflow:auto;
 			'>
 				@@@>>><br />
-			<marquee>web service (:(|)</marquee>
+			<strong>web service (:(|)</strong>
 
 			".$body."<br>
 			<<<@@@<br /><br />
 			by Samyn, Na&iuml;la
 		</div>";
-		//$this->json->page="<iframe>@@@>>>".$body."<<<@@@</iframe>";
-		//$this->json->page="<hr>@@@>>".$body."<<<@@@<hr>";
+
 		ob_clean();
-
-
-		//ici on force le mode brut
-        // $this->sendMode='brut';
-
-
-
 
 
 		if($this->sendMode==='json'){

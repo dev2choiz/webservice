@@ -34,6 +34,19 @@ class Recette extends \Library\Controller\Controller {
     }
 
     /**
+     * Permet d'obtenir toutes les recettes
+     * @return stdClass object 
+     */
+    public function getRecetteBySlug($param) {
+        
+        $modelRecette   = new \Application\Models\Recette();
+        $recette       = $modelRecette->fetchAll(" `slugtitre` = '{$param['slugtitre']}' ");
+        if( empty($recette[0]) ){
+            $this->setApiResult(false, true, "aucune recette !");
+        }
+        return $this->setApiResult($recette);
+    }
+    /**
      *  Méthode post($params)
      *
      *  Crée une recette avec les paramètres de la requête POST

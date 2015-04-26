@@ -59,7 +59,6 @@ class ViewRecette extends \Library\Controller\Controller {
             $where=" (`droit`='classique' OR `droit`='premium' OR `droit`='privée') ";
         }
         
-        
 
         //si on cherche a recevoir que les recettes d'une categorie...
         if(isset($param['id_cat']) && !empty($param['id_cat']) ){
