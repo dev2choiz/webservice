@@ -314,23 +314,53 @@ class User extends \Library\Controller\Controller {
         $user = $modelUser->fetchAll($where);
         if(empty($user)) { return $this->setApiResult(false, true, "L'utilisateur n'existe pas"); }
 
+
+
+
         //verifie si le mot de passe est bon
         $passwordmd5=md5($password.SALT_PASSWORD);
         $where = "`id_user`={$idUser} AND `password`='{$passwordmd5}' ";
         $user = $modelUser->fetchAll($where);
-        echo "`id_user`='{$idUser}' AND `password`='{$passwordmd5}' ";
+        echo $where;
         if(empty($user)) { return $this->setApiResult(false, true, "Mot de passe ne correspond pas à l'utilisateur renseigné"); }
         
 
-        //on suppr
 
+
+        // on supprime ses notes et son panier 
+        // et on change son id_user en 23 dans la table Commentaire et Recette  
+        $modelRecette      = new \Application\Models\Recette();
+        $modelCommentaire  = new \Application\Models\Commentaire();
+        $modelNote         = new \Application\Models\Note();
+        $modelPanier         = new \Application\Models\Panier();
+
+
+        $resCommentaire = $modelCommentaire->update(" `id_user`={$params['id_user']} ", array("id_user"=>'23'));
+        $resNote        = $modelNote->delete(" `id_user`={$params['id_user']} ");
+        $resPanier      = $modelPanier->delete(" `id_user`={$params['id_user']} ");
+        $resRecette     = $modelRecette->update(" `id_user`={$params['id_user']} ", array("id_user"=>'23'));
+
+
+
+        if( ! $resRecette  ){
+            return $this->setApiResult(false, true, "les recettes de l'utilisateur n'ont pas pu être changées");
+        }
+        if( ! $resCommentaire  ){
+            return $this->setApiResult(false, true, "les commentaires de l'utilisateur n'ont pas pu être changés");
+        }
+        if( !$resNote ){
+            return $this->setApiResult(false, true, "les notes de l'utilisateur n'ont pas pu être supprimées");
+        }
+        if( ! $resPanier ){
+            return $this->setApiResult(false, true, "le panier de l'utilisateur n'a pas pu être supprimé");
+        }
+
+
+        //on supprime apres avoir effectué les modifications commentées ci-dessus
         $deleted        = $modelUser->delete(" `id_user`={$params['id_user']} ");
 
         if(!$deleted) { 
-            return $this->setApiResult(false, true, array(
-                "error" => "User of id_user {$data['id_user']} not found",
-                "data" => $params
-            ));
+            return $this->setApiResult(false, true, "Utilisateur non trouvé");
         }
         return $this->setApiResult($deleted);
     }
