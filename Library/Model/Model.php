@@ -127,17 +127,20 @@ abstract class Model {
      *  Récupère un ou plusieurs éléments en fonction d'une condition
      *  Si aucun paramètres n'a été renseigné, la méthode renvoie tous les éléments trouvés
      * 
-     *  @param      string|int  $where              [Condition pour effectuer la selection (au format SQL)]
-     *  @param      string      $fields             [Liste des champs à selectionner]
-     *  @return     array
+     *  @param      string|int  $where              Condition pour effectuer la selection (au format SQL)
+     *  @param      string      $fields             Liste des champs à selectionner
+     *  @return     objet
      *
      */
     public function fetchAll($where=1, $fields="*") {
         $sql = $this->database->prepare("SELECT $fields FROM `{$this->table}` WHERE $where");
         $sql->execute();
+
+        //renvoie un objet contenant la réponse
         return $sql->fetchAll();
     }
     
+
     public function fetchAllLike($recherche, $champ, $conf ="1", $fields="*") {
         
         $req="SELECT $fields FROM `{$this->table}` WHERE ($champ LIKE :recherche ) $conf ";

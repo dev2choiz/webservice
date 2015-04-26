@@ -237,75 +237,69 @@ class ViewRecette extends \Library\Controller\Controller {
 
 
 
-
-public function getViewRecetteBySlug($param) {      //  obtenir une recette par son slugTitre
-        unset($param['method']);
-        //$param            = (empty($param["slugtitre"]))? null : ($param["slugtitre"]+0);
+/**
+ * getViewRecetteBySlug($param)
+ * Récupération de la vue d'une recette selon son slug
+ * 
+ * @param  array    $param   contient les données de la requète
+ * @return  object    \stdClass
+ */
+public function getViewRecetteBySlug($param) {
         
         //recupere la recette
         $modelViewRecette = new \Application\Models\ViewRecette();
         $viewRecette      = $modelViewRecette->convEnTab($modelViewRecette->fetchAll(" `slugtitre`='{$param["slugtitre"]}'  ") );
         
-        
-        $viewRecetteIPC    = $viewRecette[0];
-        if( empty($viewRecette[0]) ){
+        $viewRecetteIPC   = $viewRecette[0];
+        if( empty($viewRecetteIPC) ){
             return $this->setApiResult(false, true, "Aucune recette pour ce slug !");
         }
 
-
-        //recupere la moyenne des notes
-        $modelNote = new \Application\Models\Note();
-        $notes=$modelNote->convEnTab($modelNote->fetchAll(" `id_recette`={$viewRecette[0]['id_recette']}  ") );
-        $somme=0;
+        // Récupère les notes de la recette
+        $modelNote  = new \Application\Models\Note();
+        $notes      = $modelNote->convEnTab($modelNote->fetchAll(" `id_recette`={$viewRecette[0]['id_recette']}  ") );
+        // Calcule la moyenne des notes de la recette
+        $somme      = 0;
         foreach ($notes as $note) {
-            $somme+=$note['value'];
+            $somme  += $note['value'];
         }
-        $moyenne = -1;
-        if(count($notes)>0){
-            $moyenne=$somme/count($notes);
+        $moyenne    = -1;
+        if(count($notes) > 0){
+            $moyenne = $somme/count($notes);
         }
-        $viewRecetteIPC['noteMoyenne']=$moyenne;
+        // Ajoute la moyenne à la vue qu'on prépare
+        $viewRecetteIPC['noteMoyenne'] = $moyenne;
 
 
 
-        //recupere les ingredients
+        //On récupère les ingredients, et on les ajoute à la vue
         $modelVLI     = new \Application\Models\ViewListIngredients();
         $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
-
         if( empty($viewLI) ){
             $viewRecetteIPC['ingredients'] = '';
-            //return $this->setApiResult($viewRecetteIPC);
         }else{
-            //colle les ingredients à la recette
             $viewRecetteIPC['ingredients'] = $viewLI;
         }
 
-        //recupere les produits
+        //On récupère les produits, et on les ajoute à la vue
         $modelVLP     = new \Application\Models\ViewListProduits();
         $viewLP       = $modelVLI->convEnTab( $modelVLP->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
-
         if( empty($viewLP) ){
             $viewRecetteIPC['produits'] = '';
-            //return $this->setApiResult($viewRecetteIPC);
         }else{
-            //colle les produits à la recette
             $viewRecetteIPC['produits'] = $viewLP;
         }
 
-        //recupere les commentairess
+        //On récupère les commentaires, et on les ajoute à la vue
         $modelVC    = new \Application\Models\ViewCommentaire();
         $viewC       = $modelVC->convEnTab( $modelVC->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
-        
-
         if( empty($viewC) ){
             $viewRecetteIPC['commentaires'] = '';
-            //return $this->setApiResult($viewRecetteIPC);
         }else{
-            //colle les produits à la recette
             $viewRecetteIPC['commentaires'] = $viewC;
         }
 
-
+        // On retourne la vue obtenue
         return $this->setApiResult($viewRecetteIPC);
     }
     

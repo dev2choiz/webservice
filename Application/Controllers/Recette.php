@@ -33,19 +33,34 @@ class Recette extends \Library\Controller\Controller {
         return $this->setApiResult($recettes);
     }
 
+    
     /**
-     * Permet d'obtenir toutes les recettes
-     * @return stdClass object 
+     * Function getRecetteBySlug($param)
+     * Récupère une recette selon son slug
+     * 
+     * @param  array      $param        contient les paramètres de la requete
+     * @return object    \stdClass
      */
     public function getRecetteBySlug($param) {
         
+        // Instancie le modèle de la recette
         $modelRecette   = new \Application\Models\Recette();
+        
+        // Essaye de récupérer la recette ayant le slugtitre passé en paramètre
         $recette       = $modelRecette->fetchAll(" `slugtitre` = '{$param['slugtitre']}' ");
+
         if( empty($recette[0]) ){
-            $this->setApiResult(false, true, "aucune recette !");
+            // Si la la recette n'existe pas, renvoie un message d'erreur
+            return $this->setApiResult(false, true, "aucune recette !");
         }
+
+        // Renvoie la recette trouvée
         return $this->setApiResult($recette);
     }
+
+
+
+
     /**
      *  Méthode post($params)
      *

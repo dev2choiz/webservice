@@ -113,8 +113,6 @@ class RestServer {
 
 		if(isset($D["service"])){
 			
-			
-			//$str= ucfirst(strtolower($D["service"]));
 			$str = $D["service"];
 			
 			$this->service = "/Application/Controllers/".$str;

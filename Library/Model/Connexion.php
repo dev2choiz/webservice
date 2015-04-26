@@ -59,29 +59,32 @@ class Connexion {
     }
     
     /**
-     *  Méthode connectDB($host, $dbname, $user, $password, $charset="UTF8")
+     *  Fonction connectDB($host, $dbname, $user, $password, $charset="UTF8")
      *
      *  Connecte à la base de données mysql via l'objet PDO
      * 
-     *  @param      string      $host       [Adresse du serveur de base de données]
-     *  @param      string      $dbname     [Nom de la base de données]
-     *  @param      string      $user       [Utilisateur mysql]
-     *  @param      string      $password   [Mot de passe de l'utilisateur mysql]
-     *  @param      string      $charset    [Charset de connexion]
+     *  @param      string      $host       Adresse du serveur de base de données
+     *  @param      string      $dbname     Nom de la base de données
+     *  @param      string      $user       Utilisateur mysql
+     *  @param      string      $password   Mot de passe de l'utilisateur mysql
+     *  @param      string      $charset    Charset de connexion
      *  @return     object \PDO
      *
      */
     public static function connectDB($host, $dbname, $user, $password, $charset="UTF8") {
-        //echo "mysql:host=$host;dbname=$dbname <br>";
-        $database = new \PDO("mysql:host
-            =$host;dbname=$dbname", $user, $password);
+        // Création d'un objet PDO avec les données de connection à la base
+        $database = new \PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+
+        // configure PDO de manière à renvoyer un objet en retour 
         $database->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_OBJ);
+
+        // définit l'encodage (UTF-8 par défaut)
         $database->exec("SET CHARACTER SET $charset");
         
         return $database;
     }
     
-    //
+    
     /**
      *  Méthode getConnexion($name)
      *
