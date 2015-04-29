@@ -270,8 +270,6 @@ public function getViewRecetteBySlug($param) {
         // Ajoute la moyenne à la vue qu'on prépare
         $viewRecetteIPC['noteMoyenne'] = $moyenne;
 
-
-
         //On récupère les ingredients, et on les ajoute à la vue
         $modelVLI     = new \Application\Models\ViewListIngredients();
         $viewLI       = $modelVLI->convEnTab( $modelVLI->fetchAll(" `id_recette`={$viewRecetteIPC['id_recette']}"));
@@ -302,6 +300,5 @@ public function getViewRecetteBySlug($param) {
         // On retourne la vue obtenue
         return $this->setApiResult($viewRecetteIPC);
     }
-    
 }
 
