@@ -32,11 +32,11 @@ class Recherche extends \Library\Controller\Controller {
         $mot=$params['recherche'];
         $ou = 'titre';  // $params['ou'];
 
-        /*if(!$this->verifierChaine($chaine) ){
+        if(!$this->verifierChaine($chaine) ){
             //caracteres non permis 
             return $this->setApiResult( [] );
-        }*/        
-        //$ou=$this->echapper($ou);
+        }        
+        $ou=$this->echapper($ou);
 
         $modelRecette  = new \Application\Models\Recette();        
         $res=$modelRecette->fetchAllLike($mot, $ou, " ORDER BY $ou LIMIT 0,10 ");
@@ -62,10 +62,10 @@ class Recherche extends \Library\Controller\Controller {
         
         if(!$this->verifierChaine($mot) ){
             //caracteres non permis 
-            //return $this->setApiResult( [] );
+            return $this->setApiResult( false, true, 'Vous ne pouvez pas faire cette recherche' );
         }
         
-        //$ou=$this->echapper($ou);
+        $ou=$this->echapper($ou);
         //echo "<br> ou apres echappe=".$ou."<br>";
         $modelViewRecette  = new \Application\Models\ViewRecette();
         $res=$modelViewRecette->fetchAllLike($mot, $ou, " ORDER BY $ou ");
@@ -82,7 +82,7 @@ class Recherche extends \Library\Controller\Controller {
 
 
    public function verifierChaine($chaine) {
-        if ($chaine==="." || $chaine===".." || $chaine==="..." ) {
+        if ($chaine=="." || $chaine==".." || $chaine=="..." ) {
             return false;
         }
         return true;
